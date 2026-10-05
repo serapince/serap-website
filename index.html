@@ -6,7 +6,7 @@
 <title>Serap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a full-bleed "day you can scrub" hero, then a dusk-dark scroll of postcards, project rows, an about essay and a journal shelf. */
 :root{
@@ -249,11 +249,6 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .life p{margin:0 0 14px}
 @media (max-width:820px){.about{grid-template-columns:1fr}}
 
-/* marquee */
-.marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:22px;white-space:nowrap}
-.marquee .t{display:inline-flex;gap:48px;animation:mq 140s linear infinite;font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,64px)}
-.marquee .t span:nth-child(even){color:transparent;-webkit-text-stroke:1.2px var(--dusk)}
-@keyframes mq{to{transform:translateX(-50%)}}
 
 /* journal */
 .posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
@@ -264,6 +259,68 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .post p{margin:0;color:var(--mute);font-size:15px}
 .post .soon{margin-top:auto;color:var(--dusk)}
 @media (max-width:900px){.posts{grid-template-columns:1fr}}
+.pc-got{margin:-20px 0 28px;padding:14px 18px;border:1px dashed var(--ember);border-radius:12px;color:var(--ember);font-family:var(--f-mono);font-size:13px}
+.pc{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(22px,4vw,48px);align-items:start}
+.pc-left{position:sticky;top:90px}
+.pc-stage{perspective:1600px;aspect-ratio:3/2;width:100%}
+.pc-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.pc-flip.back{transform:rotateY(180deg)}
+.pc-face{position:absolute;inset:0;border-radius:10px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.2)}
+.pc-front canvas{width:100%;height:100%;display:block}
+.pc-stk{position:absolute;inset:0;touch-action:none}
+.pc-stk span{position:absolute;transform:translate(-50%,-50%) rotate(var(--r,0deg));line-height:1;cursor:grab;user-select:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35));padding:.06em}
+.pc-stk span.sel{outline:2px dashed rgba(255,255,255,.9);outline-offset:2px;border-radius:8px}
+.pc-stk span:active{cursor:grabbing}
+.pc-back{transform:rotateY(180deg);background:#f6f0e4 repeating-linear-gradient(0deg,transparent 0 23px,rgba(14,13,22,.04) 23px 24px);color:#2a2433;display:grid;grid-template-columns:1.2fr 1fr;padding:6% 5%;gap:5%}
+.pc-msg{border-right:1.5px solid rgba(42,36,51,.25);padding-right:6%;font-family:"Caveat",cursive;font-size:clamp(17px,2.4vw,28px);line-height:1.15;overflow:hidden;display:flex;flex-direction:column}
+.pc-msg p{margin:0;white-space:pre-wrap;word-break:break-word}.pc-msg p:empty::before{content:"Your message shows up here…";opacity:.4}
+.pc-msg span{margin-top:auto;text-align:right}
+.pc-addr{display:flex;flex-direction:column;justify-content:flex-end;gap:2px;position:relative;font-family:"Caveat",cursive;font-size:clamp(17px,2.4vw,28px)}
+.pc-addr>span{border-bottom:1.5px solid rgba(42,36,51,.3);padding:4px 2px}
+.pc-stamp{position:absolute;top:0;right:0;width:30%;aspect-ratio:4/5;background:#fff;padding:5%;box-shadow:0 0 0 3px #fff;border:2px dotted #f6f0e4;outline:2px dotted rgba(42,36,51,.25);outline-offset:-6px;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-weight:800;font-size:clamp(10px,1.4vw,16px);line-height:1.1}
+.pc-stamp b{font-size:2.2em;display:block}
+.pc-post{position:absolute;top:8%;right:22%;width:38%;aspect-ratio:1;border:2px solid rgba(196,36,53,.55);border-radius:50%;color:rgba(196,36,53,.7);display:grid;place-items:center;text-align:center;font-size:clamp(7px,.9vw,10px);transform:rotate(-14deg);line-height:1.4}
+.pc-ctl{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap}
+.pc-turn,.pc-sel button{background:transparent;color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;font-size:12px}
+.pc-sel{display:flex;gap:6px}.pc-sel button{width:40px;padding:9px 0;font-size:16px;font-family:var(--f-body)}
+.pc-turn:hover,.pc-sel button:hover{border-color:var(--ember);color:var(--ember)}
+.pc-tools{display:flex;flex-direction:column;gap:22px}
+.pc-tools fieldset{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.pc-tools legend{color:var(--ember);margin-bottom:10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}.pc-tools legend small{color:var(--mute);text-transform:none;letter-spacing:0;margin-left:6px}
+.pc-designs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.pc-designs button{aspect-ratio:3/2;border-radius:6px;border:2px solid transparent;padding:0;cursor:pointer;overflow:hidden;background:var(--ink-2);position:relative}
+.pc-designs button canvas{width:100%;height:100%;display:block}
+.pc-designs button.on{border-color:var(--ember)}
+.pc-designs button:hover{transform:translateY(-2px)}
+.pc-stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.pc-stickers button{aspect-ratio:1;font-size:22px;background:var(--ink-2);border:1px solid var(--line);border-radius:10px;cursor:pointer;line-height:1}
+.pc-stickers button:hover{border-color:var(--ember);transform:scale(1.08)}
+.pc-tools textarea,.pc-tools input:not([type=checkbox]){width:100%;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;color:var(--paper);font:16px var(--f-body);padding:12px 14px;resize:vertical}
+.pc-tools textarea:focus,.pc-tools input:focus{outline:none;border-color:var(--ember)}
+.pc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.pc-send{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.pc-status{color:var(--mute);font-size:12px}
+@media (max-width:900px){.pc{grid-template-columns:1fr}.pc-left{position:static}.pc-designs{grid-template-columns:repeat(4,minmax(0,1fr))}.pc-row{grid-template-columns:1fr}}
+.tours-head{margin:0 0 22px}.tours-head h3{font-family:var(--f-display);font-size:clamp(26px,3.4vw,40px);margin:8px 0}.tours-head p{color:var(--mute);margin:0;max-width:560px}
+.tours{display:grid;gap:22px;margin-bottom:56px}
+.tour{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--ink-2)}
+.tour .map{position:relative;background:radial-gradient(120% 90% at 30% 20%,#262238,#14121c);min-height:320px}
+.tour .map svg{position:absolute;inset:0;width:100%;height:100%}
+.tour .route{fill:none;stroke:var(--ember);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:6 7}
+.tour .route-draw{fill:none;stroke:var(--ember);stroke-width:2.5;opacity:.25}
+.tour .pin circle{fill:var(--ink);stroke:var(--ember);stroke-width:2;transition:r .25s,fill .25s}
+.tour .pin text{fill:var(--paper);font:700 12px var(--f-mono);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.tour .pin .lbl{paint-order:stroke;stroke:#17151f;stroke-width:4px;fill:var(--mute);font:500 11px var(--f-body);text-anchor:start;opacity:0;transition:opacity .25s}
+.tour .pin.on circle{fill:var(--ember)}.tour .pin.on text{fill:var(--ink)}.tour .pin.on .lbl{opacity:1;fill:var(--paper)}
+.tour .info{padding:26px;display:flex;flex-direction:column;gap:14px}
+.tour .info h4{font-family:var(--f-display);font-size:28px;margin:0}
+.tour ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.tour li{display:grid;grid-template-columns:28px 92px 1fr;gap:10px;align-items:baseline;padding:8px 10px;border-radius:10px;cursor:default;transition:background .2s}
+.tour li:hover,.tour li.on{background:rgba(255,179,138,.1)}
+.tour li .n{font:700 12px var(--f-mono);color:var(--ember)}.tour li .when{font:500 11px var(--f-mono);color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.tour li b{display:block;font-weight:600}.tour li small{color:var(--mute);font-size:13px}
+.tour .go{margin-top:auto;align-self:flex-start;font:500 12px var(--f-mono);color:var(--ink);background:var(--ember);padding:10px 16px;border-radius:999px;text-decoration:none}
+@media (max-width:900px){.tour{grid-template-columns:1fr}.tour .map{min-height:260px}.tour li{grid-template-columns:24px 1fr;row-gap:2px}.tour li>span:last-child{grid-column:2}}
 
 /* contact */
 .contact{padding-block:clamp(90px,14vw,180px) 40px;text-align:left}
@@ -300,12 +357,13 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <li><a href="#guide">Guide</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#journal">Journal</a></li>
+    <li><a href="#postcard">Postcards</a></li>
   </ul>
   <a class="cta" href="#contact">Say hello ↗</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
 </header>
 <nav class="overlay" id="overlay" aria-label="Menu">
-  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#guide">Guide</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
+  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#guide">Guide</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#postcard">Postcards</a><a href="#contact">Say hello</a>
 </nav>
 
 <main id="top">
@@ -363,7 +421,6 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <div class="rail-wrap"><div class="rail" id="rail"></div></div>
   </section>
 
-  <div class="marquee" aria-hidden="true"><div class="t" id="mq"></div></div>
 
   <!-- PROJECTS -->
   <section class="block wrap" id="hobbies">
@@ -410,7 +467,49 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <div><span class="eyebrow mono">Longer thoughts, soon</span><h2>Jour<span class="o">nal</span></h2></div>
       <p>The first posts are still in the notebook. Here's what's being written.</p>
     </div>
+    <div class="tours-head rv"><span class="eyebrow mono">Mini tours</span><h3>One perfect day in&hellip;</h3><p>Where to have breakfast, what to see, where to eat. Follow the route on the map or open it on your phone.</p></div>
+    <div class="tours" id="tours"></div>
     <div class="posts" id="posts"></div>
+  </section>
+
+  <!-- SEND ME A POSTCARD -->
+  <section class="block wrap" id="postcard">
+    <div class="head rv">
+      <div><span class="eyebrow mono">No address needed</span><h2>Post<span class="o">cards</span></h2></div>
+      <p>Pick a card, stick a few stickers on it, write on the back and send it my way. Every single one gets read.</p>
+    </div>
+    <div class="pc-got" id="pcGot" hidden></div>
+    <div class="pc">
+      <div class="pc-left">
+        <div class="pc-stage" id="pcStage">
+          <div class="pc-flip" id="pcFlip">
+            <div class="pc-face pc-front"><canvas id="pcCanvas" width="1200" height="800" aria-label="Postcard front"></canvas><div class="pc-stk" id="pcStk"></div></div>
+            <div class="pc-face pc-back" aria-label="Postcard back">
+              <div class="pc-msg"><p id="pcMsgOut"></p><span id="pcSignOut"></span></div>
+              <div class="pc-addr">
+                <div class="pc-stamp" id="pcStamp"></div><div class="pc-post mono" id="pcPost"></div>
+                <span>Serap</span><span>serapince.com</span><span>Somewhere on the Internet ✳</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pc-ctl" id="pcCtl">
+          <button type="button" class="pc-turn mono" id="pcTurn">↻ Turn it over</button>
+          <span class="pc-sel" id="pcSel" hidden><button type="button" data-a="smaller" aria-label="Smaller">−</button><button type="button" data-a="bigger" aria-label="Bigger">+</button><button type="button" data-a="rotate" aria-label="Rotate">⟳</button><button type="button" data-a="remove" aria-label="Remove sticker">✕</button></span>
+        </div>
+      </div>
+      <form class="pc-tools" id="pcForm" autocomplete="on">
+        <fieldset><legend class="mono">01 · Pick a card</legend><div class="pc-designs" id="pcDesigns"></div></fieldset>
+        <fieldset><legend class="mono">02 · Add stickers <small>drag them around, tap one to resize</small></legend><div class="pc-stickers" id="pcStickers"></div></fieldset>
+        <fieldset><legend class="mono">03 · Write on the back</legend>
+          <textarea id="pcMsg" maxlength="320" rows="4" placeholder="Hello from…" required></textarea>
+          <div class="pc-row"><input id="pcName" maxlength="40" placeholder="Your name" required autocomplete="name"><input id="pcFrom" maxlength="40" placeholder="Where are you writing from?"></div>
+          <input id="pcEmail" type="email" maxlength="80" placeholder="Your email, only if you'd like a reply" autocomplete="email">
+          <label class="pc-hp" aria-hidden="true">Leave this empty <input type="checkbox" name="botcheck" id="pcBot" tabindex="-1"></label>
+        </fieldset>
+        <div class="pc-send"><button class="pill play show" type="submit" id="pcSend">Send the postcard ✈</button><span class="mono pc-status" id="pcStatus" role="status"></span></div>
+      </form>
+    </div>
   </section>
 
   <!-- CONTACT -->
@@ -466,6 +565,25 @@ const POSTS = [
   {title:"What a year of bowls taught me", tag:"Making", read:"4 min", desc:"On practice, patience, and the beauty of the lopsided."},
   {title:"Notes from a night train", tag:"Diary", read:"8 min", desc:"Twelve hours, three countries, one very loud snorer."},
 ];
+/* Mini tours for the journal: one day in a city, stops in order. Only places from Serap's guide. */
+const TOURS = [
+  { city:"London", code:"UK", title:"A day in London", stops:[
+    {when:"Breakfast", name:"Dishoom Covent Garden", note:"Bacon naan and a chai", q:"Dishoom Covent Garden, London", ll:[51.5124,-0.1269]},
+    {when:"Morning", name:"British Museum", note:"Go at opening, before the crowds", q:"British Museum, London", ll:[51.5194,-0.1270]},
+    {when:"Lunch", name:"Borough Market", note:"Graze from stall to stall", q:"Borough Market, London", ll:[51.5055,-0.0910]},
+    {when:"Afternoon", name:"Tate Modern and the South Bank", note:"Walk the river", q:"Tate Modern, London", ll:[51.5076,-0.0994]},
+    {when:"Sunset & dinner", name:"Sky Garden, then Fenchurch", note:"Book both ahead", q:"Sky Garden, London", ll:[51.5113,-0.0836]},
+  ]},
+  { city:"Lisbon", code:"PT", title:"A day in Lisbon", stops:[
+    {when:"Breakfast", name:"Pastéis de Belém", note:"Warm, with cinnamon", q:"Pastéis de Belém, Lisbon", ll:[38.6975,-9.2032]},
+    {when:"Morning", name:"Jerónimos and Belém Tower", note:"Two icons, a short walk apart", q:"Jerónimos Monastery, Lisbon", ll:[38.6979,-9.2068]},
+    {when:"Late morning", name:"LX Factory", note:"Bookshops and street art", q:"LX Factory, Lisbon", ll:[38.7034,-9.1785]},
+    {when:"Lunch", name:"Time Out Market", note:"A little of everything", q:"Time Out Market Lisbon", ll:[38.7069,-9.1459]},
+    {when:"Sunset", name:"Miradouro da Senhora do Monte", note:"Tram 28 gets you close", q:"Miradouro da Senhora do Monte, Lisbon", ll:[38.7190,-9.1328]},
+    {when:"Dinner", name:"Mini Bar by José Avillez", note:"Playful tasting menu in Chiado", q:"Mini Bar José Avillez, Lisbon", ll:[38.7106,-9.1426]},
+  ]},
+];
+window.TOURS = TOURS;
 /* Serap's guide: favourite places per country. Fill in as {eat:[], go:[], bring:[]} */
 const GUIDE = {
   UK: {
@@ -658,10 +776,6 @@ const step = () => rail.querySelector('.card').offsetWidth + 22;
 $('#prev').addEventListener('click', () => rail.scrollBy({left:-step(), behavior:'smooth'}));
 $('#next').addEventListener('click', () => rail.scrollBy({left:step(), behavior:'smooth'}));
 
-/* ---------- marquee ---------- */
-const words = PLACES.flatMap(p => p.name === 'Switzerland' ? [p.name] : p.cities);
-$('#mq').innerHTML = [...words, ...words].map(w => `<span>${w}</span><span>✳</span>`).join('');
-
 /* ---------- projects with cursor-following peek ---------- */
 const plist = $('#plist');
 plist.innerHTML = PROJECTS.map((p,i) => `
@@ -691,6 +805,33 @@ const li = a => (a||[]).length ? `<ul>${a.map(x => `<li>${x}</li>`).join('')}</u
 $('#guideBody').innerHTML = gEntries.length
   ? `<div class="gcards">${gEntries.map(p => `<article class="gcard rv"><span class="mono" style="color:var(--ember)">${p.code} · ${p.cities.join(', ')}</span><h3>${p.name}</h3><dl><dt class="mono">See</dt><dd>${li(GUIDE[p.code].go)}</dd><dt class="mono">Do</dt><dd>${li(GUIDE[p.code].do)}</dd><dt class="mono">Eat</dt><dd>${li(GUIDE[p.code].eat)}</dd><dt class="mono">Bring home</dt><dd>${li(GUIDE[p.code].bring)}</dd></dl></article>`).join('')}</div>`
   : `<div class="guide">${[['Eat','The tables I would fly back for, from street food to long dinners.'],['Go','Corners, views and walks I keep recommending to friends.'],['Bring home','Souvenirs worth the suitcase space.']].map(([h,t]) => `<div class="gcol rv"><span class="mono">${h === 'Eat' ? 'Restaurants' : h === 'Go' ? 'Places' : 'Souvenirs'}</span><h3>${h}</h3><p>${t}</p><span class="soon mono">First picks coming soon</span></div>`).join('')}</div>`;
+
+/* ---------- mini tours ---------- */
+const tourMap = (t, k) => {
+  const W = 520, H = 360, pad = 54, lat0 = t.stops[0].ll[0] * Math.PI / 180;
+  const pts = t.stops.map(s => [s.ll[1] * Math.cos(lat0), -s.ll[0]]);
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const x0 = Math.min(...xs), y0 = Math.min(...ys), sc = Math.min((W - pad * 2) / (Math.max(...xs) - x0 || 1), (H - pad * 2) / (Math.max(...ys) - y0 || 1));
+  const ox = (W - (Math.max(...xs) - x0) * sc) / 2, oy = (H - (Math.max(...ys) - y0) * sc) / 2;
+  const P = pts.map(p => [ox + (p[0] - x0) * sc, oy + (p[1] - y0) * sc]);
+  let d = `M${P[0][0].toFixed(1)},${P[0][1].toFixed(1)}`;
+  for (let i = 1; i < P.length; i++) { const [a, b] = [P[i - 1], P[i]], mx = (a[0] + b[0]) / 2 - (b[1] - a[1]) * .18, my = (a[1] + b[1]) / 2 + (b[0] - a[0]) * .18; d += ` Q${mx.toFixed(1)},${my.toFixed(1)} ${b[0].toFixed(1)},${b[1].toFixed(1)}`; }
+  const grid = Array.from({length: 13}, (_, i) => `<path d="M${i * 44},0 V${H} M0,${i * 44} H${W}" stroke="rgba(241,236,228,.05)"/>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" aria-label="Route map for ${t.title}">${grid}
+    <path class="route-draw" d="${d}"/><path class="route" d="${d}"><animate attributeName="stroke-dashoffset" from="0" to="-26" dur="1.4s" repeatCount="indefinite"/></path>
+    ${P.map((p, i) => `<g class="pin" data-i="${i}"><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="12"/><text x="${p[0].toFixed(1)}" y="${p[1].toFixed(1)}">${i + 1}</text><text class="lbl" x="${(p[0] + (p[0] > W - 160 ? -18 : 18)).toFixed(1)}" y="${p[1].toFixed(1)}" style="text-anchor:${p[0] > W - 160 ? 'end' : 'start'}">${t.stops[i].name}</text></g>`).join('')}
+    <text x="18" y="${H - 18}" fill="rgba(241,236,228,.35)" style="font:500 11px var(--f-mono);letter-spacing:.1em">${t.city.toUpperCase()} · ${t.stops.length} STOPS</text></svg>`;
+};
+const gmaps = t => { const e = s => encodeURIComponent(s.q), st = t.stops; return `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=${e(st[0])}&destination=${e(st[st.length - 1])}&waypoints=${st.slice(1, -1).map(e).join('%7C')}`; };
+$('#tours').innerHTML = TOURS.map((t, k) => `<article class="tour rv"><div class="map">${tourMap(t, k)}</div><div class="info"><span class="mono" style="color:var(--ember)">${t.code} · ${t.city}</span><h4>${t.title}</h4>
+  <ol>${t.stops.map((s, i) => `<li data-i="${i}"><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="when">${s.when}</span><span><b>${s.name}</b><small>${s.note}</small></span></li>`).join('')}</ol>
+  <a class="go" href="${gmaps(t)}" target="_blank" rel="noopener">Open the route in Google Maps ↗</a></div></article>`).join('');
+document.querySelectorAll('.tour').forEach(el => {
+  const pins = el.querySelectorAll('.pin'), items = el.querySelectorAll('li');
+  const hi = i => { pins.forEach((p, j) => p.classList.toggle('on', j === i)); items.forEach((p, j) => p.classList.toggle('on', j === i)); };
+  [...pins, ...items].forEach(n => { n.addEventListener('pointerenter', () => hi(+n.dataset.i)); n.addEventListener('click', () => hi(+n.dataset.i)); });
+  el.addEventListener('pointerleave', () => hi(-1));
+});
 
 /* ---------- journal ---------- */
 $('#posts').innerHTML = POSTS.map(p => `
@@ -913,6 +1054,7 @@ let bx = 0, current = -1, keys = 0, held = 0, popT, celebrated = false;
 let got = new Set(), bag = new Set();
 // one iconic souvenir per country, floating between landmarks
 const SOUV = {JP:['🍵','Matcha'],UK:['☂️','An umbrella, obviously'],ES:['🥘','Paella pan'],TR:['🧿','Nazar boncuğu'],PT:['🐟','Tinned sardines'],NL:['🌷','Tulip bulbs'],IT:['🍕','A slice of pizza'],TH:['🐘','Elephant pants'],DE:['🥨','A pretzel'],SE:['🐴','Dala horse'],CH:['🍫','Swiss chocolate'],HU:['🌶️','Paprika'],CZ:['🔮','Bohemian crystal'],AT:['🎻','A Vienna violin tune'],GR:['🫒','Olive oil'],PL:['🥟','Pierogi']};
+window.SOUV = SOUV;
 const SY = [.22,.36,.16,.30,.42,.20,.34,.26];
 try { bag = new Set(JSON.parse(localStorage.getItem('serap-souvenirs') || '[]')); } catch(e) {}
 let vy = .35, vKeys = 0, vHeld = 0, toastT;
@@ -957,6 +1099,7 @@ const DRAW = {
   PL(c,x,y,s,k,a){ R(c,x-100*s,y-60*s,200*s,60*s,k); R(c,x-30*s,y-170*s,60*s,110*s,k); for (let i=0;i<4;i++) R(c,x+(-30+i*17)*s,y-182*s,10*s,12*s,k); c.fillStyle=a; c.beginPath(); c.ellipse(x+60*s,y-80*s,24*s,30*s,0,Math.PI,0); c.fill(); R(c,x+36*s,y-80*s,48*s,20*s,k); R(c,x-8*s,y-140*s,16*s,24*s,'#f6e7c1'); },
 };
 
+window.DRAW = DRAW;
 const worldX = i => (T0*PX) + START + i*GAP;
 window.gameDraw = (ctx, W, H, travel, day, col) => {
   if (!window.gameOn) return;
@@ -1106,6 +1249,150 @@ function finale(){
   let f = 0; const tick = () => { c.clearRect(0,0,cv.width,cv.height); bits.forEach(b => { b.x+=b.vx; b.y+=b.vy; b.r+=b.vr; c.save(); c.translate(b.x,b.y); c.rotate(b.r); c.fillStyle=b.c; c.fillRect(-b.w/2,-3,b.w,6); c.restore(); }); if (++f < 260) requestAnimationFrame(tick); else c.clearRect(0,0,cv.width,cv.height); };
   tick();
 }
+})();
+</script>
+<script>
+/* ---------- SEND ME A POSTCARD ----------
+   Visitors pick a card, add stickers and write on the back. The whole card is
+   packed into a link (#postcard=...) so it can be emailed and rebuilt here. */
+(() => {
+const $ = s => document.querySelector(s);
+// Web3Forms access key for hello@serapince.com (public by design). Without it, sending falls back to the visitor's mail app.
+const WEB3FORMS_KEY = '816d4c84-9216-443c-be9f-d341bdd514b9';
+const PL = window.PLACES || [], DRAW = window.DRAW || {}, SOUV = window.SOUV || {};
+const THEMES = [
+  {code:'SUN', name:'Wish you were here', c:['#ffd27a','#ff8a6b','#5b2a86'], emoji:'🌅'},
+  {code:'SKY', name:'Bon voyage', c:['#bfe3ff','#7fb3ff','#3b4fa8'], emoji:'🎈'},
+  {code:'SEA', name:'Hello from the sea', c:['#a5f3fc','#2bb3c9','#0b3a5c'], emoji:'⛵'},
+  {code:'NIGHT', name:'Sweet dreams from far away', c:['#3b2f6b','#1d1838','#0e0d16'], emoji:'🌙'},
+];
+const DESIGNS = [...THEMES, ...PL.map(p => ({code:p.code, name:p.name, c:p.c, emoji:(SOUV[p.code] || ['✳'])[0], coords:p.coords}))];
+const EXTRA = ['❤️','✈️','🌍','☀️','⭐','🌸','🐚','⛵','🤿','📷','🧁','🎈','💌','🌴','🗺️','🥐','🍦','🌈','🦋','✨'];
+const STICKERS = [...EXTRA, ...PL.map(p => (SOUV[p.code] || [])[0]).filter(Boolean)];
+const st = {d:'SUN', k:[], m:'', n:'', f:''};
+let sel = -1;
+
+/* ---- drawing the fronts ---- */
+const theme = (c, W, H, d) => {
+  const R = (x,y,r,f) => { c.fillStyle = f; c.beginPath(); c.arc(x,y,r,0,6.283); c.fill(); };
+  if (d.code === 'SUN') { R(W*.5,H*.62,H*.22,'#fff3c4'); c.fillStyle = '#5b2a86'; for (let i=0;i<5;i++){ c.globalAlpha=.35+i*.13; c.beginPath(); c.moveTo(0,H*(.66+i*.07)); for(let x=0;x<=W;x+=20) c.lineTo(x,H*(.66+i*.07)+Math.sin(x/70+i)*8); c.lineTo(W,H); c.lineTo(0,H); c.fill(); } c.globalAlpha=1; }
+  if (d.code === 'SKY') { [[.2,.3],[.75,.22],[.6,.7]].forEach(([x,y]) => { c.fillStyle='rgba(255,255,255,.75)'; [0,40,80].forEach((dx,i)=>R(W*x+dx,H*y-(i===1?18:0),36+(i===1?14:0),'rgba(255,255,255,.8)')); });
+    const bx=W*.5, by=H*.42, r=H*.2; c.fillStyle='#e0303f'; c.beginPath(); c.arc(bx,by,r,Math.PI*.85,Math.PI*2.15); c.quadraticCurveTo(bx+r*.5,by+r*1.1,bx+r*.2,by+r*1.35); c.lineTo(bx-r*.2,by+r*1.35); c.quadraticCurveTo(bx-r*.5,by+r*1.1,bx-r*Math.cos(Math.PI*.15),by+r*Math.sin(Math.PI*.15)); c.fill();
+    c.fillStyle='#ffd27a'; c.beginPath(); c.ellipse(bx,by,r*.35,r,0,0,6.283); c.fill(); c.fillStyle='#7a4a24'; c.fillRect(bx-r*.22,by+r*1.55,r*.44,r*.32); c.strokeStyle='#7a4a24'; c.lineWidth=3; c.beginPath(); c.moveTo(bx-r*.2,by+r*1.35); c.lineTo(bx-r*.2,by+r*1.55); c.moveTo(bx+r*.2,by+r*1.35); c.lineTo(bx+r*.2,by+r*1.55); c.stroke(); }
+  if (d.code === 'SEA') { R(W*.78,H*.25,H*.1,'#fff6d6'); c.fillStyle='#0b3a5c'; c.fillRect(0,H*.66,W,H*.34); c.fillStyle='rgba(255,255,255,.5)'; for(let i=0;i<14;i++){ c.fillRect((i*137)%W, H*(.7+((i*53)%25)/100), 40, 3); }
+    const sx=W*.42, sy=H*.66; c.fillStyle='#f6f0e4'; c.beginPath(); c.moveTo(sx,sy-H*.42); c.lineTo(sx,sy-H*.06); c.lineTo(sx+H*.26,sy-H*.06); c.fill(); c.fillStyle='#ffb38a'; c.beginPath(); c.moveTo(sx-6,sy-H*.36); c.lineTo(sx-6,sy-H*.06); c.lineTo(sx-H*.18,sy-H*.06); c.fill(); c.fillStyle='#e0303f'; c.beginPath(); c.moveTo(sx-H*.24,sy-H*.04); c.lineTo(sx+H*.32,sy-H*.04); c.lineTo(sx+H*.24,sy+H*.03); c.lineTo(sx-H*.17,sy+H*.03); c.fill(); }
+  if (d.code === 'NIGHT') { for (let i=0;i<90;i++) R((i*389)%W, (i*211)%(H*.75), (i%3)+1, `rgba(255,255,255,${.3+(i%5)/8})`); R(W*.72,H*.3,H*.13,'#fff3c4'); R(W*.72+H*.06,H*.27,H*.12,'#1d1838');
+    c.fillStyle='#0e0d16'; c.beginPath(); c.moveTo(0,H); c.lineTo(0,H*.8); for(let x=0;x<=W;x+=60) c.lineTo(x,H*(.78+Math.sin(x/130)*.04)); c.lineTo(W,H); c.fill(); c.fillStyle='#ffd27a'; [[.2,.84],[.28,.82],[.55,.86],[.86,.83]].forEach(([x,y])=>c.fillRect(W*x,H*y,10,12)); }
+};
+const drawFront = (cv, d) => {
+  const c = cv.getContext('2d'), W = cv.width, H = cv.height, k = W/1200;
+  c.save(); c.clearRect(0,0,W,H);
+  const g = c.createLinearGradient(0,0,0,H); g.addColorStop(0,d.c[0]); g.addColorStop(.55,d.c[1]); g.addColorStop(1,d.c[2]); c.fillStyle = g; c.fillRect(0,0,W,H);
+  if (DRAW[d.code]) {
+    c.globalAlpha = .9; c.fillStyle = 'rgba(255,255,255,.18)'; c.beginPath(); c.arc(W*.74,H*.3,H*.14,0,6.283); c.fill(); c.globalAlpha = 1;
+    c.fillStyle = 'rgba(14,13,22,.35)'; c.beginPath(); c.moveTo(0,H); c.lineTo(0,H*.8); c.quadraticCurveTo(W*.3,H*.7,W*.6,H*.8); c.quadraticCurveTo(W*.85,H*.86,W,H*.76); c.lineTo(W,H); c.fill();
+    try { DRAW[d.code](c, W*.7, H*.86, 1.9*k, 'rgba(14,13,22,.88)', d.c[0]); } catch(e) {}
+  } else theme(c, W, H, d);
+  // lettering
+  c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  const small = DRAW[d.code] ? 'Greetings from' : '', big = DRAW[d.code] ? d.name : d.name;
+  c.fillStyle = 'rgba(255,255,255,.92)'; c.font = `500 ${34*k}px "Caveat", "Hanken Grotesk", cursive`; if (small) c.fillText(small, 70*k, 120*k);
+  let fs = (DRAW[d.code] ? 120 : 92)*k; c.font = `800 ${fs}px Syne, "Archivo Black", sans-serif`;
+  const maxW = W*(DRAW[d.code] ? .62 : .86);
+  const words = big.split(' '), lines = []; let line = '';
+  words.forEach(w => { const t = line ? line + ' ' + w : w; if (c.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }); lines.push(line);
+  while (lines.some(l => c.measureText(l).width > maxW)) { fs *= .92; c.font = `800 ${fs}px Syne, "Archivo Black", sans-serif`; }
+  lines.forEach((l, i) => { const y = (small ? 120*k : 90*k) + fs*.95*(i+1); c.lineWidth = 10*k; c.strokeStyle = 'rgba(14,13,22,.55)'; c.lineJoin = 'round'; c.strokeText(l, 66*k, y); c.fillStyle = '#fff'; c.fillText(l, 66*k, y); });
+  if (d.coords) { c.font = `500 ${20*k}px "JetBrains Mono", monospace`; c.fillStyle = 'rgba(255,255,255,.8)'; c.textAlign = 'right'; c.fillText(d.coords, W-60*k, 70*k); }
+  // white postcard border
+  c.strokeStyle = '#f6f0e4'; c.lineWidth = 36*k; c.strokeRect(0,0,W,H);
+  c.restore();
+};
+
+/* ---- ui ---- */
+const cv = $('#pcCanvas'), stk = $('#pcStk'), flip = $('#pcFlip'), selEl = $('#pcSel');
+const des = () => DESIGNS.find(d => d.code === st.d) || DESIGNS[0];
+$('#pcDesigns').innerHTML = DESIGNS.map(d => `<button type="button" data-d="${d.code}" title="${d.name}" aria-label="${d.name}"><canvas width="300" height="200"></canvas></button>`).join('');
+const paintThumbs = () => document.querySelectorAll('#pcDesigns button').forEach(b => drawFront(b.querySelector('canvas'), DESIGNS.find(d => d.code === b.dataset.d)));
+$('#pcStickers').innerHTML = STICKERS.map(e => `<button type="button" data-e="${e}" aria-label="Add ${e} sticker">${e}</button>`).join('');
+const side = back => flip.classList.toggle('back', back);
+const paintStk = () => {
+  const w = stk.clientWidth;
+  stk.innerHTML = st.k.map(([e,x,y,z,r], i) => `<span data-i="${i}" class="${i === sel ? 'sel' : ''}" style="left:${x}%;top:${y}%;font-size:${(z*w/100).toFixed(1)}px;--r:${r}deg">${e}</span>`).join('');
+  selEl.hidden = sel < 0;
+};
+const paintBack = () => {
+  const d = des();
+  $('#pcMsgOut').textContent = st.m;
+  $('#pcSignOut').textContent = st.n ? `${st.n}${st.f ? ', ' + st.f : ''}` : '';
+  $('#pcStamp').innerHTML = `<div><b>${d.emoji}</b>${d.code.length === 2 ? d.code : '✳'}</div>`;
+  $('#pcPost').innerHTML = `${(st.f || 'ON THE ROAD').toUpperCase().slice(0,18)}<br>✳<br>${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}`;
+};
+const paint = () => { drawFront(cv, des()); document.querySelectorAll('#pcDesigns button').forEach(b => b.classList.toggle('on', b.dataset.d === st.d)); paintStk(); paintBack(); };
+
+$('#pcDesigns').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.d = b.dataset.d; side(false); paint(); });
+$('#pcStickers').addEventListener('click', e => { const b = e.target.closest('button'); if (!b || st.k.length >= 24) return; side(false);
+  st.k.push([b.dataset.e, 30 + Math.random()*55, 25 + Math.random()*55, 9, Math.round(Math.random()*30 - 15)]); sel = st.k.length - 1; paintStk(); });
+let drag = null;
+stk.addEventListener('pointerdown', e => {
+  const s = e.target.closest('span'); if (!s) { sel = -1; paintStk(); return; }
+  sel = +s.dataset.i; const r = stk.getBoundingClientRect(), it = st.k[sel];
+  drag = {r, dx: e.clientX - (r.left + it[1]/100*r.width), dy: e.clientY - (r.top + it[2]/100*r.height)};
+  stk.setPointerCapture(e.pointerId); paintStk(); e.preventDefault();
+});
+stk.addEventListener('pointermove', e => { if (!drag || sel < 0) return; const {r, dx, dy} = drag, it = st.k[sel];
+  it[1] = Math.max(2, Math.min(98, (e.clientX - dx - r.left) / r.width * 100)); it[2] = Math.max(3, Math.min(97, (e.clientY - dy - r.top) / r.height * 100));
+  const s = stk.querySelector(`[data-i="${sel}"]`); if (s) { s.style.left = it[1] + '%'; s.style.top = it[2] + '%'; } });
+stk.addEventListener('pointerup', () => drag = null); stk.addEventListener('pointercancel', () => drag = null);
+selEl.addEventListener('click', e => { const a = e.target.dataset.a, it = st.k[sel]; if (!it) return;
+  if (a === 'bigger') it[3] = Math.min(24, it[3] * 1.2); if (a === 'smaller') it[3] = Math.max(4, it[3] / 1.2); if (a === 'rotate') it[4] = (it[4] + 15) % 360;
+  if (a === 'remove') { st.k.splice(sel, 1); sel = -1; } paintStk(); });
+addEventListener('keydown', e => { if (sel >= 0 && (e.key === 'Delete' || e.key === 'Backspace') && !e.target.closest('input,textarea')) { st.k.splice(sel, 1); sel = -1; paintStk(); } });
+$('#pcTurn').addEventListener('click', () => { sel = -1; paintStk(); side(!flip.classList.contains('back')); });
+[['#pcMsg','m'],['#pcName','n'],['#pcFrom','f']].forEach(([id, key]) => { const el = $(id);
+  el.addEventListener('focus', () => side(true)); el.addEventListener('input', () => { st[key] = el.value; paintBack(); }); });
+
+/* ---- pack the card into a link ---- */
+const pack = () => btoa(unescape(encodeURIComponent(JSON.stringify({d:st.d, k:st.k.map(([e,x,y,z,r]) => [e, Math.round(x), Math.round(y), +z.toFixed(1), r]), m:st.m, n:st.n, f:st.f})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unpack = s => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))));
+const cardLink = () => `https://serapince.com/#postcard=${pack()}`;
+
+$('#pcForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = $('#pcStatus'), btn = $('#pcSend');
+  if ($('#pcBot').checked) { status.textContent = 'Sent. Thank you!'; return; }
+  if (!st.m.trim() || !st.n.trim()) { status.textContent = 'Write a message and your name first.'; return; }
+  const subject = `A postcard from ${st.n}${st.f ? ' in ' + st.f : ''}`;
+  const body = `${st.m}\n\n${st.n}${st.f ? ', ' + st.f : ''}\n\nSee the card: ${cardLink()}`;
+  if (!WEB3FORMS_KEY) { location.href = `mailto:hello@serapince.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; status.textContent = 'Your mail app should open with the postcard inside.'; return; }
+  btn.disabled = true; status.textContent = 'Sending…';
+  try {
+    const email = $('#pcEmail').value.trim();
+    const r = await fetch('https://api.web3forms.com/submit', {method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'},
+      body: JSON.stringify({access_key: WEB3FORMS_KEY, subject, from_name: 'serapince.com postcards', name: st.n, ...(email ? {email} : {}), message: body, botcheck: false})});
+    const j = await r.json();
+    if (!j.success) throw 0;
+    status.textContent = 'Sent! It is on its way to me. Thank you ✳'; side(false);
+  } catch (err) { status.textContent = 'Something went wrong. Try again, or email hello@serapince.com.'; }
+  btn.disabled = false;
+});
+
+/* ---- a card that arrived by link ---- */
+const fromHash = () => {
+  const m = location.hash.match(/^#postcard=([\w-]+)/); if (!m) return;
+  try { const o = unpack(m[1]);
+    if (DESIGNS.some(d => d.code === o.d)) st.d = o.d;
+    st.k = (Array.isArray(o.k) ? o.k : []).slice(0, 24).filter(a => Array.isArray(a) && STICKERS.includes(a[0])).map(([e,x,y,z,r]) => [e, +x || 50, +y || 50, Math.min(24, Math.max(4, +z || 9)), +r || 0]);
+    st.m = String(o.m || '').slice(0, 320); st.n = String(o.n || '').slice(0, 40); st.f = String(o.f || '').slice(0, 40);
+    $('#pcMsg').value = st.m; $('#pcName').value = st.n; $('#pcFrom').value = st.f;
+    const got = $('#pcGot'); got.hidden = false; got.textContent = `✳ A postcard from ${st.n || 'a friend'}${st.f ? ' in ' + st.f : ''}. Tap "Turn it over" to read the back.`;
+    paint(); setTimeout(() => $('#postcard').scrollIntoView({behavior:'smooth'}), 300);
+  } catch (e) {}
+};
+paint(); paintThumbs(); fromHash();
+addEventListener('hashchange', fromHash);
+new ResizeObserver(paintStk).observe(stk);
+if (document.fonts) document.fonts.ready.then(() => { paint(); paintThumbs(); });
 })();
 </script>
 </body>
