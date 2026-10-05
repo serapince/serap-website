@@ -176,6 +176,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .contact h2 span{display:inline-block;transition:transform .5s cubic-bezier(.2,.8,.2,1),color .3s}
 .contact h2:hover span{color:var(--ember)}
 .mail{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.mail .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .mail code{font-family:var(--f-mono);font-size:clamp(16px,2.2vw,22px);user-select:all}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--mute);margin-top:clamp(70px,10vw,140px);padding-top:20px;border-top:1px solid var(--line)}
 .foot a{text-decoration:none}
@@ -224,6 +225,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
         <a class="pill" href="#projects">Projects</a>
         <a class="pill" href="#about">About me</a>
         <a class="pill" href="#journal">Journal</a>
+        <button class="pill ghost" type="button" data-copy="hello@serapince.com">Copy email <span aria-hidden="true">⧉</span></button>
       </div>
     </div>
     <div class="readout mono" aria-hidden="true">
@@ -290,6 +292,11 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <section class="contact wrap" id="contact">
     <span class="eyebrow mono">Got a place I should see?</span>
     <h2 id="hello">Say hello.</h2>
+    <div class="mail">
+      <a class="pill show" href="mailto:hello@serapince.com">hello@serapince.com ↗</a>
+      <button class="pill ghost show" type="button" data-copy="hello@serapince.com">Copy <span aria-hidden="true">⧉</span></button>
+      <code id="email" class="sr">hello@serapince.com</code>
+    </div>
     <footer class="foot mono">
       <span>© <span id="yr"></span> Serap</span>
       <span><a href="#" id="ig">Instagram</a></span>
