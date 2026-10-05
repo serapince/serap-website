@@ -93,6 +93,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.02;letter-sp
 .me .eye{transform-box:fill-box;transform-origin:center;transition:transform .09s}
 .me.blink .eye{transform:scaleY(.08)}
 .me .glasses{transform-box:view-box;transition:transform .7s cubic-bezier(.5,1.5,.4,1)}
+.me.hat .glasses.up{opacity:0}
 .me .glasses.up{transform:translate(0,-96px) scale(.86) rotate(-4deg);transform-origin:200px 110px}
 .me .backhair{transform-box:view-box;transform-origin:200px 120px;animation:sway 6s ease-in-out infinite}
 @keyframes sway{50%{transform:rotate(1.2deg)}}
@@ -785,7 +786,41 @@ svg.innerHTML = `
     </g>
   </g>
   <g id="frontHair">${front}</g>
+  <g id="costBody"></g>
+  <g id="costHead"></g>
 </g>`;
+
+
+/* ---- travel costumes: small accessories per country (journey mode) ---- */
+const flower = (x, y, r, petal, centre, n = 5) => { let o = ''; for (let i = 0; i < n; i++) { const a = i / n * 6.283; o += `<circle cx="${(x + Math.cos(a) * r * .7).toFixed(1)}" cy="${(y + Math.sin(a) * r * .7).toFixed(1)}" r="${(r * .55).toFixed(1)}" fill="${petal}"/>`; } return o + `<circle cx="${x}" cy="${y}" r="${(r * .4).toFixed(1)}" fill="${centre}"/>`; };
+const arcPts = (n, from = -2.6, to = -.54, rx = 98, ry = 92, cx = 200, cy = 168) => Array.from({length: n}, (_, i) => { const a = from + (to - from) * i / (n - 1); return [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
+const ear = (fn) => fn(121, 236) + fn(279, 236);
+const COSTUME = {
+  JP: { head: flower(140, 132, 12, '#f7b6c8', '#e77f9b') + flower(158, 120, 9, '#fbd0dc', '#e77f9b') + '<path d="M150,140 L132,170" stroke="#3a1d10" stroke-width="3"/>' },
+  UK: { head: '<path d="M250,40 Q300,0 350,40 Z" fill="#1f1d2b"/><path d="M250,40 Q262,30 275,40 Q287,30 300,40 Q312,30 325,40 Q337,30 350,40" fill="none" stroke="#3a3650" stroke-width="2"/><path d="M300,40 L300,96 Q300,106 290,104" fill="none" stroke="#5a3a22" stroke-width="4" stroke-linecap="round"/>',
+        body: '<path d="M150,362 L176,330 L200,400 L224,330 L250,362 L236,430 L200,410 L164,430 Z" fill="#c9a777"/><path d="M176,330 L200,400 L224,330" fill="none" stroke="#a88555" stroke-width="2"/><circle cx="190" cy="420" r="4" fill="#5a3a22"/><circle cx="210" cy="420" r="4" fill="#5a3a22"/>' },
+  ES: { head: flower(282, 140, 18, '#d61f3c', '#8e0f24', 7) + '<path d="M266,152 q-14,8 -22,2 q10,-12 22,-2Z" fill="#2f6b4f"/>' },
+  TR: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y}" stroke="#d9b45a" stroke-width="2"/><circle cx="${x}" cy="${y + 8}" r="9" fill="#1f5fbf"/><circle cx="${x}" cy="${y + 8}" r="6" fill="#fff"/><circle cx="${x}" cy="${y + 8}" r="3.6" fill="#7cc4f5"/><circle cx="${x}" cy="${y + 8}" r="1.8" fill="#111"/>`) },
+  PT: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y + 2}" stroke="#c0c6cc" stroke-width="2"/><path d="M${x - 9},${y + 12} q9,-9 18,0 l6,-5 v10 l-6,-5 q-9,9 -18,0Z" fill="#8fb3c9" stroke="#557a90" stroke-width="1.2"/>`) },
+  NL: { head: [[150, 96], [200, 82], [250, 96]].map(([x, y], i) => `<path d="M${x},${y + 30} V${y + 6}" stroke="#2f6b4f" stroke-width="3"/><path d="M${x - 11},${y} q0,16 11,18 q11,-2 11,-18 l-6,6 l-5,-8 l-5,8 Z" fill="${['#ff7a59', '#e0303f', '#ffb3c1'][i]}"/>`).join('') },
+  IT: { hat: true, head: '<ellipse cx="200" cy="104" rx="112" ry="16" fill="#e2b85c"/><path d="M146,104 L152,52 Q200,42 248,52 L254,104 Z" fill="#ecc977"/><rect x="149" y="80" width="102" height="14" fill="#1f3b73"/><ellipse cx="200" cy="52" rx="48" ry="9" fill="#f2d48c"/>' },
+  TH: { head: flower(278, 150, 15, '#a24bd1', '#f2d06b', 5) + flower(292, 172, 10, '#c77de6', '#f2d06b', 5) },
+  DE: { hat: true, head: '<path d="M118,128 Q120,70 200,66 Q284,70 286,128 Q250,104 200,104 Q150,104 118,128 Z" fill="#1d1d24"/><circle cx="200" cy="66" r="6" fill="#1d1d24"/>' },
+  SE: { head: arcPts(9).map(([x, y], i) => flower(x, y, 11, ['#fff6c2', '#ffd1dc', '#c9e7ff'][i % 3], '#f2b705')).join('') + arcPts(8, -2.5, -.64).map(([x, y]) => `<ellipse cx="${x}" cy="${y - 6}" rx="7" ry="3.5" fill="#5f9b54"/>`).join('') },
+  CH: { hat: true, head: '<path d="M112,140 Q112,52 200,50 Q288,52 288,140 Z" fill="#d52b1e"/><rect x="108" y="124" width="184" height="26" rx="12" fill="#f4f1ec"/><g stroke="#b3241a" stroke-width="3"><path d="M150,70 v50 M175,58 v62 M200,54 v66 M225,58 v62 M250,70 v50"/></g><circle cx="200" cy="44" r="16" fill="#f4f1ec"/>',
+        body: '<path d="M140,336 Q200,372 260,336 L262,372 Q200,404 138,372 Z" fill="#d52b1e"/><rect x="230" y="360" width="26" height="80" rx="8" fill="#d52b1e"/><path d="M234,410 h18 M234,424 h18" stroke="#f4f1ec" stroke-width="4"/>' },
+  HU: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y}" stroke="#2f6b4f" stroke-width="2.5"/><path d="M${x - 5},${y} q5,-3 10,0 q2,16 -5,24 q-7,-8 -5,-24Z" fill="#d6281f"/>`) },
+  CZ: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y + 2}" stroke="#d9d9e8" stroke-width="2"/><path d="M${x},${y + 2} l8,10 l-8,14 l-8,-14Z" fill="#bfe3ff" stroke="#7aa7d6" stroke-width="1.2"/><path d="M${x - 3},${y + 10} l3,-4" stroke="#fff" stroke-width="1.5"/>`) },
+  AT: { body: '<path d="M140,336 Q200,372 260,336 L262,372 Q200,404 138,372 Z" fill="#e0303f"/><path d="M139,352 Q200,386 261,352" stroke="#fff" stroke-width="8" fill="none"/><path d="M236,360 l24,84 l-18,4 l-22,-82 Z" fill="#e0303f"/>' },
+  GR: { head: arcPts(14, -2.75, -.4, 102, 96).map(([x, y], i) => `<ellipse cx="${x.toFixed(1)}" cy="${(y - 2).toFixed(1)}" rx="10" ry="4.5" transform="rotate(${(i - 6.5) * 11} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${i % 2 ? '#7a9a45' : '#94b35a'}"/>`).join('') + '<circle cx="246" cy="88" r="4" fill="#3d4a2a"/><circle cx="156" cy="88" r="4" fill="#3d4a2a"/>' },
+  PL: { head: arcPts(7).map(([x, y], i) => flower(x, y, 13, ['#e0303f', '#ff8fa3', '#ffd166'][i % 3], '#5b2a86')).join('') + '<path d="M286,150 q10,60 -6,110 M292,150 q22,50 10,104" stroke="#e0303f" stroke-width="5" fill="none"/><path d="M296,150 q16,58 2,110" stroke="#1f3b73" stroke-width="5" fill="none"/>' },
+};
+const costHead = document.getElementById('costHead'), costBody = document.getElementById('costBody');
+window.meCostume = (code) => {
+  const c = COSTUME[code] || {};
+  costHead.innerHTML = c.head || ''; costBody.innerHTML = c.body || '';
+  document.getElementById('me').classList.toggle('hat', !!c.hat);
+};
 
 const head = document.getElementById('head'), frontHair = document.getElementById('frontHair'), backHair = document.getElementById('backHair');
 const pupils = [...svg.querySelectorAll('.pupil')], glasses = document.getElementById('glasses');
@@ -821,6 +856,7 @@ window.meTick = (day) => {
   const ease = reduce ? 1 : .08;
   hx += (dx - hx)*ease; hy += (dy - hy)*ease; ex += (dx - ex)*.2; ey += (dy - ey)*.2;
   head.setAttribute('transform', `rotate(${(hx*6).toFixed(2)} 200 290) translate(${(hx*6).toFixed(2)} ${(hy*4).toFixed(2)})`);
+  costHead.setAttribute('transform', head.getAttribute('transform'));
   frontHair.setAttribute('transform', `translate(${(hx*5).toFixed(2)} ${(hy*2).toFixed(2)})`);
   backHair.setAttribute('transform', `translate(${(hx*-3).toFixed(2)} 0)`);
   pupils.forEach(g => g.setAttribute('transform', `translate(${(ex*5).toFixed(2)} ${(ey*3).toFixed(2)})`));
@@ -959,6 +995,7 @@ function step(W, travel, H){
 
 function arrive(i){
   const p = PL[i];
+  if (window.meCostume) meCostume(p.code);
   where.textContent = p.name;
   pop.style.background = `radial-gradient(120% 80% at 20% 10%, ${p.c[0]}, transparent 60%), linear-gradient(160deg, ${p.c[1]}, ${p.c[2]})`;
   const stops = p.name === 'Switzerland' ? 'The Alps' : `${p.cities.length} ${p.cities.length > 1 ? 'cities' : 'city'}`;
@@ -985,7 +1022,7 @@ function enter(){
 }
 function exit(){
   document.body.classList.remove('game'); window.gameOn = false; keys = 0; held = 0; vKeys = 0; vHeld = 0;
-  home.insertBefore(me, homeNext); me.classList.remove('left');
+  home.insertBefore(me, homeNext); me.classList.remove('left'); if (window.meCostume) meCostume('');
   pop.classList.remove('on'); $('#finale').classList.remove('on');
   dispatchEvent(new Event('resize'));
   $('#playBtn').focus({preventScroll:true});
