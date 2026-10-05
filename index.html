@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Serap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a full-bleed "day you can scrub" hero, then a dusk-dark scroll of postcards, project rows, an about essay and a journal shelf. */
+:root{
+  --ink:#0e0d16;          /* night sky ground */
+  --ink-2:#17151f;        /* raised surfaces */
+  --paper:#f1ece4;        /* text */
+  --mute:#a29db0;         /* secondary text, lilac-biased grey */
+  --dusk:#c3b2ff;         /* accent 1: dusk lilac */
+  --ember:#ffb38a;        /* accent 2: sunset apricot */
+  --line:rgba(241,236,228,.14);
+  --f-display:"Syne","Archivo Black","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gutter:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.wrap{padding-inline:var(--gutter)}
+
+/* ---------- custom cursor ---------- */
+.cur,.cur-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:100;border-radius:50%;mix-blend-mode:difference}
+.cur{width:8px;height:8px;background:#fff;margin:-4px 0 0 -4px}
+.cur-ring{width:38px;height:38px;border:1px solid #fff;margin:-19px 0 0 -19px;transition:width .25s,height .25s,margin .25s}
+.cur-ring.big{width:72px;height:72px;margin:-36px 0 0 -36px}
+@media (pointer:coarse),(prefers-reduced-motion:reduce){.cur,.cur-ring{display:none}}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:calc(18px + env(safe-area-inset-top,0px)) var(--gutter) 18px;transition:background .4s,backdrop-filter .4s}
+.nav.solid{background:rgba(14,13,22,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{font-family:var(--f-display);font-weight:800;font-size:22px;text-decoration:none;display:flex;align-items:flex-start;gap:2px}
+.logo sup{font-size:11px;font-family:var(--f-mono);margin-top:2px}
+.logo .star{display:inline-block;color:var(--ember);animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.links{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;font-size:15px;position:relative}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .35s}
+.links a:hover::after{transform:scaleX(1);transform-origin:left}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--paper);color:var(--ink);text-decoration:none;border:0;border-radius:999px;padding:10px 18px;font:600 14px var(--f-body);cursor:pointer}
+.burger{display:none;width:44px;height:44px;border:0;background:none;position:relative;cursor:pointer}
+.burger span{position:absolute;left:10px;right:10px;height:2px;background:var(--paper);transition:transform .35s,top .35s,opacity .2s}
+.burger span:nth-child(1){top:16px}.burger span:nth-child(2){top:26px}
+.burger[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){top:21px;transform:rotate(-45deg)}
+.overlay{position:fixed;inset:0;z-index:45;background:var(--ink);display:flex;flex-direction:column;justify-content:center;gap:8px;padding-inline:var(--gutter);clip-path:circle(0% at calc(100% - 40px) 40px);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+.overlay.open{clip-path:circle(150% at calc(100% - 40px) 40px)}
+.overlay a{font-family:var(--f-display);font-size:clamp(40px,12vw,72px);font-weight:700;text-decoration:none;line-height:1.1}
+@media (max-width:820px){.links,.nav .cta{display:none}.burger{display:block}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:min(100svh,900px);display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) 40px;overflow:hidden;touch-action:pan-y}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(14,13,22,.35) 0%,transparent 30%,transparent 50%,rgba(14,13,22,.85) 100%),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.09'/></svg>")}
+.hero-inner{position:relative;z-index:2;max-width:1100px;display:flex;flex-direction:column;gap:22px}
+.intro{display:inline-flex;align-self:flex-start;gap:10px;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);animation:blurIn 1.2s ease both}
+.intro i{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember)}
+@keyframes blurIn{from{filter:blur(12px);opacity:0;transform:translateY(8px)}}
+.type{font-size:clamp(38px,7.4vw,108px);min-height:2.1em}
+.type .caret{display:inline-block;width:.07em;height:.85em;background:var(--ember);margin-left:.06em;vertical-align:-.06em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.type em{font-style:normal;color:var(--ember)}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;background:var(--paper);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--paper);cursor:pointer;font-family:var(--f-body);opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1),background .25s,color .25s}
+.pill.show{opacity:1;transform:none}
+.pill:hover{background:transparent;color:var(--paper)}
+.pill.ghost{background:transparent;color:var(--paper);border-color:rgba(241,236,228,.45)}
+.pill.ghost:hover{background:var(--paper);color:var(--ink)}
+.readout{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:44px;padding-top:14px;border-top:1px solid var(--line);color:rgba(241,236,228,.75)}
+.readout b{font-weight:500;color:var(--paper)}
+.hint{display:flex;align-items:center;gap:10px}
+.hint .track{width:80px;height:2px;background:var(--line);position:relative;overflow:hidden;border-radius:2px}
+.hint .track span{position:absolute;inset:0;background:var(--ember);transform-origin:left}
+
+/* cartoon Serap */
+.me{position:absolute;z-index:1;right:clamp(0px,3vw,48px);bottom:0;height:min(80%,660px);aspect-ratio:400/500;max-width:100%;cursor:pointer}
+.me svg{width:100%;height:100%;display:block;overflow:visible;-webkit-mask-image:linear-gradient(180deg,#000 78%,transparent 100%);mask-image:linear-gradient(180deg,#000 78%,transparent 100%)}
+.me .breath{animation:breathe 4.5s ease-in-out infinite;transform-box:view-box;transform-origin:200px 500px}
+@keyframes breathe{50%{transform:translateY(-3px) scaleY(1.008)}}
+.me .eye{transform-box:fill-box;transform-origin:center;transition:transform .09s}
+.me.blink .eye{transform:scaleY(.08)}
+.me .glasses{transform-box:view-box;transition:transform .7s cubic-bezier(.5,1.5,.4,1)}
+.me .glasses.up{transform:translate(0,-96px) scale(.86) rotate(-4deg);transform-origin:200px 110px}
+.me .backhair{transform-box:view-box;transform-origin:200px 120px;animation:sway 6s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(1.2deg)}}
+.bubble{position:absolute;left:-6%;top:4%;max-width:220px;padding:10px 14px;border-radius:16px 16px 4px 16px;background:var(--paper);color:var(--ink);font:500 14px/1.35 var(--f-body);box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;transform:translateY(8px) scale(.9);transform-origin:bottom right;transition:opacity .35s,transform .45s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.bubble.on{opacity:1;transform:none}
+@media (min-width:821px){.hero-inner{max-width:min(1100px,60vw)}.type{font-size:clamp(38px,5.4vw,96px);min-height:3.3em}}
+@media (max-width:820px){.me{right:50%;transform:translateX(50%);bottom:auto;top:64px;height:40svh}.bubble{left:auto;right:-4%;top:-2%;border-radius:16px 16px 16px 4px;max-width:160px;font-size:13px}.hero{padding-top:calc(40svh + 60px)}}
+@media (prefers-reduced-motion:reduce){.me .breath,.me .backhair{animation:none}}
+
+/* ---------- sections ---------- */
+section.block{padding-block:clamp(80px,12vw,160px)}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:clamp(36px,5vw,64px)}
+.head h2{font-size:clamp(44px,8vw,120px);font-weight:800}
+.head h2 .o{color:transparent;-webkit-text-stroke:1.5px var(--paper)}
+.head p{max-width:34ch;color:var(--mute);margin:0}
+.eyebrow{color:var(--ember);margin-bottom:14px;display:block}
+
+/* travels: postcards */
+.rail-wrap{position:relative}
+.rail{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px var(--gutter) 30px;scrollbar-width:none;cursor:grab}
+.rail::-webkit-scrollbar{display:none}
+.rail.drag{cursor:grabbing;scroll-snap-type:none}
+.card{flex:0 0 clamp(260px,30vw,380px);aspect-ratio:3/4;max-width:100%;scroll-snap-align:start;border-radius:18px;position:relative;overflow:hidden;padding:22px;display:flex;flex-direction:column;justify-content:space-between;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform;user-select:none}
+.card .art{position:absolute;inset:0;z-index:0;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.card:hover .art{transform:scale(1.06)}
+.card>*:not(.art){position:relative;z-index:1}
+.card .top{display:flex;justify-content:space-between;color:rgba(255,255,255,.85)}
+.card h3{font-size:clamp(34px,3.6vw,48px);color:#fff}
+.card p{margin:8px 0 0;color:rgba(255,255,255,.88);font-size:15px;line-height:1.45}
+.stamp{position:absolute;right:18px;top:56px;width:84px;height:84px;border:2px dashed rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(-14deg);color:rgba(255,255,255,.8);font-family:var(--f-mono);font-size:10px;line-height:1.3;letter-spacing:.08em}
+.rail-ctrl{display:flex;gap:10px}
+.rbtn{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--paper);font-size:18px;cursor:pointer;transition:background .25s,color .25s}
+.rbtn:hover{background:var(--paper);color:var(--ink)}
+
+/* projects */
+.plist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.prow{display:grid;grid-template-columns:1fr auto auto;align-items:baseline;gap:12px 28px;padding:28px 4px;border-bottom:1px solid var(--line);text-decoration:none;position:relative}
+.prow h3{font-size:clamp(28px,4.6vw,64px);font-weight:700;transition:transform .5s cubic-bezier(.2,.8,.2,1),color .3s;min-width:0}
+.prow:hover h3{transform:translateX(18px);color:var(--dusk)}
+.prow .kind{color:var(--mute)}
+.prow .yr{color:var(--mute);font-variant-numeric:tabular-nums}
+.prow .desc{grid-column:1/-1;max-width:60ch;color:var(--mute);margin:0;display:none}
+.peek{position:fixed;left:0;top:0;z-index:40;width:280px;aspect-ratio:4/3;border-radius:14px;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.6) rotate(-6deg);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1);overflow:hidden;padding:16px;display:flex;align-items:flex-end;color:#fff;font-size:14px;line-height:1.4}
+.peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}
+@media (pointer:coarse),(max-width:820px){.prow{grid-template-columns:1fr auto}.prow .kind{grid-column:1/-1;order:3}.prow .desc{display:block;order:4}.peek{display:none}}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
+.essay{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3.3vw,46px);line-height:1.18;letter-spacing:-.015em;margin:0}
+.essay .w{opacity:.28;transition:opacity .3s}
+.essay .w.lit{opacity:1}
+.essay .hl{color:var(--ember)}
+.now{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.now div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.now dt{color:var(--mute)}
+.now dd{margin:0}
+.life{margin-top:28px;color:var(--mute);max-width:60ch}
+.life p{margin:0 0 14px}
+@media (max-width:820px){.about{grid-template-columns:1fr}}
+
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:22px;white-space:nowrap}
+.marquee .t{display:inline-flex;gap:48px;animation:mq 38s linear infinite;font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,64px)}
+.marquee .t span:nth-child(even){color:transparent;-webkit-text-stroke:1.2px var(--dusk)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* journal */
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.post{border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;min-height:240px;background:var(--ink-2);transition:border-color .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
+.post:hover{border-color:var(--dusk);transform:translateY(-6px)}
+.post .meta{display:flex;justify-content:space-between;color:var(--mute)}
+.post h3{font-size:26px;font-weight:700}
+.post p{margin:0;color:var(--mute);font-size:15px}
+.post .soon{margin-top:auto;color:var(--dusk)}
+@media (max-width:900px){.posts{grid-template-columns:1fr}}
+
+/* contact */
+.contact{padding-block:clamp(90px,14vw,180px) 40px;text-align:left}
+.contact h2{font-size:clamp(56px,14vw,220px);font-weight:800;line-height:.9}
+.contact h2 span{display:inline-block;transition:transform .5s cubic-bezier(.2,.8,.2,1),color .3s}
+.contact h2:hover span{color:var(--ember)}
+.mail{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.mail code{font-family:var(--f-mono);font-size:clamp(16px,2.2vw,22px);user-select:all}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--mute);margin-top:clamp(70px,10vw,140px);padding-top:20px;border-top:1px solid var(--line)}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--paper)}
+
+/* reveal */
+.rv{transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity 1s}
+.rv.pre{transform:translateY(40px);opacity:.15}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .pill{opacity:1;transform:none}
+  .rv.pre{transform:none;opacity:1}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" aria-hidden="true"></div><div class="cur-ring" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Serap, home">Serap<span class="star">✳</span><sup>®</sup></a>
+  <ul class="links">
+    <li><a href="#travels">Travels</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#journal">Journal</a></li>
+  </ul>
+  <a class="cta" href="#contact">Say hello ↗</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
+</header>
+<nav class="overlay" id="overlay" aria-label="Menu">
+  <a href="#travels">Travels</a><a href="#projects">Projects</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
+</nav>
+
+<main id="top">
+  <!-- HERO: move the cursor left/right to scrub through a day of travel -->
+  <section class="hero" id="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="me" id="me" role="img" aria-label="Cartoon of Serap with curly hair, a red bandana and round sunglasses"><svg id="meSvg" viewBox="0 0 400 500"></svg><div class="bubble" id="bubble" aria-live="polite"></div></div>
+    <div class="hero-inner">
+      <span class="intro mono"><i></i>Traveler · Maker · Storyteller</span>
+      <h1 class="type" id="type" aria-label="Hi, I'm Serap. I collect places, make things, and write it all down."></h1>
+      <div class="pills" id="pills">
+        <a class="pill" href="#travels">Travels</a>
+        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#about">About me</a>
+        <a class="pill" href="#journal">Journal</a>
+        <button class="pill ghost" type="button" data-copy="hello@yourdomain.com">Copy email <span aria-hidden="true">⧉</span></button>
+      </div>
+    </div>
+    <div class="readout mono" aria-hidden="true">
+      <span>Local time <b id="clock">07:00</b></span>
+      <span id="coords">38.64°N · 34.83°E</span>
+      <span class="hint"><span id="hintTxt">Move your cursor to travel</span> <span class="track"><span id="trk"></span></span></span>
+    </div>
+  </section>
+
+  <!-- TRAVELS -->
+  <section class="block" id="travels">
+    <div class="wrap head rv">
+      <div><span class="eyebrow mono">Postcards, 2019 to now</span><h2>Trav<span class="o">els</span></h2></div>
+      <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+        <p>Places that rearranged something in me. Drag the strip, or hover a card to tilt it.</p>
+        <div class="rail-ctrl"><button class="rbtn" id="prev" aria-label="Previous postcard">←</button><button class="rbtn" id="next" aria-label="Next postcard">→</button></div>
+      </div>
+    </div>
+    <div class="rail-wrap"><div class="rail" id="rail"></div></div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="t" id="mq"></div></div>
+
+  <!-- PROJECTS -->
+  <section class="block wrap" id="projects">
+    <div class="head rv">
+      <div><span class="eyebrow mono">Made by hand and by keyboard</span><h2>Proj<span class="o">ects</span></h2></div>
+      <p>Things I build when nobody asked me to. Hover a row for a peek.</p>
+    </div>
+    <ul class="plist" id="plist"></ul>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="block wrap" id="about">
+    <div class="head rv"><div><span class="eyebrow mono">The person behind the postcards</span><h2>About <span class="o">me</span></h2></div></div>
+    <div class="about">
+      <div>
+        <p class="essay" id="essay">I'm Serap. I grew up wanting to see what was past the next hill, and I still do. I travel slowly, with a notebook and a camera, and I come home with <span class="hl">more questions than souvenirs</span>. Between trips I make things: small apps, prints, the occasional failed sourdough. This site is where all of it lives.</p>
+        <div class="life rv">
+          <p>Outside of work you'll find me on long walks with no destination, cooking for too many people, or arguing about the best window seat on a night train.</p>
+          <p>I'm happiest somewhere I can't read the street signs yet.</p>
+        </div>
+      </div>
+      <dl class="now rv">
+        <div><dt class="mono">Based in</dt><dd>Wherever the last train stopped</dd></div>
+        <div><dt class="mono">Reading</dt><dd>The Rings of Saturn, W. G. Sebald</dd></div>
+        <div><dt class="mono">Learning</dt><dd>Film photography and Japanese</dd></div>
+        <div><dt class="mono">Next trip</dt><dd>Somewhere with mountains</dd></div>
+        <div><dt class="mono">Always</dt><dd>Window seat</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section class="block wrap" id="journal">
+    <div class="head rv">
+      <div><span class="eyebrow mono">Longer thoughts, soon</span><h2>Jour<span class="o">nal</span></h2></div>
+      <p>The first posts are still in the notebook. Here's what's being written.</p>
+    </div>
+    <div class="posts" id="posts"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact wrap" id="contact">
+    <span class="eyebrow mono">Got a place I should see?</span>
+    <h2 id="hello">Say hello.</h2>
+    <div class="mail">
+      <code id="email">hello@yourdomain.com</code>
+      <button class="pill ghost show" type="button" data-copy="hello@yourdomain.com">Copy <span aria-hidden="true">⧉</span></button>
+    </div>
+    <footer class="foot mono">
+      <span>© <span id="yr"></span> Serap</span>
+      <span><a href="#">Instagram</a> · <a href="#">GitHub</a> · <a href="#">LinkedIn</a></span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </section>
+</main>
+
+<script>
+(() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = matchMedia('(pointer:fine)').matches;
+const $ = s => document.querySelector(s);
+
+/* ================= CONTENT (edit me) ================= */
+const PLACES = [
+  {name:"Cappadocia", coords:"38.64°N 34.83°E", year:2024, note:"Up at 4 a.m. for the balloons. Stayed for the cave bakeries.", c:["#ff9a76","#7b4fa8","#1d1838"]},
+  {name:"Kyoto", coords:"35.01°N 135.77°E", year:2023, note:"Got lost in Fushimi Inari after dark. Best wrong turn.", c:["#e94f64","#f5b39b","#2a2240"]},
+  {name:"Lisbon", coords:"38.72°N 9.14°W", year:2023, note:"Tram 28, pastéis, and a fado bar that never closed.", c:["#ffd27a","#e07a5f","#3d405b"]},
+  {name:"Reykjavík", coords:"64.15°N 21.94°W", year:2022, note:"The sky did green things I still can't explain.", c:["#6ee7b7","#2563a8","#0b1026"]},
+  {name:"Oaxaca", coords:"17.07°N 96.73°W", year:2021, note:"Seven moles in five days. A personal record.", c:["#f472b6","#fb923c","#3b1a3f"]},
+  {name:"Tbilisi", coords:"41.72°N 44.79°E", year:2019, note:"Sulfur baths, balconies, and strangers who poured wine.", c:["#c3b2ff","#ff8fa3","#1b1630"]},
+];
+const PROJECTS = [
+  {name:"Packlight", kind:"App", year:2025, desc:"A tiny packing-list app that learns what you always forget.", c:["#c3b2ff","#3b2d7a"]},
+  {name:"Postcards from Nowhere", kind:"Zine", year:2024, desc:"A risograph zine of photos from towns not in any guidebook.", c:["#ffb38a","#8a2f4b"]},
+  {name:"Night Train Atlas", kind:"Map", year:2023, desc:"An interactive map of every sleeper train I've taken, with notes.", c:["#6ee7b7","#14365c"]},
+  {name:"Clay Mondays", kind:"Ceramics", year:2022, desc:"A year of making one bowl a week. Most of them wobble.", c:["#ffd27a","#6b3e26"]},
+];
+const POSTS = [
+  {title:"How I plan a slow trip", tag:"Travel", read:"6 min", desc:"Fewer cities, longer stays, and why I never book the last night."},
+  {title:"What a year of bowls taught me", tag:"Making", read:"4 min", desc:"On practice, patience, and the beauty of the lopsided."},
+  {title:"Notes from a night train", tag:"Diary", read:"8 min", desc:"Twelve hours, three countries, one very loud snorer."},
+];
+/* ===================================================== */
+
+/* ---------- nav / menu ---------- */
+const nav = $('#nav'), burger = $('#burger'), overlay = $('#overlay');
+addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 40), {passive:true});
+const setMenu = open => { overlay.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); document.body.style.overflow = open ? 'hidden' : ''; };
+burger.addEventListener('click', () => setMenu(!overlay.classList.contains('open')));
+overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+/* ---------- copy email ---------- */
+document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => {
+  const orig = b.innerHTML, done = () => { b.textContent = 'Copied ✓'; setTimeout(() => b.innerHTML = orig, 1600); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents($('#email')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected, press ⌘C'; setTimeout(() => b.innerHTML = orig, 2200); };
+  try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch(e) { fallback(); }
+}));
+
+/* ---------- custom cursor ---------- */
+const cur = $('.cur'), ring = $('.cur-ring');
+let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; cur.style.transform = `translate(${mx}px,${my}px)`; }, {passive:true});
+document.addEventListener('pointerover', e => ring.classList.toggle('big', !!e.target.closest('a,button,.card')));
+
+/* ---------- typewriter ---------- */
+const typeEl = $('#type');
+const parts = [["Hi, I'm ",0],["Serap.",1],[" I collect places, make things, and write it all down.",0]];
+const pills = [...document.querySelectorAll('#pills .pill')];
+const showPills = () => pills.forEach((p,i) => setTimeout(() => p.classList.add('show'), i*110));
+if (reduce) { typeEl.innerHTML = parts.map(([t,h]) => h ? `<em>${t}</em>` : t).join('') + '<span class="caret"></span>'; showPills(); }
+else {
+  let pi = 0, ci = 0;
+  const tick = () => {
+    if (pi >= parts.length) { showPills(); return; }
+    ci++;
+    const html = parts.slice(0,pi).map(([t,h]) => h ? `<em>${t}</em>` : t).join('') + (parts[pi][1] ? `<em>${parts[pi][0].slice(0,ci)}</em>` : parts[pi][0].slice(0,ci));
+    typeEl.innerHTML = html + '<span class="caret"></span>';
+    if (ci >= parts[pi][0].length) { pi++; ci = 0; }
+    const ch = typeEl.textContent.slice(-1);
+    setTimeout(tick, ch === '.' || ch === ',' ? 320 : 34 + Math.random()*40);
+  };
+  setTimeout(tick, 650);
+}
+
+/* ---------- HERO: cursor-scrubbed day ----------
+   Like the tutorial's video scrub: horizontal cursor movement moves
+   the timeline (time of day + distance travelled) back and forth. */
+const cv = $('#sky'), ctx = cv.getContext('2d'), hero = $('#hero');
+let W, H, DPR;
+const resize = () => { DPR = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight; cv.width = W*DPR; cv.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); };
+resize(); addEventListener('resize', resize);
+
+if (!fine) $('#hintTxt').textContent = 'Drag to travel';
+const SENS = 0.8;                    // tutorial's sensitivity multiplier
+let t = 0.29, target = t, lastX = null, idle = 0;
+const onMove = x => { if (lastX !== null) { target += (x - lastX) / W * SENS * 0.5; idle = 0; } lastX = x; };
+hero.addEventListener('pointermove', e => onMove(e.clientX));
+hero.addEventListener('pointerleave', () => lastX = null);
+hero.addEventListener('pointerdown', e => lastX = e.clientX);
+
+const hex = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+const mix = (a,b,k) => a.map((v,i) => v + (b[i]-v)*k);
+const rgb = (c,a=1) => `rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+// sky keyframes over a 24h day: [time, top, bottom]
+const SKY = [
+  [0.00,"#07061a","#1a1538"],[0.21,"#0d0b26","#2b2150"],[0.26,"#3c2f6e","#ff9a76"],
+  [0.34,"#3f6aa8","#f7c59f"],[0.50,"#2f5f9c","#9cc3e0"],[0.68,"#3a4f94","#f2b48c"],
+  [0.75,"#4a2f73","#ff7a6b"],[0.80,"#1d1645","#6a3d7a"],[1.00,"#07061a","#1a1538"]
+].map(([k,a,b]) => [k,hex(a),hex(b)]);
+const skyAt = p => { for (let i=0;i<SKY.length-1;i++){ const [k0,a0,b0]=SKY[i],[k1,a1,b1]=SKY[i+1]; if(p<=k1){ const k=(p-k0)/(k1-k0); const e=k*k*(3-2*k); return [mix(a0,a1,e),mix(b0,b1,e)]; } } return [SKY[0][1],SKY[0][2]]; };
+const INK = hex('#0e0d16');
+
+// deterministic star field
+const stars = Array.from({length:180}, (_,i) => { const r = n => (Math.sin(i*12.9898+n*78.233)*43758.5453)%1; return {x:Math.abs(r(1)), y:Math.abs(r(2))*0.65, s:Math.abs(r(3))*1.3+.3, p:Math.abs(r(4))*6}; });
+// ridge layers: far → near
+const LAYERS = [
+  {y:.58, amp:.10, f:[.0021,.0047,.011], sp:.15, k:.30},
+  {y:.66, amp:.09, f:[.0031,.0071,.016], sp:.35, k:.55},
+  {y:.75, amp:.07, f:[.0042,.0093,.021], sp:.7,  k:.78},
+  {y:.86, amp:.05, f:[.0055,.013,.027],  sp:1.2, k:.95},
+];
+const ridge = (L, x) => L.f.reduce((s,f,i) => s + Math.sin(x*f + i*1.7 + L.y*10) * (1/(i+1)), 0);
+
+let frame = 0;
+const draw = () => {
+  frame++;
+  if (!reduce) { idle++; if (idle > 90) target += 0.00012; }   // gentle drift when idle
+  t += (target - t) * 0.08;
+  const day = ((t % 1) + 1) % 1;
+  const travel = t * 2600;   // px "travelled"
+  const [top, bot] = skyAt(day);
+  const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,rgb(top)); g.addColorStop(.75,rgb(bot)); g.addColorStop(1,rgb(bot));
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // night factor for stars
+  const night = Math.max(0, Math.cos((day)*Math.PI*2)) ** 1.4;
+  if (night > .02) for (const s of stars) {
+    const tw = .6 + .4*Math.sin(frame*.04 + s.p);
+    ctx.fillStyle = `rgba(255,248,235,${night*tw*.9})`;
+    const x = ((s.x*W - travel*.03) % W + W) % W;
+    ctx.beginPath(); ctx.arc(x, s.y*H, s.s, 0, 6.283); ctx.fill();
+  }
+
+  // sun (06:00→18:00) and moon (18:00→06:00) on an arc
+  const body = (phase, col, r, glow) => {
+    const a = phase*Math.PI; const x = W*(.12 + .76*phase); const y = H*.62 - Math.sin(a)*H*.48;
+    const rg = ctx.createRadialGradient(x,y,0,x,y,r*glow); rg.addColorStop(0,rgb(col,.55)); rg.addColorStop(1,rgb(col,0));
+    ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x,y,r*glow,0,6.283); ctx.fill();
+    ctx.fillStyle = rgb(col); ctx.beginPath(); ctx.arc(x,y,r,0,6.283); ctx.fill();
+  };
+  const sunP = (day - .25) / .5, moonP = ((day + .25) % 1) / .5;
+  if (sunP > -.1 && sunP < 1.1) body(sunP, mix(hex('#ffd9a8'),hex('#ff8a5c'), Math.abs(sunP-.5)*2), Math.max(26, W*.032), 5);
+  if (moonP > -.1 && moonP < 1.1) body(moonP, hex('#eae6ff'), Math.max(16, W*.018), 4);
+
+  // mountains with atmospheric perspective + parallax travel
+  for (const L of LAYERS) {
+    const col = mix(bot, mix(top, INK, .4), L.k);
+    ctx.fillStyle = rgb(mix(col, INK, L.k*.55));
+    ctx.beginPath(); ctx.moveTo(0,H);
+    const off = travel * L.sp;
+    for (let x=0; x<=W+6; x+=6) ctx.lineTo(x, H*L.y - ridge(L, x+off) * H*L.amp);
+    ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+  }
+  // thin mist band
+  const mg = ctx.createLinearGradient(0,H*.6,0,H*.8); mg.addColorStop(0,rgb(bot,0)); mg.addColorStop(.5,rgb(bot,.12)); mg.addColorStop(1,rgb(bot,0));
+  ctx.fillStyle = mg; ctx.fillRect(0,H*.6,W,H*.2);
+
+  // readouts
+  const mins = Math.floor(day*1440); $('#clock').textContent = String(Math.floor(mins/60)).padStart(2,'0') + ':' + String(mins%60).padStart(2,'0');
+  const lon = 34.83 + (t-0.29)*40, lat = 38.64 + Math.sin(t*3)*2.2;
+  $('#coords').textContent = `${Math.abs(lat).toFixed(2)}°${lat>=0?'N':'S'} · ${Math.abs(((lon+180)%360+360)%360-180).toFixed(2)}°${(((lon+180)%360+360)%360-180)>=0?'E':'W'}`;
+  $('#trk').style.transform = `scaleX(${day})`;
+  if (window.meTick) meTick(day);
+
+  // cursor ring easing
+  rx += (mx-rx)*.18; ry += (my-ry)*.18; ring.style.transform = `translate(${rx}px,${ry}px)`;
+  requestAnimationFrame(draw);
+};
+requestAnimationFrame(draw);
+
+/* ---------- travels: postcards ---------- */
+const rail = $('#rail');
+rail.innerHTML = PLACES.map(p => `
+  <article class="card" tabindex="0">
+    <div class="art" style="background:
+      radial-gradient(120% 70% at 30% 18%, ${p.c[0]} 0%, transparent 60%),
+      radial-gradient(90% 60% at 80% 60%, ${p.c[1]} 0%, transparent 70%),
+      linear-gradient(180deg, ${p.c[1]} 0%, ${p.c[2]} 100%)"></div>
+    <div class="top mono"><span>${p.coords}</span><span>${p.year}</span></div>
+    <div class="stamp">${p.name.slice(0,3).toUpperCase()}<br>${p.year}<br>✳</div>
+    <div><h3>${p.name}</h3><p>${p.note}</p></div>
+  </article>`).join('');
+rail.querySelectorAll('.card').forEach(c => {
+  if (!fine || reduce) return;
+  c.addEventListener('pointermove', e => { const r = c.getBoundingClientRect(); const x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5; c.style.transform = `perspective(900px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateZ(0)`; });
+  c.addEventListener('pointerleave', () => c.style.transform = '');
+});
+// drag to scroll
+let down = false, sx = 0, sl = 0, moved = 0;
+rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = 0; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('drag'); });
+addEventListener('pointerup', () => { down = false; rail.classList.remove('drag'); });
+rail.addEventListener('pointermove', e => { if (!down) return; moved = e.clientX - sx; rail.scrollLeft = sl - moved; });
+const step = () => rail.querySelector('.card').offsetWidth + 22;
+$('#prev').addEventListener('click', () => rail.scrollBy({left:-step(), behavior:'smooth'}));
+$('#next').addEventListener('click', () => rail.scrollBy({left:step(), behavior:'smooth'}));
+
+/* ---------- marquee ---------- */
+const words = PLACES.map(p => p.name).concat(['Window seat','Slow travel']);
+$('#mq').innerHTML = [...words, ...words].map(w => `<span>${w}</span><span>✳</span>`).join('');
+
+/* ---------- projects with cursor-following peek ---------- */
+const plist = $('#plist');
+plist.innerHTML = PROJECTS.map((p,i) => `
+  <li><a class="prow" href="#projects" data-i="${i}">
+    <h3>${p.name}</h3><span class="kind mono">${p.kind}</span><span class="yr mono">${p.year}</span><p class="desc">${p.desc}</p>
+  </a></li>`).join('');
+const peek = document.createElement('div'); peek.className = 'peek'; document.body.appendChild(peek);
+let px = 0, py = 0, peekOn = false;
+plist.querySelectorAll('.prow').forEach(row => {
+  row.addEventListener('pointerenter', () => { const p = PROJECTS[row.dataset.i]; peek.style.background = `radial-gradient(80% 80% at 25% 20%, ${p.c[0]}, transparent 70%), linear-gradient(135deg, ${p.c[1]}, #0e0d16)`; peek.textContent = p.desc; peek.classList.add('on'); peekOn = true; });
+  row.addEventListener('pointerleave', () => { peek.classList.remove('on'); peekOn = false; });
+});
+const peekLoop = () => { px += (mx-px)*.14; py += (my-py)*.14; peek.style.left = px+'px'; peek.style.top = py+'px'; requestAnimationFrame(peekLoop); };
+peekLoop();
+
+/* ---------- about: words light up as you scroll ---------- */
+const essay = $('#essay');
+const wrapWords = node => { [...node.childNodes].forEach(n => { if (n.nodeType === 3) { const f = document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(w => { if (!w.trim()) f.appendChild(document.createTextNode(w)); else { const s = document.createElement('span'); s.className='w'; s.textContent=w; f.appendChild(s); } }); n.replaceWith(f); } else wrapWords(n); }); };
+if (!reduce) wrapWords(essay);
+const ws = [...essay.querySelectorAll('.w')];
+const lightUp = () => { const r = essay.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (innerHeight*.85 - r.top) / (r.height + innerHeight*.35))); const n = Math.round(p*ws.length); ws.forEach((w,i) => w.classList.toggle('lit', i < n)); };
+addEventListener('scroll', lightUp, {passive:true}); lightUp();
+
+/* ---------- journal ---------- */
+$('#posts').innerHTML = POSTS.map(p => `
+  <article class="post rv"><div class="meta mono"><span>${p.tag}</span><span>${p.read}</span></div>
+  <h3>${p.title}</h3><p>${p.desc}</p><span class="soon mono">Coming soon</span></article>`).join('');
+
+/* ---------- contact letters ---------- */
+const hello = $('#hello'); hello.innerHTML = [...hello.textContent].map(c => `<span>${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+const hs = [...hello.querySelectorAll('span')];
+if (fine && !reduce) hello.addEventListener('pointermove', e => hs.forEach(s => { const r = s.getBoundingClientRect(); const d = Math.hypot(e.clientX-(r.left+r.width/2), e.clientY-(r.top+r.height/2)); const k = Math.max(0, 1 - d/260); s.style.transform = `translateY(${-k*28}px) rotate(${(e.clientX-(r.left+r.width/2))/r.width*k*-6}deg)`; }));
+hello.addEventListener('pointerleave', () => hs.forEach(s => s.style.transform = ''));
+$('#yr').textContent = new Date().getFullYear();
+
+/* ---------- reveal on scroll (only for things below the first screen) ---------- */
+if (!reduce && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), {threshold:.12});
+  document.querySelectorAll('.rv').forEach(el => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pre'); io.observe(el); } });
+}
+})();
+</script>
+<script>
+/* ---------- cartoon Serap: drawn from her photos ----------
+   Curly auburn hair with sun-lightened ends, red bandana, round sunglasses,
+   red gingham top. Head and eyes follow the cursor; the sunglasses drop
+   down when the sun is high and go back up on her head in the evening. */
+(() => {
+const svg = document.getElementById('meSvg'), me = document.getElementById('me'), bubble = document.getElementById('bubble');
+if (!svg) return;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const lerpHex = (a, b, k) => { const p = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16)); const A = p(a), B = p(b); return '#' + A.map((v,i) => Math.round(v + (B[i]-v)*k).toString(16).padStart(2,'0')).join(''); };
+const HAIR_TOP = '#4a2416', HAIR_MID = '#7a3a1e', HAIR_END = '#b8652f';
+const curl = (x, y, r, k) => {
+  const c = lerpHex(lerpHex(HAIR_TOP, HAIR_MID, Math.min(1,k*1.6)), HAIR_END, Math.max(0,k-.45)*1.6);
+  const d = lerpHex(c, '#2a120a', .45);
+  const a0 = rnd()*6.28, a1 = a0 + 3.6;
+  const ax = (a) => (x + Math.cos(a)*r*.55).toFixed(1), ay = (a) => (y + Math.sin(a)*r*.55).toFixed(1);
+  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}"/><path d="M${ax(a0)},${ay(a0)} A${(r*.55).toFixed(1)},${(r*.55).toFixed(1)} 0 1 1 ${ax(a1)},${ay(a1)}" fill="none" stroke="${d}" stroke-width="2.2" stroke-linecap="round" opacity=".7"/>`;
+};
+// big curly mass behind the head and shoulders
+let back = '';
+for (let y = 112; y <= 478; y += 17) {
+  const k = (y - 112) / 366;
+  const w = y < 200 ? 70 + (y-112)*.32 : 98 + Math.min(1,(y-200)/120)*30;
+  for (let x = 200 - w; x <= 200 + w; x += 20 + rnd()*6) back += curl(x + (rnd()-.5)*8, y + (rnd()-.5)*8, 17 + rnd()*8, k);
+}
+// curls framing the face and falling over the shoulders
+const strand = (sx, dir) => { let o = ''; for (let i = 0; i < 17; i++) { const y = 150 + i*19, k = i/16; const x = sx + dir*(Math.sin(i*.9)*6 + (i > 8 ? (i-8)*2.2 : 0)); o += curl(x + (rnd()-.5)*4, y, 14 + rnd()*5, k); if (i > 4 && i % 2) o += curl(x + dir*16, y + 9, 11 + rnd()*4, k); } return o; };
+const front = strand(122, -1) + strand(278, 1);
+const eye = (cx) => `
+  <clipPath id="ec${cx}"><ellipse cx="${cx}" cy="203" rx="14" ry="10"/></clipPath>
+  <g class="eye"><ellipse cx="${cx}" cy="203" rx="14" ry="10" fill="#fffaf5"/>
+    <g clip-path="url(#ec${cx})"><g class="pupil"><circle cx="${cx}" cy="204" r="8" fill="#5b3421"/><circle cx="${cx}" cy="204" r="4" fill="#160b06"/><circle cx="${cx+2.6}" cy="201" r="2" fill="#fff"/></g></g></g>
+  <path d="M${cx-15},201 Q${cx},189 ${cx+15},200" fill="none" stroke="#2a150c" stroke-width="3" stroke-linecap="round"/>`;
+svg.innerHTML = `
+<defs>
+  <pattern id="gingham" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff6f2"/><rect width="8" height="16" fill="#e0303f" opacity=".55"/><rect width="16" height="8" fill="#e0303f" opacity=".55"/></pattern>
+  <pattern id="scarf" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#d8233a"/><circle cx="4" cy="4" r="1.5" fill="#fff" opacity=".75"/><path d="M10 9 q2 -2 3 1" stroke="#fff" stroke-width="1" fill="none" opacity=".6"/></pattern>
+  <radialGradient id="lens" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#5d6b62"/><stop offset="1" stop-color="#1c2420"/></radialGradient>
+  <radialGradient id="skinShade" cx=".5" cy=".35" r=".7"><stop offset=".7" stop-color="#f6d1b5" stop-opacity="0"/><stop offset="1" stop-color="#e3ad8f" stop-opacity=".7"/></radialGradient>
+</defs>
+<g class="breath">
+  <g class="backhair" id="backHair">${back}</g>
+  <path d="M40,500 C46,420 82,377 150,362 C166,357 172,340 172,312 L172,236 L228,236 L228,312 C228,340 234,357 250,362 C318,377 354,420 360,500 Z" fill="#f4cdb0"/>
+  <path d="M172,268 Q200,296 228,268 L228,284 Q200,308 172,284 Z" fill="#e3ad8f" opacity=".55"/>
+  <path d="M160,388 Q180,396 196,390 M204,390 Q220,396 240,388" stroke="#e3ad8f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M134,362 L142,430 L151,430 L143,361 Z M266,362 L258,430 L249,430 L257,361 Z" fill="url(#gingham)" stroke="#c42435" stroke-width=".8"/>
+  <path d="M92,500 L104,428 C150,418 250,418 296,428 L308,500 Z" fill="url(#gingham)"/>
+  <path d="M104,428 C150,418 250,418 296,428" stroke="#c42435" stroke-width="3" fill="none"/>
+  <g id="head">
+    <ellipse cx="200" cy="168" rx="90" ry="84" fill="${HAIR_TOP}"/>
+    <ellipse cx="121" cy="212" rx="11" ry="17" fill="#eebd9c"/><ellipse cx="279" cy="212" rx="11" ry="17" fill="#eebd9c"/>
+    <path d="M200,128 C252,128 279,160 279,206 C279,254 246,288 200,288 C154,288 121,254 121,206 C121,160 148,128 200,128 Z" fill="#f6d1b5"/>
+    <path d="M200,128 C252,128 279,160 279,206 C279,254 246,288 200,288 C154,288 121,254 121,206 C121,160 148,128 200,128 Z" fill="url(#skinShade)"/>
+    <path d="M150,180 Q170,170 190,178" stroke="#3a1d10" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M210,178 Q230,170 250,180" stroke="#3a1d10" stroke-width="5" fill="none" stroke-linecap="round"/>
+    ${eye(170)}${eye(230)}
+    <path d="M201,214 Q197,232 192,236 Q199,241 207,237" stroke="#d99a7b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="152" cy="238" rx="15" ry="9" fill="#f2848a" opacity=".35"/><ellipse cx="248" cy="238" rx="15" ry="9" fill="#f2848a" opacity=".35"/>
+    <circle cx="163" cy="251" r="1.9" fill="#7a4632"/>
+    <path id="mouth" d="M180,256 Q190,251 200,254 Q210,251 220,256 Q210,268 200,268 Q190,268 180,256 Z" fill="#e2776a"/>
+    <path d="M180,256 Q200,262 220,256" stroke="#b9554b" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M193,264 Q200,266 207,264" stroke="#fff" stroke-width="1.6" fill="none" opacity=".45" stroke-linecap="round"/>
+    <path d="M106,178 C96,62 304,62 294,178 L272,168 C270,108 130,108 128,168 Z" fill="url(#scarf)"/>
+    <path d="M128,168 C130,108 270,108 272,168" stroke="#a5172b" stroke-width="2.5" fill="none" opacity=".6"/>
+    <path d="M292,170 L322,214 L300,222 Z M290,176 L306,244 L286,236 Z" fill="url(#scarf)" stroke="#a5172b" stroke-width="1.5"/>
+    <circle cx="293" cy="172" r="10" fill="#c41f34"/>
+    <g class="glasses up" id="glasses">
+      <circle cx="168" cy="204" r="26" fill="url(#lens)" stroke="#232323" stroke-width="5.5"/>
+      <circle cx="232" cy="204" r="26" fill="url(#lens)" stroke="#232323" stroke-width="5.5"/>
+      <path d="M193,197 Q200,190 207,197" stroke="#9aa0a0" stroke-width="3" fill="none"/>
+      <path d="M152,192 Q160,184 172,184 M216,192 Q224,184 236,184" stroke="#fff" stroke-width="3" fill="none" opacity=".35" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g id="frontHair">${front}</g>
+</g>`;
+
+const head = document.getElementById('head'), frontHair = document.getElementById('frontHair'), backHair = document.getElementById('backHair');
+const pupils = [...svg.querySelectorAll('.pupil')], glasses = document.getElementById('glasses');
+let px = innerWidth*.4, py = innerHeight*.5, hx = 0, hy = 0, ex = 0, ey = 0, overrideUntil = 0, phase = '';
+addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; }, {passive:true});
+
+const LINES = {
+  morning: "Günaydın! Coffee first, then the world.",
+  day: "Sun's out, glasses on.",
+  golden: "Golden hour is my favourite hour.",
+  night: "Still up? Me too. Look at those stars."
+};
+let bubbleT;
+const say = (txt, ms = 2600) => { bubble.textContent = txt; bubble.classList.add('on'); clearTimeout(bubbleT); bubbleT = setTimeout(() => bubble.classList.remove('on'), ms); };
+setTimeout(() => say("Merhaba! I'm Serap. Move your cursor and we'll travel.", 3800), 2600);
+me.addEventListener('pointerenter', () => say(LINES[phase] || LINES.morning));
+me.addEventListener('click', () => { glasses.classList.toggle('up'); overrideUntil = performance.now() + 6000; say(glasses.classList.contains('up') ? "Okay, I can see you now." : "Too bright!", 1800); });
+
+// blink every few seconds
+const blink = () => { me.classList.add('blink'); setTimeout(() => me.classList.remove('blink'), 130); setTimeout(blink, 2400 + Math.random()*3200); };
+if (!reduce) setTimeout(blink, 1800);
+
+window.meTick = (day) => {
+  // time of day decides the glasses and the light on her
+  const p = day > .21 && day < .33 ? 'morning' : day >= .33 && day < .66 ? 'day' : day >= .66 && day < .8 ? 'golden' : 'night';
+  if (p !== phase) { phase = p; if (performance.now() > overrideUntil) glasses.classList.toggle('up', p !== 'day'); }
+  const light = Math.max(0, Math.sin((day - .22) / .58 * Math.PI));
+  const warm = p === 'golden' || p === 'morning' ? .25 : 0;
+  svg.style.filter = `brightness(${(.62 + light*.4).toFixed(2)}) saturate(${(.75 + light*.3).toFixed(2)}) sepia(${warm})`;
+  // follow the cursor
+  const r = svg.getBoundingClientRect(); const cx = r.left + r.width*.5, cy = r.top + r.height*.4;
+  const dx = Math.max(-1, Math.min(1, (px - cx) / (innerWidth*.5))), dy = Math.max(-1, Math.min(1, (py - cy) / (innerHeight*.5)));
+  const ease = reduce ? 1 : .08;
+  hx += (dx - hx)*ease; hy += (dy - hy)*ease; ex += (dx - ex)*.2; ey += (dy - ey)*.2;
+  head.setAttribute('transform', `rotate(${(hx*6).toFixed(2)} 200 290) translate(${(hx*6).toFixed(2)} ${(hy*4).toFixed(2)})`);
+  frontHair.setAttribute('transform', `translate(${(hx*5).toFixed(2)} ${(hy*2).toFixed(2)})`);
+  backHair.setAttribute('transform', `translate(${(hx*-3).toFixed(2)} 0)`);
+  pupils.forEach(g => g.setAttribute('transform', `translate(${(ex*5).toFixed(2)} ${(ey*3).toFixed(2)})`));
+};
+})();
+</script>
+</body>
+</html>
