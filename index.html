@@ -121,8 +121,9 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .card>*:not(.art){position:relative;z-index:1}
 .card .top{display:flex;justify-content:space-between;color:rgba(255,255,255,.85)}
 .card h3{font-size:clamp(34px,3.6vw,48px);color:#fff}
-.card p{margin:8px 0 0;color:rgba(255,255,255,.88);font-size:15px;line-height:1.45}
-.stamp{position:absolute;right:18px;top:56px;width:84px;height:84px;border:2px dashed rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(-14deg);color:rgba(255,255,255,.8);font-family:var(--f-mono);font-size:10px;line-height:1.3;letter-spacing:.08em}
+.card .cities{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.card .cities li{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.card>.stamp{position:absolute;right:18px;top:56px;width:84px;height:84px;border:2px dashed rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;text-align:center;transform:rotate(-14deg);color:rgba(255,255,255,.8);font-family:var(--f-mono);font-size:10px;line-height:1.3;letter-spacing:.08em}
 .rail-ctrl{display:flex;gap:10px}
 .rbtn{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--paper);font-size:18px;cursor:pointer;transition:background .25s,color .25s}
 .rbtn:hover{background:var(--paper);color:var(--ink)}
@@ -155,7 +156,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 
 /* marquee */
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:22px;white-space:nowrap}
-.marquee .t{display:inline-flex;gap:48px;animation:mq 38s linear infinite;font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,64px)}
+.marquee .t{display:inline-flex;gap:48px;animation:mq 140s linear infinite;font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,64px)}
 .marquee .t span:nth-child(even){color:transparent;-webkit-text-stroke:1.2px var(--dusk)}
 @keyframes mq{to{transform:translateX(-50%)}}
 
@@ -236,9 +237,9 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <!-- TRAVELS -->
   <section class="block" id="travels">
     <div class="wrap head rv">
-      <div><span class="eyebrow mono">Postcards, 2019 to now</span><h2>Trav<span class="o">els</span></h2></div>
+      <div><span class="eyebrow mono" id="tally">Postcards</span><h2>Trav<span class="o">els</span></h2></div>
       <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
-        <p>Places that rearranged something in me. Drag the strip, or hover a card to tilt it.</p>
+        <p>From Tokyo to Kraków, one postcard per country. Drag the strip, or hover a card to tilt it.</p>
         <div class="rail-ctrl"><button class="rbtn" id="prev" aria-label="Previous postcard">←</button><button class="rbtn" id="next" aria-label="Next postcard">→</button></div>
       </div>
     </div>
@@ -310,12 +311,22 @@ const $ = s => document.querySelector(s);
 
 /* ================= CONTENT (edit me) ================= */
 const PLACES = [
-  {name:"Cappadocia", coords:"38.64°N 34.83°E", year:2024, note:"Up at 4 a.m. for the balloons. Stayed for the cave bakeries.", c:["#ff9a76","#7b4fa8","#1d1838"]},
-  {name:"Kyoto", coords:"35.01°N 135.77°E", year:2023, note:"Got lost in Fushimi Inari after dark. Best wrong turn.", c:["#e94f64","#f5b39b","#2a2240"]},
-  {name:"Lisbon", coords:"38.72°N 9.14°W", year:2023, note:"Tram 28, pastéis, and a fado bar that never closed.", c:["#ffd27a","#e07a5f","#3d405b"]},
-  {name:"Reykjavík", coords:"64.15°N 21.94°W", year:2022, note:"The sky did green things I still can't explain.", c:["#6ee7b7","#2563a8","#0b1026"]},
-  {name:"Oaxaca", coords:"17.07°N 96.73°W", year:2021, note:"Seven moles in five days. A personal record.", c:["#f472b6","#fb923c","#3b1a3f"]},
-  {name:"Tbilisi", coords:"41.72°N 44.79°E", year:2019, note:"Sulfur baths, balconies, and strangers who poured wine.", c:["#c3b2ff","#ff8fa3","#1b1630"]},
+  {name:"Japan", code:"JP", coords:"35.68°N 139.69°E", cities:["Tokyo","Kyoto","Osaka","Hakone"], c:["#e94f64","#f5b39b","#2a2240"]},
+  {name:"England", code:"UK", coords:"51.51°N 0.13°W", cities:["London"], c:["#9ab6d6","#c0435a","#141a33"]},
+  {name:"Spain", code:"ES", coords:"37.39°N 5.98°W", cities:["Sevilla","Madrid","Barcelona","Málaga","Ibiza"], c:["#ffcf5c","#e4572e","#3a1424"]},
+  {name:"Türkiye", code:"TR", coords:"38.64°N 34.83°E", cities:["Cappadocia","Göcek","Ölüdeniz"], c:["#ff9a76","#7b4fa8","#1d1838"]},
+  {name:"Portugal", code:"PT", coords:"38.72°N 9.14°W", cities:["Lisbon","Porto"], c:["#ffd27a","#e07a5f","#22385b"]},
+  {name:"Netherlands", code:"NL", coords:"52.37°N 4.90°E", cities:["Amsterdam"], c:["#ff9f43","#4f7cac","#12213a"]},
+  {name:"Italy", code:"IT", coords:"41.90°N 12.50°E", cities:["Rome","Florence","Venice"], c:["#f7b267","#c8553d","#2e1d2b"]},
+  {name:"Thailand", code:"TH", coords:"13.76°N 100.50°E", cities:["Bangkok","Phuket"], c:["#5eead4","#f472b6","#1b1a3f"]},
+  {name:"Germany", code:"DE", coords:"52.52°N 13.40°E", cities:["Berlin","Hamburg"], c:["#c3b2ff","#e0a458","#16141f"]},
+  {name:"Sweden", code:"SE", coords:"59.33°N 18.07°E", cities:["Stockholm"], c:["#ffe08a","#3b82c4","#0d1a33"]},
+  {name:"Switzerland", code:"CH", coords:"46.82°N 8.23°E", cities:["The Alps"], c:["#e8f1ff","#d64545","#1a2238"]},
+  {name:"Hungary", code:"HU", coords:"47.50°N 19.04°E", cities:["Budapest"], c:["#ffd166","#3c8d5a","#1d1a2c"]},
+  {name:"Czechia", code:"CZ", coords:"50.08°N 14.44°E", cities:["Prague"], c:["#f4a261","#7d5ba6","#1a1530"]},
+  {name:"Austria", code:"AT", coords:"48.21°N 16.37°E", cities:["Vienna"], c:["#ffb3c1","#b23a48","#24142a"]},
+  {name:"Greece", code:"GR", coords:"37.98°N 23.73°E", cities:["Athens"], c:["#a5d8ff","#2f6fdb","#0c1a3a"]},
+  {name:"Poland", code:"PL", coords:"50.06°N 19.94°E", cities:["Kraków","Warsaw"], c:["#ffd6a5","#c9184a","#1f1426"]},
 ];
 const PROJECTS = [
   {name:"Packlight", kind:"App", year:2025, desc:"A tiny packing-list app that learns what you always forget.", c:["#c3b2ff","#3b2d7a"]},
@@ -468,15 +479,17 @@ requestAnimationFrame(draw);
 
 /* ---------- travels: postcards ---------- */
 const rail = $('#rail');
+const nCities = PLACES.reduce((n,p) => n + (p.name === 'Switzerland' ? 0 : p.cities.length), 0);
+$('#tally').textContent = `${PLACES.length} countries · ${nCities} cities, and counting`;
 rail.innerHTML = PLACES.map(p => `
   <article class="card" tabindex="0">
     <div class="art" style="background:
       radial-gradient(120% 70% at 30% 18%, ${p.c[0]} 0%, transparent 60%),
       radial-gradient(90% 60% at 80% 60%, ${p.c[1]} 0%, transparent 70%),
       linear-gradient(180deg, ${p.c[1]} 0%, ${p.c[2]} 100%)"></div>
-    <div class="top mono"><span>${p.coords}</span><span>${p.year}</span></div>
-    <div class="stamp">${p.name.slice(0,3).toUpperCase()}<br>${p.year}<br>✳</div>
-    <div><h3>${p.name}</h3><p>${p.note}</p></div>
+    <div class="top mono"><span>${p.coords}</span><span>${p.code}</span></div>
+    <div class="stamp">${p.code}<br>${p.name === 'Switzerland' ? '1' : p.cities.length} ${p.cities.length > 1 ? 'STOPS' : 'STOP'}<br>✳</div>
+    <div><h3>${p.name}</h3><ul class="cities">${p.cities.map(c => `<li>${c}</li>`).join('')}</ul></div>
   </article>`).join('');
 rail.querySelectorAll('.card').forEach(c => {
   if (!fine || reduce) return;
@@ -493,7 +506,7 @@ $('#prev').addEventListener('click', () => rail.scrollBy({left:-step(), behavior
 $('#next').addEventListener('click', () => rail.scrollBy({left:step(), behavior:'smooth'}));
 
 /* ---------- marquee ---------- */
-const words = PLACES.map(p => p.name).concat(['Window seat','Slow travel']);
+const words = PLACES.flatMap(p => p.name === 'Switzerland' ? [p.name] : p.cities);
 $('#mq').innerHTML = [...words, ...words].map(w => `<span>${w}</span><span>✳</span>`).join('');
 
 /* ---------- projects with cursor-following peek ---------- */
