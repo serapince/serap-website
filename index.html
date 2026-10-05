@@ -748,6 +748,7 @@ const eye = (cx) => `
 svg.innerHTML = `
 <defs>
   <pattern id="gingham" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff6f2"/><rect width="8" height="16" fill="#e0303f" opacity=".55"/><rect width="16" height="8" fill="#e0303f" opacity=".55"/></pattern>
+  <pattern id="wearTop" width="16" height="16" patternUnits="userSpaceOnUse"></pattern><pattern id="wearBand" width="14" height="14" patternUnits="userSpaceOnUse"></pattern>
   <pattern id="scarf" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#d8233a"/><circle cx="4" cy="4" r="1.5" fill="#fff" opacity=".75"/><path d="M10 9 q2 -2 3 1" stroke="#fff" stroke-width="1" fill="none" opacity=".6"/></pattern>
   <radialGradient id="lens" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#5d6b62"/><stop offset="1" stop-color="#1c2420"/></radialGradient>
   <radialGradient id="skinShade" cx=".5" cy=".35" r=".7"><stop offset=".7" stop-color="#f6d1b5" stop-opacity="0"/><stop offset="1" stop-color="#e3ad8f" stop-opacity=".7"/></radialGradient>
@@ -757,9 +758,9 @@ svg.innerHTML = `
   <path d="M40,500 C46,420 82,377 150,362 C166,357 172,340 172,312 L172,236 L228,236 L228,312 C228,340 234,357 250,362 C318,377 354,420 360,500 Z" fill="#f4cdb0"/>
   <path d="M172,268 Q200,296 228,268 L228,284 Q200,308 172,284 Z" fill="#e3ad8f" opacity=".55"/>
   <path d="M160,388 Q180,396 196,390 M204,390 Q220,396 240,388" stroke="#e3ad8f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <path d="M134,362 L142,430 L151,430 L143,361 Z M266,362 L258,430 L249,430 L257,361 Z" fill="url(#gingham)" stroke="#c42435" stroke-width=".8"/>
-  <path d="M92,500 L104,428 C150,418 250,418 296,428 L308,500 Z" fill="url(#gingham)"/>
-  <path d="M104,428 C150,418 250,418 296,428" stroke="#c42435" stroke-width="3" fill="none"/>
+  <path d="M134,362 L142,430 L151,430 L143,361 Z M266,362 L258,430 L249,430 L257,361 Z" fill="url(#wearTop)" class="trimS" stroke="#c42435" stroke-width=".8"/>
+  <path d="M92,500 L104,428 C150,418 250,418 296,428 L308,500 Z" fill="url(#wearTop)"/>
+  <path d="M104,428 C150,418 250,418 296,428" class="trimS" stroke="#c42435" stroke-width="3" fill="none"/>
   <g id="head">
     <ellipse cx="200" cy="168" rx="90" ry="84" fill="${HAIR_TOP}"/>
     <ellipse cx="121" cy="212" rx="11" ry="17" fill="#eebd9c"/><ellipse cx="279" cy="212" rx="11" ry="17" fill="#eebd9c"/>
@@ -774,10 +775,10 @@ svg.innerHTML = `
     <path id="mouth" d="M180,256 Q190,251 200,254 Q210,251 220,256 Q210,268 200,268 Q190,268 180,256 Z" fill="#e2776a"/>
     <path d="M180,256 Q200,262 220,256" stroke="#b9554b" stroke-width="2" fill="none" stroke-linecap="round"/>
     <path d="M193,264 Q200,266 207,264" stroke="#fff" stroke-width="1.6" fill="none" opacity=".45" stroke-linecap="round"/>
-    <path d="M106,178 C96,62 304,62 294,178 L272,168 C270,108 130,108 128,168 Z" fill="url(#scarf)"/>
+    <path d="M106,178 C96,62 304,62 294,178 L272,168 C270,108 130,108 128,168 Z" fill="url(#wearBand)"/>
     <path d="M128,168 C130,108 270,108 272,168" stroke="#a5172b" stroke-width="2.5" fill="none" opacity=".6"/>
-    <path d="M292,170 L322,214 L300,222 Z M290,176 L306,244 L286,236 Z" fill="url(#scarf)" stroke="#a5172b" stroke-width="1.5"/>
-    <circle cx="293" cy="172" r="10" fill="#c41f34"/>
+    <path d="M292,170 L322,214 L300,222 Z M290,176 L306,244 L286,236 Z" fill="url(#wearBand)" class="bandS" stroke="#a5172b" stroke-width="1.5"/>
+    <circle cx="293" cy="172" r="10" class="bandF" fill="#c41f34"/>
     <g class="glasses up" id="glasses">
       <circle cx="168" cy="204" r="26" fill="url(#lens)" stroke="#232323" stroke-width="5.5"/>
       <circle cx="232" cy="204" r="26" fill="url(#lens)" stroke="#232323" stroke-width="5.5"/>
@@ -815,10 +816,43 @@ const COSTUME = {
   GR: { head: arcPts(14, -2.75, -.4, 102, 96).map(([x, y], i) => `<ellipse cx="${x.toFixed(1)}" cy="${(y - 2).toFixed(1)}" rx="10" ry="4.5" transform="rotate(${(i - 6.5) * 11} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${i % 2 ? '#7a9a45' : '#94b35a'}"/>`).join('') + '<circle cx="246" cy="88" r="4" fill="#3d4a2a"/><circle cx="156" cy="88" r="4" fill="#3d4a2a"/>' },
   PL: { head: arcPts(7).map(([x, y], i) => flower(x, y, 13, ['#e0303f', '#ff8fa3', '#ffd166'][i % 3], '#5b2a86')).join('') + '<path d="M286,150 q10,60 -6,110 M292,150 q22,50 10,104" stroke="#e0303f" stroke-width="5" fill="none"/><path d="M296,150 q16,58 2,110" stroke="#1f3b73" stroke-width="5" fill="none"/>' },
 };
+// fabric for the top and the bandana: [pattern size, svg content, trim colour], per country
+const dots = (bg, fg, r = 1.6, w = 14) => [w, `<rect width="${w}" height="${w}" fill="${bg}"/><circle cx="${w/4}" cy="${w/4}" r="${r}" fill="${fg}"/><circle cx="${w*.75}" cy="${w*.75}" r="${r}" fill="${fg}"/>`];
+const stripes = (a, b, w = 14) => [w, `<rect width="${w}" height="${w}" fill="${a}"/><rect width="${w}" height="${w/2}" fill="${b}"/>`];
+const solid = (c, w = 10) => [w, `<rect width="${w}" height="${w}" fill="${c}"/>`];
+const DEFAULT_TOP = [16, '<rect width="16" height="16" fill="#fff6f2"/><rect width="8" height="16" fill="#e0303f" opacity=".55"/><rect width="16" height="8" fill="#e0303f" opacity=".55"/>', '#c42435'];
+const DEFAULT_BAND = [14, '<rect width="14" height="14" fill="#d8233a"/><circle cx="4" cy="4" r="1.5" fill="#fff" opacity=".75"/><path d="M10 9 q2 -2 3 1" stroke="#fff" stroke-width="1" fill="none" opacity=".6"/>', '#a5172b'];
+const OUTFIT = {
+  JP: { top: [...dots('#26336b', '#f7b6c8', 2.2, 18), '#18214a'], band: [...dots('#f7c6d4', '#fff', 1.4), '#d98aa3'] },
+  UK: { top: [16, '<rect width="16" height="16" fill="#1f5c3f"/><rect width="16" height="5" y="5" fill="#b3122e" opacity=".8"/><rect width="5" height="16" x="5" fill="#b3122e" opacity=".8"/><rect width="1" height="16" x="12" fill="#f2d06b"/>', '#123826'], band: [...solid('#1f2a4a'), '#121a33'] },
+  ES: { top: [...dots('#d61f3c', '#fff', 2.4, 16), '#8e0f24'], band: [...solid('#151317'), '#000'] },
+  TR: { top: [...dots('#1f5fbf', '#fff', 2, 16), '#14408a'], band: null },
+  PT: { top: [16, '<rect width="16" height="16" fill="#f4f1ec"/><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="#2456a6" stroke-width="1.6"/><circle cx="8" cy="8" r="2" fill="#2456a6"/>', '#2456a6'], band: [...solid('#f2c230'), '#c99a12'] },
+  NL: { top: [...solid('#ff7a1a'), '#c9560a'], band: [14, '<rect width="14" height="14" fill="#f4f6fb"/><path d="M7,2 q3,5 0,10 q-3,-5 0,-10Z" fill="#2456a6"/>', '#2456a6'] },
+  IT: { top: [...stripes('#f4f1ec', '#1f3b73'), '#1f3b73'], band: [...solid('#1f3b73'), '#14264d'] },
+  TH: { top: [...dots('#6b2a8f', '#f2c94c', 1.4, 12), '#4a1c63'], band: [...solid('#f2c94c'), '#c9a02c'] },
+  DE: { top: [...solid('#1d1d24'), '#000'], band: [...solid('#1d1d24'), '#000'] },
+  SE: { top: [...stripes('#f4f6fb', '#b8d4f0', 12), '#2456a6'], band: [...solid('#ffd84d'), '#d9b120'] },
+  CH: { top: [14, '<rect width="14" height="14" fill="#d52b1e"/><path d="M2,2 l5,5 l5,-5 M2,9 l5,5 l5,-5" stroke="#f4f1ec" stroke-width="1.2" fill="none"/>', '#9e1f15'], band: null },
+  HU: { top: [16, '<rect width="16" height="16" fill="#fbf8f2"/><circle cx="5" cy="5" r="2.4" fill="#d6281f"/><circle cx="12" cy="12" r="2" fill="#2f8a4f"/><circle cx="12" cy="4" r="1.2" fill="#2456a6"/>', '#d6281f'], band: [...solid('#2f8a4f'), '#1f5c34'] },
+  CZ: { top: [...solid('#7a1f3d'), '#4d1226'], band: [...solid('#f2e6d0'), '#c9b48f'] },
+  AT: { top: [16, '<rect width="16" height="16" fill="#2f6b4f"/><rect width="16" height="3" y="0" fill="#f4f1ec"/><circle cx="8" cy="10" r="1.6" fill="#e0303f"/>', '#1f4a36'], band: [...solid('#f4f1ec'), '#c9c2b4'] },
+  GR: { top: [16, '<rect width="16" height="16" fill="#f4f6fb"/><path d="M0,12 h4 v-6 h8 v6 h4" stroke="#2456a6" stroke-width="1.8" fill="none"/>', '#2456a6'], band: [...solid('#2456a6'), '#163a73'] },
+  PL: { top: [...dots('#16141c', '#e0303f', 2.4, 16), '#000'], band: [...solid('#e0303f'), '#a5172b'] },
+};
+const setFabric = (id, f, def) => { const v = f || def; const p = document.getElementById(id); p.setAttribute('width', v[0]); p.setAttribute('height', v[0]); p.innerHTML = v[1]; return v[2]; };
+const applyOutfit = (code) => {
+  const o = OUTFIT[code] || {};
+  const trim = setFabric('wearTop', o.top, DEFAULT_TOP), bt = setFabric('wearBand', o.band, DEFAULT_BAND);
+  svg.querySelectorAll('.trimS').forEach(e => e.setAttribute('stroke', trim));
+  svg.querySelectorAll('.bandS').forEach(e => e.setAttribute('stroke', bt));
+  svg.querySelectorAll('.bandF').forEach(e => e.setAttribute('fill', bt));
+};
+applyOutfit('');
 const costHead = document.getElementById('costHead'), costBody = document.getElementById('costBody');
 window.meCostume = (code) => {
   const c = COSTUME[code] || {};
-  costHead.innerHTML = c.head || ''; costBody.innerHTML = c.body || '';
+  costHead.innerHTML = c.head || ''; costBody.innerHTML = c.body || ''; applyOutfit(code);
   document.getElementById('me').classList.toggle('hat', !!c.hat);
 };
 
