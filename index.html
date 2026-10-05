@@ -121,7 +121,7 @@ body.game .hud{display:flex;position:absolute;z-index:5;left:0;right:0;top:0;jus
 .exit{white-space:nowrap;border:1px solid var(--line);background:rgba(14,13,22,.55);color:var(--paper);border-radius:999px;padding:10px 16px;font:600 14px var(--f-body);cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .exit:hover{background:var(--paper);color:var(--ink)}
 .balloon{display:none}
-body.game .balloon{display:block;position:absolute;z-index:3;left:var(--bx,30%);top:20%;width:min(24vw,260px);transform:translateX(-50%);pointer-events:none;animation:float 4s ease-in-out infinite}
+body.game .balloon{display:block;position:absolute;z-index:3;left:var(--bx,30%);top:var(--by,20%);width:min(24vw,260px);transform:translateX(-50%);pointer-events:none;animation:float 4s ease-in-out infinite}
 @keyframes float{50%{translate:0 -10px}}
 .balloon .env{display:block;width:76%;height:auto;margin:0 auto}
 .balloon .ride{position:relative;width:62%;margin:-6% auto 0}
@@ -136,10 +136,23 @@ body.game .balloon .me{position:relative;inset:auto;transform:none;width:100%;he
 .card-pop h3{font-size:40px;margin:8px 0 10px}
 .card-pop .cities{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
 .card-pop .cities li{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);font-size:13px}
+.card-pop .picks{margin:12px 0 0;font-size:14px;line-height:1.4}
 .card-pop .bigstamp{position:absolute;right:14px;top:14px;width:70px;height:70px;border:2.5px solid #fff;border-radius:50%;display:grid;place-items:center;font:700 13px var(--f-mono);transform:rotate(-16deg) scale(2.2);opacity:0;transition:transform .35s cubic-bezier(.5,1.8,.5,1) .35s,opacity .2s .35s}
 .card-pop.on .bigstamp{transform:rotate(-16deg) scale(1);opacity:.9}
 .ctrl{display:none}
-body.game .ctrl{display:flex;position:absolute;z-index:5;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));justify-content:center;align-items:center;gap:14px;padding-inline:var(--gutter)}
+.route{position:relative;width:min(560px,100%);height:18px}
+.route .track{position:absolute;left:0;right:0;top:8px;height:2px;background:rgba(241,236,228,.25);border-radius:2px}
+.route .fill{position:absolute;left:0;top:8px;height:2px;background:var(--ember);border-radius:2px;width:0}
+.route .dot{position:absolute;top:4px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--ink);border:1.5px solid rgba(241,236,228,.5)}
+.route .dot.got{background:var(--ember);border-color:var(--ember)}
+.route .me-dot{position:absolute;top:-2px;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:#e0303f;border:2px solid #f1ece4;box-shadow:0 0 12px rgba(224,48,63,.6)}
+.pad{display:flex;align-items:center;gap:12px}
+.ud{display:flex;flex-direction:column;gap:6px}
+.ud button{width:48px;height:40px;border-radius:14px;font-size:18px}
+.hint2{color:rgba(241,236,228,.7)}
+.toast{position:absolute;z-index:6;left:50%;top:16%;transform:translate(-50%,-10px);opacity:0;transition:opacity .3s,transform .4s cubic-bezier(.3,1.6,.5,1);background:var(--paper);color:var(--ink);border-radius:999px;padding:10px 18px;font:600 15px var(--f-body);white-space:nowrap;pointer-events:none;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+body.game .ctrl{display:flex;flex-direction:column;position:absolute;z-index:5;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px));justify-content:center;align-items:center;gap:10px;padding-inline:var(--gutter)}
 .ctrl button{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);background:rgba(14,13,22,.55);color:var(--paper);font-size:22px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .ctrl button:active,.ctrl button.held{background:var(--paper);color:var(--ink)}
 .ctrl .mono{color:rgba(241,236,228,.75);text-align:center;min-width:0}
@@ -151,14 +164,18 @@ body.game .ctrl{display:flex;position:absolute;z-index:5;left:0;right:0;bottom:c
 .finale .row{display:flex;flex-wrap:wrap;gap:10px}
 .confetti{position:absolute;inset:0;pointer-events:none;z-index:7}
 @media (max-width:820px){
-  body.game .balloon{width:min(46vw,230px);top:30%}
+  body.game .balloon{width:min(40vw,200px)}
   .passport{padding:10px 12px;max-width:calc(100% - 64px)}
   .passport b{font-size:16px}
   .stamps span{width:22px;height:22px;font-size:7px}
   .card-pop{top:auto;bottom:110px;right:50%;transform:translate(50%,20px) scale(.95);}
   .card-pop.on{transform:translate(50%,0) rotate(-2deg)}
   .card-pop h3{font-size:32px}
-  .ctrl .mono{display:none}
+  .ctrl .hint2{display:none}
+  .ctrl button{width:54px;height:54px}
+  .ud button{width:44px;height:34px}
+  .card-pop{bottom:190px}
+  .toast{top:24%;font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){body.game .balloon{animation:none}}
 
@@ -199,6 +216,20 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .peek{position:fixed;left:0;top:0;z-index:40;width:280px;aspect-ratio:4/3;border-radius:14px;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.6) rotate(-6deg);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1);overflow:hidden;padding:16px;display:flex;align-items:flex-end;color:#fff;font-size:14px;line-height:1.4}
 .peek.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}
 @media (pointer:coarse),(max-width:820px){.prow{grid-template-columns:1fr auto}.prow .kind{grid-column:1/-1;order:3}.prow .desc{display:block;order:4}.peek{display:none}}
+
+/* guide */
+.guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.gcol{border-top:2px solid var(--ember);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.gcol:nth-child(2){border-color:var(--dusk)}.gcol:nth-child(3){border-color:var(--paper)}
+.gcol h3{font-size:clamp(28px,3vw,40px)}
+.gcol p{margin:0;color:var(--mute);max-width:36ch}
+.gcol .soon{color:var(--dusk)}
+.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.gcard{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--ink-2);display:flex;flex-direction:column;gap:12px}
+.gcard h3{font-size:28px}
+.gcard dl{margin:0;display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.gcard dt{color:var(--mute)}.gcard dd{margin:0}
+@media (max-width:820px){.guide{grid-template-columns:1fr}}
 
 /* about */
 .about{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
@@ -262,6 +293,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <ul class="links">
     <li><a href="#travels">Travels</a></li>
     <li><a href="#hobbies">Hobbies</a></li>
+    <li><a href="#guide">Guide</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#journal">Journal</a></li>
   </ul>
@@ -269,7 +301,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
 </header>
 <nav class="overlay" id="overlay" aria-label="Menu">
-  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
+  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#guide">Guide</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
 </nav>
 
 <main id="top">
@@ -284,13 +316,18 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <div class="ride" id="ride"><svg class="basket" viewBox="0 0 200 70" preserveAspectRatio="none"><path d="M6,4 L194,4 L180,66 L20,66 Z" fill="#a8743f"/><path d="M6,4 L194,4 L192,14 L8,14 Z" fill="#7a4f27"/><g stroke="#7a4f27" stroke-width="2" opacity=".6"><path d="M12,28 L188,28 M15,42 L185,42 M18,56 L182,56"/><path d="M40,14 L44,66 M70,14 L72,66 M100,14 L100,66 M130,14 L128,66 M160,14 L156,66"/></g></svg></div>
     </div>
     <div class="hud" id="hud">
-      <div class="passport"><span class="mono">Passport · <span id="pcount">0</span>/16 stamps</span><b id="where">Fly right to start</b><div class="stamps" id="stamps"></div></div>
+      <div class="passport"><span class="mono">Stamps <span id="pcount">0</span>/16 · Souvenirs <span id="scount">0</span>/16</span><b id="where">Fly right to start</b><div class="stamps" id="stamps"></div></div>
       <button class="exit" type="button" id="exitBtn" aria-label="Exit journey">✕ Exit</button>
     </div>
     <div class="card-pop" id="pop"></div>
-    <div class="ctrl" id="ctrl"><button type="button" id="goL" aria-label="Fly left">←</button><span class="mono">Arrow keys, A/D or drag to fly</span><button type="button" id="goR" aria-label="Fly right">→</button></div>
+    <div class="ctrl" id="ctrl">
+      <div class="route" id="route" aria-hidden="true"><i class="track"></i><i class="fill" id="routeFill"></i></div>
+      <div class="pad"><button type="button" id="goL" aria-label="Fly left">←</button><div class="ud"><button type="button" id="goU" aria-label="Fly up">↑</button><button type="button" id="goD" aria-label="Fly down">↓</button></div><button type="button" id="goR" aria-label="Fly right">→</button></div>
+      <span class="mono hint2">Arrow keys or WASD to fly · catch the glowing souvenirs</span>
+    </div>
+    <div class="toast" id="toast"></div>
     <canvas class="confetti" id="confetti"></canvas>
-    <div class="finale" id="finale"><div><span class="eyebrow mono">16 of 16 stamps</span><h3>You've seen it all!</h3><p>Thanks for flying with me. Got a place I should add to the passport?</p><div class="row"><button class="pill show" type="button" id="toHello">Say hello</button><button class="pill ghost show" type="button" id="again">Fly again</button></div></div></div>
+    <div class="finale" id="finale"><div><span class="eyebrow mono">16 of 16 stamps</span><h3>You've seen it all!</h3><p id="finaleTxt">Thanks for flying with me. Got a place I should add to the passport?</p><div class="row"><button class="pill show" type="button" id="toHello">Say hello</button><button class="pill ghost show" type="button" id="again">Fly again</button></div></div></div>
     <div class="hero-inner">
       <span class="intro mono"><i></i>Traveler · Maker · Storyteller</span>
       <h1 class="type" id="type" aria-label="Hi, I'm Serap. I collect places, make things, and write it all down."></h1>
@@ -331,6 +368,15 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <p>Some hobbies I picked up along the way. Hover a row for a peek.</p>
     </div>
     <ul class="plist" id="plist"></ul>
+  </section>
+
+  <!-- GUIDE -->
+  <section class="block wrap" id="guide">
+    <div class="head rv">
+      <div><span class="eyebrow mono">Where I eat, wander and shop</span><h2>Gu<span class="o">ide</span></h2></div>
+      <p>My running list of favourite restaurants, places and souvenirs, country by country. A little travel manifesto.</p>
+    </div>
+    <div id="guideBody"></div>
   </section>
 
   <!-- ABOUT -->
@@ -416,8 +462,12 @@ const POSTS = [
   {title:"What a year of bowls taught me", tag:"Making", read:"4 min", desc:"On practice, patience, and the beauty of the lopsided."},
   {title:"Notes from a night train", tag:"Diary", read:"8 min", desc:"Twelve hours, three countries, one very loud snorer."},
 ];
+/* Serap's guide: favourite places per country. Fill in as {eat:[], go:[], bring:[]} */
+const GUIDE = {
+  // JP: {eat:["Restaurant name, Kyoto"], go:["A favourite spot"], bring:["Best souvenir"]},
+};
 /* ===================================================== */
-window.PLACES = PLACES;
+window.PLACES = PLACES; window.GUIDE = GUIDE;
 
 /* ---------- nav / menu ---------- */
 const nav = $('#nav'), burger = $('#burger'), overlay = $('#overlay');
@@ -614,6 +664,13 @@ const ws = [...essay.querySelectorAll('.w')];
 const lightUp = () => { const r = essay.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (innerHeight*.85 - r.top) / (r.height + innerHeight*.35))); const n = Math.round(p*ws.length); ws.forEach((w,i) => w.classList.toggle('lit', i < n)); };
 addEventListener('scroll', lightUp, {passive:true}); lightUp();
 
+/* ---------- guide ---------- */
+const gEntries = PLACES.filter(p => GUIDE[p.code] && ['eat','go','bring'].some(k => (GUIDE[p.code][k]||[]).length));
+const li = a => (a||[]).length ? a.join(', ') : '—';
+$('#guideBody').innerHTML = gEntries.length
+  ? `<div class="gcards">${gEntries.map(p => `<article class="gcard rv"><span class="mono" style="color:var(--ember)">${p.code} · ${p.cities.join(', ')}</span><h3>${p.name}</h3><dl><dt class="mono">Eat</dt><dd>${li(GUIDE[p.code].eat)}</dd><dt class="mono">Go</dt><dd>${li(GUIDE[p.code].go)}</dd><dt class="mono">Bring home</dt><dd>${li(GUIDE[p.code].bring)}</dd></dl></article>`).join('')}</div>`
+  : `<div class="guide">${[['Eat','The tables I would fly back for, from street food to long dinners.'],['Go','Corners, views and walks I keep recommending to friends.'],['Bring home','Souvenirs worth the suitcase space.']].map(([h,t]) => `<div class="gcol rv"><span class="mono">${h === 'Eat' ? 'Restaurants' : h === 'Go' ? 'Places' : 'Souvenirs'}</span><h3>${h}</h3><p>${t}</p><span class="soon mono">First picks coming soon</span></div>`).join('')}</div>`;
+
 /* ---------- journal ---------- */
 $('#posts').innerHTML = POSTS.map(p => `
   <article class="post rv"><div class="meta mono"><span>${p.tag}</span><span>${p.read}</span></div>
@@ -763,11 +820,18 @@ const pop = $('#pop'), stampsEl = $('#stamps'), where = $('#where'), pcount = $(
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const START = 900, GAP = 1100, T0 = 0.27, PX = 2600;
 let bx = 0, current = -1, keys = 0, held = 0, popT, celebrated = false;
-let got = new Set();
+let got = new Set(), bag = new Set();
+// one iconic souvenir per country, floating between landmarks
+const SOUV = {JP:['🍵','Matcha'],UK:['☂️','An umbrella, obviously'],ES:['🥘','Paella pan'],TR:['🧿','Nazar boncuğu'],PT:['🐟','Tinned sardines'],NL:['🌷','Tulip bulbs'],IT:['🍕','A slice of pizza'],TH:['🐘','Elephant pants'],DE:['🥨','A pretzel'],SE:['🐴','Dala horse'],CH:['🍫','Swiss chocolate'],HU:['🌶️','Paprika'],CZ:['🔮','Bohemian crystal'],AT:['🎻','A Vienna violin tune'],GR:['🫒','Olive oil'],PL:['🥟','Pierogi']};
+const SY = [.22,.36,.16,.30,.42,.20,.34,.26];
+try { bag = new Set(JSON.parse(localStorage.getItem('serap-souvenirs') || '[]')); } catch(e) {}
+let vy = .35, vKeys = 0, vHeld = 0, toastT;
+const routeEl = document.getElementById('route');
 try { got = new Set(JSON.parse(localStorage.getItem('serap-passport') || '[]')); } catch(e) {}
-const save = () => { try { localStorage.setItem('serap-passport', JSON.stringify([...got])); } catch(e) {} };
+const save = () => { try { localStorage.setItem('serap-passport', JSON.stringify([...got])); localStorage.setItem('serap-souvenirs', JSON.stringify([...bag])); } catch(e) {} };
 stampsEl.innerHTML = PL.map(p => `<span data-c="${p.code}">${p.code}</span>`).join('');
-const paintStamps = () => { stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('got', got.has(s.dataset.c))); pcount.textContent = got.size; };
+routeEl.insertAdjacentHTML('beforeend', PL.map((p,i) => `<i class="dot" data-c="${p.code}" style="left:${(i/(PL.length-1))*100}%"></i>`).join('') + '<i class="me-dot" id="meDot"></i>');
+const paintStamps = () => { stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('got', got.has(s.dataset.c))); routeEl.querySelectorAll('.dot').forEach(d => d.classList.toggle('got', got.has(d.dataset.c))); pcount.textContent = got.size; document.getElementById('scount').textContent = bag.size; };
 paintStamps();
 
 /* ---- landmark drawings (canvas, base at x,y, scale s) ---- */
@@ -824,13 +888,23 @@ window.gameDraw = (ctx, W, H, travel, day, col) => {
     if (night > .3) { ctx.globalAlpha = night*.5; const g = ctx.createRadialGradient(x, y-60*s, 0, x, y-60*s, 140*s); g.addColorStop(0,'rgba(255,200,120,.45)'); g.addColorStop(1,'rgba(255,200,120,0)'); ctx.fillStyle = g; ctx.fillRect(x-140*s, y-200*s, 280*s, 200*s); }
     ctx.restore();
   });
+  // souvenirs
+  PL.forEach((p, i) => {
+    if (bag.has(p.code)) return;
+    const x = worldX(i) + GAP/2 - travel; if (x < -80 || x > W + 80) return;
+    const y = H * SY[i % SY.length] + Math.sin(now()*2 + i) * 10;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, 44); g.addColorStop(0,'rgba(255,214,150,.75)'); g.addColorStop(1,'rgba(255,214,150,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 44, 0, 6.283); ctx.fill();
+    ctx.fillStyle = 'rgba(241,236,228,.95)'; ctx.beginPath(); ctx.arc(x, y, 22, 0, 6.283); ctx.fill();
+    ctx.font = '24px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(SOUV[p.code][0], x, y + 1);
+  });
   // physics + arrivals
-  step(W, travel);
+  step(W, travel, H);
 };
 
 const tMin = T0, tMax = T0 + (START + (PL.length-1)*GAP + 700) / PX;
 let lastT = T0;
-function step(W, travel){
+function step(W, travel, H){
   const sc = window.scene; if (!sc) return;
   const dir = (keys > 0 ? 1 : keys < 0 ? -1 : 0) + held;
   if (dir) sc.target = sc.target + Math.sign(dir) * 0.006;
@@ -838,6 +912,25 @@ function step(W, travel){
   const v = sc.t - lastT; lastT = sc.t;
   if (Math.abs(v) > 0.0004) me.classList.toggle('left', v < 0);
   balloon.style.rotate = `${Math.max(-6, Math.min(6, v*1400))}deg`;
+  // vertical flight
+  const vd = (vKeys || vHeld);
+  if (vd) vy = Math.max(0, Math.min(1, vy + vd * 0.012));
+  const topPx = H * (.08 + vy * .38); balloon.style.setProperty('--by', topPx + 'px');
+  // catch souvenirs: compare against the basket area
+  const br = ride.getBoundingClientRect();
+  const cxB = br.left + br.width/2, cyB = br.top + br.height*.35;
+  PL.forEach((p, i) => {
+    if (bag.has(p.code)) return;
+    const x = worldX(i) + GAP/2 - travel, y = H * SY[i % SY.length];
+    if (Math.abs(x - cxB) < br.width*.6 && Math.abs(y - cyB) < br.height*.6) {
+      bag.add(p.code); save(); paintStamps();
+      const t = document.getElementById('toast'); t.textContent = `${SOUV[p.code][0]} Souvenir from ${p.name}: ${SOUV[p.code][1]}`;
+      t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2200);
+    }
+  });
+  // route map
+  const prog = Math.max(0, Math.min(1, (travel + bx - worldX(0)) / (worldX(PL.length-1) - worldX(0))));
+  document.getElementById('meDot').style.left = (prog*100) + '%'; document.getElementById('routeFill').style.width = (prog*100) + '%';
   const ground = travel + bx;
   let near = -1;
   PL.forEach((p, i) => { if (Math.abs(worldX(i) - ground) < 150) near = i; });
@@ -849,7 +942,8 @@ function arrive(i){
   where.textContent = p.name;
   pop.style.background = `radial-gradient(120% 80% at 20% 10%, ${p.c[0]}, transparent 60%), linear-gradient(160deg, ${p.c[1]}, ${p.c[2]})`;
   const stops = p.name === 'Switzerland' ? 'The Alps' : `${p.cities.length} ${p.cities.length > 1 ? 'cities' : 'city'}`;
-  pop.innerHTML = `<span class="mono">${p.coords} · ${stops}</span><h3>${p.name}</h3><ul class="cities">${p.cities.map(c => `<li>${c}</li>`).join('')}</ul><div class="bigstamp">${p.code}</div>`;
+  const g = (window.GUIDE || {})[p.code] || {}; const picks = [].concat(g.eat||[], g.go||[], g.bring||[]).slice(0,3);
+  pop.innerHTML = `<span class="mono">${p.coords} · ${stops}</span><h3>${p.name}</h3><ul class="cities">${p.cities.map(c => `<li>${c}</li>`).join('')}</ul>${picks.length ? `<p class="picks"><b>Serap's picks:</b> ${picks.join(' · ')}</p>` : ''}<div class="bigstamp">${p.code}</div>`;
   clearTimeout(popT); pop.classList.remove('on'); void pop.offsetWidth; pop.classList.add('on');
   const fresh = !got.has(p.code); got.add(p.code); save(); paintStamps();
   const b = document.getElementById('bubble');
@@ -865,12 +959,12 @@ function enter(){
   document.body.classList.add('game'); window.gameOn = true;
   ride.insertBefore(me, ride.firstChild);
   bx = innerWidth <= 820 ? innerWidth*.5 : innerWidth*.3; balloon.style.setProperty('--bx', bx + 'px');
-  window.scene.jump(T0); lastT = T0; current = -1; where.textContent = 'Fly right to start';
+  window.scene.jump(T0); lastT = T0; current = -1; vy = .35; where.textContent = 'Fly right to start';
   dispatchEvent(new Event('resize'));
   $('#exitBtn').focus({preventScroll:true});
 }
 function exit(){
-  document.body.classList.remove('game'); window.gameOn = false; keys = 0; held = 0;
+  document.body.classList.remove('game'); window.gameOn = false; keys = 0; held = 0; vKeys = 0; vHeld = 0;
   home.insertBefore(me, homeNext); me.classList.remove('left');
   pop.classList.remove('on'); $('#finale').classList.remove('on');
   dispatchEvent(new Event('resize'));
@@ -887,23 +981,32 @@ addEventListener('keydown', e => {
   if (!window.gameOn) return;
   if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') { keys = 1; e.preventDefault(); }
   else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') { keys = -1; e.preventDefault(); }
+  else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') { vKeys = -1; e.preventDefault(); }
+  else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') { vKeys = 1; e.preventDefault(); }
   else if (e.key === 'Escape') exit();
 });
-addEventListener('keyup', e => { if (['ArrowRight','ArrowLeft','a','d','A','D'].includes(e.key)) keys = 0; });
+addEventListener('keyup', e => { if (['ArrowRight','ArrowLeft','a','d','A','D'].includes(e.key)) keys = 0; if (['ArrowUp','ArrowDown','w','s','W','S'].includes(e.key)) vKeys = 0; });
 const hold = (btn, d) => {
   const on = e => { e.preventDefault(); held = d; btn.classList.add('held'); try { btn.setPointerCapture(e.pointerId); } catch(_) {} };
   const off = () => { held = 0; btn.classList.remove('held'); };
   btn.addEventListener('pointerdown', on); btn.addEventListener('pointerup', off); btn.addEventListener('pointercancel', off); btn.addEventListener('lostpointercapture', off);
 };
 hold($('#goL'), -1); hold($('#goR'), 1);
+const holdV = (btn, d) => {
+  const on = e => { e.preventDefault(); vHeld = d; btn.classList.add('held'); try { btn.setPointerCapture(e.pointerId); } catch(_) {} };
+  const off = () => { vHeld = 0; btn.classList.remove('held'); };
+  btn.addEventListener('pointerdown', on); btn.addEventListener('pointerup', off); btn.addEventListener('pointercancel', off); btn.addEventListener('lostpointercapture', off);
+};
+holdV($('#goU'), -1); holdV($('#goD'), 1);
 // drag anywhere on the sky to fly
-let dragX = null;
-hero.addEventListener('pointerdown', e => { if (!window.gameOn || e.target.closest('button')) return; dragX = e.clientX; });
-addEventListener('pointermove', e => { if (dragX === null || !window.gameOn) return; window.scene.target += (dragX - e.clientX) / PX * -1.6; dragX = e.clientX; });
+let dragX = null, dragY = null;
+hero.addEventListener('pointerdown', e => { if (!window.gameOn || e.target.closest('button')) return; dragX = e.clientX; dragY = e.clientY; });
+addEventListener('pointermove', e => { if (dragX === null || !window.gameOn) return; window.scene.target += (dragX - e.clientX) / PX * -1.6; dragX = e.clientX; vy = Math.max(0, Math.min(1, vy + (e.clientY - dragY) / (innerHeight*.4))); dragY = e.clientY; });
 addEventListener('pointerup', () => dragX = null);
 
 /* ---- finale confetti ---- */
 function finale(){
+  $('#finaleTxt').textContent = bag.size === PL.length ? `All 16 stamps and all 16 souvenirs. You're a real traveler! Got a place I should add next?` : `You caught ${bag.size} of 16 souvenirs. Fly again to catch the rest, or tell me a place I should add.`;
   $('#finale').classList.add('on');
   if (reduce) return;
   const cv = $('#confetti'), c = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
