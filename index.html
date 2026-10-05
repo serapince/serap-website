@@ -224,10 +224,13 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .gcol h3{font-size:clamp(28px,3vw,40px)}
 .gcol p{margin:0;color:var(--mute);max-width:36ch}
 .gcol .soon{color:var(--dusk)}
-.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.gcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:22px}
 .gcard{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--ink-2);display:flex;flex-direction:column;gap:12px}
 .gcard h3{font-size:28px}
-.gcard dl{margin:0;display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.gcard dl{margin:0;display:flex;flex-direction:column;gap:6px}
+.gcard dt{margin-top:10px;color:var(--ember)!important}
+.gcard dd ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.4}
+.gcards{align-items:start}
 .gcard dt{color:var(--mute)}.gcard dd{margin:0}
 @media (max-width:820px){.guide{grid-template-columns:1fr}}
 
@@ -464,7 +467,24 @@ const POSTS = [
 ];
 /* Serap's guide: favourite places per country. Fill in as {eat:[], go:[], bring:[]} */
 const GUIDE = {
-  // JP: {eat:["Restaurant name, Kyoto"], go:["A favourite spot"], bring:["Best souvenir"]},
+  UK: {
+    go:["British Museum","Tate Modern and a walk along the South Bank","Notting Hill and Portobello Road Market","Sky Garden for a free city view (book ahead)","Hampstead Heath, up to Parliament Hill"],
+    do:["Columbia Road Flower Market on a Sunday morning","A West End show","Afternoon tea","A Thames boat from Westminster to Greenwich"],
+    eat:["Fenchurch, the restaurant at the top of the Sky Garden","Borough Market","Dishoom for a bacon naan breakfast","Padella for fresh pasta (expect a queue)","Fish and chips by the seaside of your choice"],
+    bring:["Tea from Fortnum & Mason","A vintage find from Portobello Road"]
+  },
+  PT: {
+    go:["Lisbon: Belém Tower and Jerónimos Monastery","Lisbon: Alfama and the Miradouro da Senhora do Monte","Lisbon: LX Factory","A day trip to Sintra","Porto: Ribeira and the Dom Luís I Bridge","Porto: Livraria Lello"],
+    do:["Ride Tram 28 through Lisbon","Watch a fado night in Alfama","Port wine tasting in Vila Nova de Gaia","Sunset at a miradouro"],
+    eat:["Mini Bar by José Avillez, Lisbon","Time Out Market Lisbon","Pastéis de Belém, warm with cinnamon","A francesinha in Porto","Grilled sardines in summer"],
+    bring:["Azulejo tiles","Tinned fish in pretty packaging","A bottle of port"]
+  },
+  TR: {
+    go:["Göreme Open Air Museum","Uçhisar Castle","Love Valley and Red Valley","Derinkuyu underground city","Avanos on the Kızılırmak"],
+    do:["A hot air balloon ride at sunrise","Sunset hike in Red Valley","A pottery workshop in Avanos","A night in a cave hotel"],
+    eat:["Testi kebabı, cooked in a sealed clay pot","Breakfast on a cave terrace","Local Cappadocian wine"],
+    bring:["Avanos pottery","A nazar boncuğu"]
+  },
 };
 /* ===================================================== */
 window.PLACES = PLACES; window.GUIDE = GUIDE;
@@ -665,10 +685,10 @@ const lightUp = () => { const r = essay.getBoundingClientRect(); const p = Math.
 addEventListener('scroll', lightUp, {passive:true}); lightUp();
 
 /* ---------- guide ---------- */
-const gEntries = PLACES.filter(p => GUIDE[p.code] && ['eat','go','bring'].some(k => (GUIDE[p.code][k]||[]).length));
-const li = a => (a||[]).length ? a.join(', ') : '—';
+const gEntries = PLACES.filter(p => GUIDE[p.code] && ['go','do','eat','bring'].some(k => (GUIDE[p.code][k]||[]).length));
+const li = a => (a||[]).length ? `<ul>${a.map(x => `<li>${x}</li>`).join('')}</ul>` : '—';
 $('#guideBody').innerHTML = gEntries.length
-  ? `<div class="gcards">${gEntries.map(p => `<article class="gcard rv"><span class="mono" style="color:var(--ember)">${p.code} · ${p.cities.join(', ')}</span><h3>${p.name}</h3><dl><dt class="mono">Eat</dt><dd>${li(GUIDE[p.code].eat)}</dd><dt class="mono">Go</dt><dd>${li(GUIDE[p.code].go)}</dd><dt class="mono">Bring home</dt><dd>${li(GUIDE[p.code].bring)}</dd></dl></article>`).join('')}</div>`
+  ? `<div class="gcards">${gEntries.map(p => `<article class="gcard rv"><span class="mono" style="color:var(--ember)">${p.code} · ${p.cities.join(', ')}</span><h3>${p.name}</h3><dl><dt class="mono">See</dt><dd>${li(GUIDE[p.code].go)}</dd><dt class="mono">Do</dt><dd>${li(GUIDE[p.code].do)}</dd><dt class="mono">Eat</dt><dd>${li(GUIDE[p.code].eat)}</dd><dt class="mono">Bring home</dt><dd>${li(GUIDE[p.code].bring)}</dd></dl></article>`).join('')}</div>`
   : `<div class="guide">${[['Eat','The tables I would fly back for, from street food to long dinners.'],['Go','Corners, views and walks I keep recommending to friends.'],['Bring home','Souvenirs worth the suitcase space.']].map(([h,t]) => `<div class="gcol rv"><span class="mono">${h === 'Eat' ? 'Restaurants' : h === 'Go' ? 'Places' : 'Souvenirs'}</span><h3>${h}</h3><p>${t}</p><span class="soon mono">First picks coming soon</span></div>`).join('')}</div>`;
 
 /* ---------- journal ---------- */
@@ -942,7 +962,7 @@ function arrive(i){
   where.textContent = p.name;
   pop.style.background = `radial-gradient(120% 80% at 20% 10%, ${p.c[0]}, transparent 60%), linear-gradient(160deg, ${p.c[1]}, ${p.c[2]})`;
   const stops = p.name === 'Switzerland' ? 'The Alps' : `${p.cities.length} ${p.cities.length > 1 ? 'cities' : 'city'}`;
-  const g = (window.GUIDE || {})[p.code] || {}; const picks = [].concat(g.eat||[], g.go||[], g.bring||[]).slice(0,3);
+  const g = (window.GUIDE || {})[p.code] || {}; const picks = [].concat((g.go||[]).slice(0,1), (g.do||[]).slice(0,1), (g.eat||[]).slice(0,1));
   pop.innerHTML = `<span class="mono">${p.coords} · ${stops}</span><h3>${p.name}</h3><ul class="cities">${p.cities.map(c => `<li>${c}</li>`).join('')}</ul>${picks.length ? `<p class="picks"><b>Serap's picks:</b> ${picks.join(' · ')}</p>` : ''}<div class="bigstamp">${p.code}</div>`;
   clearTimeout(popT); pop.classList.remove('on'); void pop.offsetWidth; pop.classList.add('on');
   const fresh = !got.has(p.code); got.add(p.code); save(); paintStamps();
