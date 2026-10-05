@@ -201,7 +201,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <a class="logo" href="#top" aria-label="Serap, home">Serap<span class="star">✳</span><sup>®</sup></a>
   <ul class="links">
     <li><a href="#travels">Travels</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#hobbies">Hobbies</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#journal">Journal</a></li>
   </ul>
@@ -209,7 +209,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
 </header>
 <nav class="overlay" id="overlay" aria-label="Menu">
-  <a href="#travels">Travels</a><a href="#projects">Projects</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
+  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#contact">Say hello</a>
 </nav>
 
 <main id="top">
@@ -222,7 +222,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <h1 class="type" id="type" aria-label="Hi, I'm Serap. I collect places, make things, and write it all down."></h1>
       <div class="pills" id="pills">
         <a class="pill" href="#travels">Travels</a>
-        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#hobbies">Hobbies</a>
         <a class="pill" href="#about">About me</a>
         <a class="pill" href="#journal">Journal</a>
         <button class="pill ghost" type="button" data-copy="hello@serapince.com">Copy email <span aria-hidden="true">⧉</span></button>
@@ -250,10 +250,10 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   <div class="marquee" aria-hidden="true"><div class="t" id="mq"></div></div>
 
   <!-- PROJECTS -->
-  <section class="block wrap" id="projects">
+  <section class="block wrap" id="hobbies">
     <div class="head rv">
-      <div><span class="eyebrow mono">Made by hand and by keyboard</span><h2>Proj<span class="o">ects</span></h2></div>
-      <p>Things I build when nobody asked me to. Hover a row for a peek.</p>
+      <div><span class="eyebrow mono">Things I&#39;ve tried, and loved</span><h2>Hob<span class="o">bies</span></h2></div>
+      <p>Some hobbies I picked up along the way. Hover a row for a peek.</p>
     </div>
     <ul class="plist" id="plist"></ul>
   </section>
@@ -263,7 +263,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <div class="head rv"><div><span class="eyebrow mono">The person behind the postcards</span><h2>About <span class="o">me</span></h2></div></div>
     <div class="about">
       <div>
-        <p class="essay" id="essay">I'm Serap. I grew up wanting to see what was past the next hill, and I still do. I travel slowly, with a notebook and a camera, and I come home with <span class="hl">more questions than souvenirs</span>. Between trips I make things: small apps, prints, the occasional failed sourdough. This site is where all of it lives.</p>
+        <p class="essay" id="essay">I'm Serap. I grew up wanting to see what was past the next hill, and I still do. I travel slowly, with a notebook and a camera, and I come home with <span class="hl">more questions than souvenirs</span>. Between trips I dive, sail, take photos and bake. This site is where all of it lives.</p>
         <div class="life rv">
           <p>Outside of work you'll find me on long walks with no destination, cooking for too many people, or arguing about the best window seat on a night train.</p>
           <p>I'm happiest somewhere I can't read the street signs yet.</p>
@@ -331,10 +331,10 @@ const PLACES = [
   {name:"Poland", code:"PL", coords:"50.06°N 19.94°E", cities:["Kraków","Warsaw"], c:["#ffd6a5","#c9184a","#1f1426"]},
 ];
 const PROJECTS = [
-  {name:"Packlight", kind:"App", year:2025, desc:"A tiny packing-list app that learns what you always forget.", c:["#c3b2ff","#3b2d7a"]},
-  {name:"Postcards from Nowhere", kind:"Zine", year:2024, desc:"A risograph zine of photos from towns not in any guidebook.", c:["#ffb38a","#8a2f4b"]},
-  {name:"Night Train Atlas", kind:"Map", year:2023, desc:"An interactive map of every sleeper train I've taken, with notes.", c:["#6ee7b7","#14365c"]},
-  {name:"Clay Mondays", kind:"Ceramics", year:2022, desc:"A year of making one bowl a week. Most of them wobble.", c:["#ffd27a","#6b3e26"]},
+  {name:"Diving", kind:"Under the water", year:"Water", desc:"Slow breaths, quiet blue, and a whole world that never looks up.", c:["#5eead4","#0b3a5c"]},
+  {name:"Sailing", kind:"On the water", year:"Wind", desc:"Reading the wind, trimming the sails, and letting the coast drift by.", c:["#a5d8ff","#1e3a8a"]},
+  {name:"Photography", kind:"Behind the lens", year:"Light", desc:"Chasing light in every city I visit. Most postcards on this site start here.", c:["#ffd27a","#5b2a86"]},
+  {name:"Home baking", kind:"In the kitchen", year:"Sugar", desc:"Amateur pastry: butter, patience, and a kitchen that smells like a bakery.", c:["#ffb3c1","#8a2f4b"]},
 ];
 const POSTS = [
   {title:"How I plan a slow trip", tag:"Travel", read:"6 min", desc:"Fewer cities, longer stays, and why I never book the last night."},
@@ -514,7 +514,7 @@ $('#mq').innerHTML = [...words, ...words].map(w => `<span>${w}</span><span>✳</
 /* ---------- projects with cursor-following peek ---------- */
 const plist = $('#plist');
 plist.innerHTML = PROJECTS.map((p,i) => `
-  <li><a class="prow" href="#projects" data-i="${i}">
+  <li><a class="prow" href="#hobbies" data-i="${i}">
     <h3>${p.name}</h3><span class="kind mono">${p.kind}</span><span class="yr mono">${p.year}</span><p class="desc">${p.desc}</p>
   </a></li>`).join('');
 const peek = document.createElement('div'); peek.className = 'peek'; document.body.appendChild(peek);
