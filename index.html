@@ -482,7 +482,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <div class="wrap head rv">
       <div><span class="eyebrow mono" id="tally">Postcards</span><h2>Trav<span class="o">els</span></h2></div>
       <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
-        <p>From Tokyo to Kraków, one postcard per country. Drag the strip, and tap a card for my guide and mini tours.</p>
+        <p>From Lisbon to Tokyo, west to east, one postcard per country. Drag the strip, and tap a card for my guide and mini tours.</p>
         <div class="rail-ctrl"><button class="rbtn" id="prev" aria-label="Previous postcard">←</button><button class="rbtn" id="next" aria-label="Next postcard">→</button></div>
       </div>
     </div>
@@ -603,22 +603,22 @@ const $ = s => document.querySelector(s);
 
 /* ================= CONTENT (edit me) ================= */
 const PLACES = [
-  {name:"Japan", code:"JP", coords:"35.68°N 139.69°E", cities:["Tokyo","Kyoto","Osaka","Hakone"], c:["#e94f64","#f5b39b","#2a2240"]},
-  {name:"England", code:"UK", coords:"51.51°N 0.13°W", cities:["London"], c:["#9ab6d6","#c0435a","#141a33"]},
-  {name:"Spain", code:"ES", coords:"37.39°N 5.98°W", cities:["Sevilla","Madrid","Barcelona","Málaga","Ibiza"], c:["#ffcf5c","#e4572e","#3a1424"]},
-  {name:"Türkiye", code:"TR", coords:"38.64°N 34.83°E", cities:["Cappadocia","Göcek","Ölüdeniz"], c:["#ff9a76","#7b4fa8","#1d1838"]},
   {name:"Portugal", code:"PT", coords:"38.72°N 9.14°W", cities:["Lisbon","Porto"], c:["#ffd27a","#e07a5f","#22385b"]},
+  {name:"Spain", code:"ES", coords:"37.39°N 5.98°W", cities:["Sevilla","Madrid","Barcelona","Málaga","Ibiza"], c:["#ffcf5c","#e4572e","#3a1424"]},
+  {name:"England", code:"UK", coords:"51.51°N 0.13°W", cities:["London"], c:["#9ab6d6","#c0435a","#141a33"]},
   {name:"Netherlands", code:"NL", coords:"52.37°N 4.90°E", cities:["Amsterdam"], c:["#ff9f43","#4f7cac","#12213a"]},
-  {name:"Italy", code:"IT", coords:"41.90°N 12.50°E", cities:["Rome","Florence","Venice"], c:["#f7b267","#c8553d","#2e1d2b"]},
-  {name:"Thailand", code:"TH", coords:"13.76°N 100.50°E", cities:["Bangkok","Phuket"], c:["#5eead4","#f472b6","#1b1a3f"]},
-  {name:"Germany", code:"DE", coords:"52.52°N 13.40°E", cities:["Berlin","Hamburg"], c:["#c3b2ff","#e0a458","#16141f"]},
   {name:"Sweden", code:"SE", coords:"59.33°N 18.07°E", cities:["Stockholm"], c:["#ffe08a","#3b82c4","#0d1a33"]},
-  {name:"Switzerland", code:"CH", coords:"46.82°N 8.23°E", cities:["The Alps"], c:["#e8f1ff","#d64545","#1a2238"]},
-  {name:"Hungary", code:"HU", coords:"47.50°N 19.04°E", cities:["Budapest"], c:["#ffd166","#3c8d5a","#1d1a2c"]},
-  {name:"Czechia", code:"CZ", coords:"50.08°N 14.44°E", cities:["Prague"], c:["#f4a261","#7d5ba6","#1a1530"]},
-  {name:"Austria", code:"AT", coords:"48.21°N 16.37°E", cities:["Vienna"], c:["#ffb3c1","#b23a48","#24142a"]},
-  {name:"Greece", code:"GR", coords:"37.98°N 23.73°E", cities:["Athens"], c:["#a5d8ff","#2f6fdb","#0c1a3a"]},
+  {name:"Germany", code:"DE", coords:"52.52°N 13.40°E", cities:["Berlin","Hamburg"], c:["#c3b2ff","#e0a458","#16141f"]},
   {name:"Poland", code:"PL", coords:"50.06°N 19.94°E", cities:["Kraków","Warsaw"], c:["#ffd6a5","#c9184a","#1f1426"]},
+  {name:"Czechia", code:"CZ", coords:"50.08°N 14.44°E", cities:["Prague"], c:["#f4a261","#7d5ba6","#1a1530"]},
+  {name:"Hungary", code:"HU", coords:"47.50°N 19.04°E", cities:["Budapest"], c:["#ffd166","#3c8d5a","#1d1a2c"]},
+  {name:"Austria", code:"AT", coords:"48.21°N 16.37°E", cities:["Vienna"], c:["#ffb3c1","#b23a48","#24142a"]},
+  {name:"Switzerland", code:"CH", coords:"46.82°N 8.23°E", cities:["The Alps"], c:["#e8f1ff","#d64545","#1a2238"]},
+  {name:"Italy", code:"IT", coords:"41.90°N 12.50°E", cities:["Rome","Florence","Venice"], c:["#f7b267","#c8553d","#2e1d2b"]},
+  {name:"Greece", code:"GR", coords:"37.98°N 23.73°E", cities:["Athens"], c:["#a5d8ff","#2f6fdb","#0c1a3a"]},
+  {name:"Türkiye", code:"TR", coords:"38.64°N 34.83°E", cities:["Cappadocia","Göcek","Ölüdeniz"], c:["#ff9a76","#7b4fa8","#1d1838"]},
+  {name:"Thailand", code:"TH", coords:"13.76°N 100.50°E", cities:["Bangkok","Phuket"], c:["#5eead4","#f472b6","#1b1a3f"]},
+  {name:"Japan", code:"JP", coords:"35.68°N 139.69°E", cities:["Tokyo","Kyoto","Osaka","Hakone"], c:["#e94f64","#f5b39b","#2a2240"]},
 ];
 const PROJECTS = [
   {name:"Diving", kind:"Under the water", year:"Water", desc:"Slow breaths, quiet blue, and a whole world that never looks up.", c:["#5eead4","#0b3a5c"]},
