@@ -161,7 +161,12 @@ body.game .balloon.walk.left .hold{left:50%}
 .card-pop .cities li{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);font-size:13px}
 .card-pop .picks{margin:12px 0 0;font-size:14px;line-height:1.4}
 .card-pop .bigstamp{position:absolute;right:14px;top:14px;width:70px;height:70px;border:2.5px solid #fff;border-radius:50%;display:grid;place-items:center;font:700 13px var(--f-mono);transform:rotate(-16deg) scale(2.2);opacity:0;transition:transform .35s cubic-bezier(.5,1.8,.5,1) .35s,opacity .2s .35s}
-.card-pop.on .bigstamp{transform:rotate(-16deg) scale(1);opacity:.9}
+.card-pop.on.stamped .bigstamp{transform:rotate(-16deg) scale(1);opacity:.9}.card-pop.quizzing{pointer-events:auto}
+.card-pop .quiz{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.45)}.card-pop .q{margin:0 0 10px;font:600 15px/1.35 var(--f-body)}.card-pop .opts{display:grid;gap:6px}
+.card-pop .opts button{display:flex;gap:10px;align-items:center;text-align:left;background:rgba(255,255,255,.92);color:var(--ink);border:0;border-radius:12px;padding:9px 12px;font:600 14px var(--f-body);cursor:pointer;transition:transform .15s,background .2s}.card-pop .opts button:hover:not(:disabled){transform:translateX(4px)}
+.card-pop .opts b{font:700 11px var(--f-mono);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);flex:none}
+.card-pop .opts button.ok{background:#7ee2a8}.card-pop .opts button.no{background:rgba(255,255,255,.35);color:rgba(0,0,0,.45);text-decoration:line-through;animation:shake .35s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.stamps span.star{box-shadow:0 0 0 2px #ffd27a}
 .ctrl{display:none}
 .route{position:relative;width:min(560px,100%);height:18px}
 .route .track{position:absolute;left:0;right:0;top:8px;height:2px;background:rgba(241,236,228,.25);border-radius:2px}
@@ -260,9 +265,10 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .cd-col{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--ink-2)}
 .cd-col .mono{color:var(--ember);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .cd-col ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.4;font-size:15px}
+.cd-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cd-fact{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--ink-2)}.cd-fact .e{font-size:22px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}.cd-fact .mono{color:var(--ember);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.cd-fact p{margin:4px 0 0;font-size:14px;line-height:1.4}
 .cd-soon{color:var(--mute);margin:0;max-width:52ch}
 .cd-pc{align-self:flex-start;margin-top:10px}
-@media (max-width:640px){.cd-guide{grid-template-columns:1fr}}
+@media (max-width:640px){.cd-guide,.cd-info{grid-template-columns:1fr}}
 /* guide */
 .guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 .gcol{border-top:2px solid var(--ember);padding-top:18px;display:flex;flex-direction:column;gap:10px}
@@ -447,7 +453,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <div class="hold"><span id="food"></span><i></i></div>
     </div>
     <div class="hud" id="hud">
-      <div class="passport"><span class="mono">Stamps <span id="pcount">0</span>/16 · Souvenirs <span id="scount">0</span>/16</span><b id="where">Ride right to start</b><div class="stamps" id="stamps"></div><button class="restart mono" type="button" id="restartBtn">↺ Start over</button></div>
+      <div class="passport"><span class="mono">Stamps <span id="pcount">0</span>/16 · Souvenirs <span id="scount">0</span>/16 · Quiz ★ <span id="qcount">0</span></span><b id="where">Ride right to start</b><div class="stamps" id="stamps"></div><button class="restart mono" type="button" id="restartBtn">↺ Start over</button></div>
       <button class="exit" type="button" id="exitBtn" aria-label="Exit journey">✕ Exit</button>
     </div>
     <div class="card-pop" id="pop"></div>
@@ -666,12 +672,111 @@ const GUIDE = {
     bring:["Azulejo tiles","Tinned fish in pretty packaging","A bottle of port"]
   },
   TR: {
-    go:["Göreme Open Air Museum","Uçhisar Castle","Love Valley and Red Valley","Derinkuyu underground city","Avanos on the Kızılırmak"],
-    do:["A hot air balloon ride at sunrise","Sunset hike in Red Valley","A pottery workshop in Avanos","A night in a cave hotel"],
+    go:["Göreme Open Air Museum","Uçhisar Castle","Love Valley and Red Valley","Derinkuyu underground city","Avanos on the Kızılırmak","Ölüdeniz: the Blue Lagoon and Butterfly Valley"],
+    do:["A hot air balloon ride at sunrise","Sunset hike in Red Valley","A pottery workshop in Avanos","A night in a cave hotel","Paragliding from Babadağ over Ölüdeniz","A day on a boat around Göcek's bays"],
     eat:["Testi kebabı, cooked in a sealed clay pot","Breakfast on a cave terrace","Local Cappadocian wine"],
     bring:["Avanos pottery","A nazar boncuğu"]
   },
+  ES: {
+    go:["Sevilla: the Real Alcázar and Plaza de España","Madrid: the Prado and Retiro Park","Barcelona: Sagrada Família and Park Güell","Málaga: the Alcazaba and the Picasso Museum","Ibiza: Dalt Vila, the walled old town"],
+    do:["A flamenco show in Sevilla","A tapas crawl, one small plate per bar","From La Rambla into the Gothic Quarter","Sunset over the sea in Ibiza"],
+    eat:["Churros dipped in thick hot chocolate","Patatas bravas and jamón ibérico","Paella by the sea in Barcelona","Espetos, sardine skewers on Málaga's beaches","La Boqueria market in Barcelona"],
+    bring:["Hand-painted ceramics from Triana, Sevilla","Spanish olive oil","A fan (abanico)","Saffron"]
+  },
+  NL: {
+    go:["Rijksmuseum","Van Gogh Museum","Anne Frank House (book weeks ahead)","The Jordaan","Vondelpark"],
+    do:["A canal cruise","Rent a bike and ride like a local","Keukenhof gardens in tulip season","Albert Cuyp Market"],
+    eat:["A warm stroopwafel straight from the market","Dutch apple pie","Bitterballen with mustard","Poffertjes","Raw herring, for the brave"],
+    bring:["Tulip bulbs (certified for export)","Delft blue pottery","A wheel of Gouda","Stroopwafels"]
+  },
+  SE: {
+    go:["Gamla Stan, the old town","Vasa Museum","ABBA The Museum","Djurgården island","Fotografiska"],
+    do:["Fika: coffee and a kanelbulle, every afternoon","A ferry into the archipelago","The painted metro stations (start at T-Centralen)","The view from Monteliusvägen"],
+    eat:["Kanelbulle","Meatballs with lingonberries","Semla, if it's semla season (January to Easter)","Östermalms Saluhall food hall"],
+    bring:["A Dala horse","Lingonberry jam","Swedish design for the home","Salty liquorice"]
+  },
+  DE: {
+    go:["Berlin: Brandenburg Gate and the Reichstag dome (free, book online)","Berlin: East Side Gallery","Berlin: Museum Island","Hamburg: the Elbphilharmonie Plaza","Hamburg: Speicherstadt"],
+    do:["Picnic or bike on Tempelhofer Feld","Mauerpark flea market on a Sunday","A Hamburg harbour boat tour","Hamburg's Fischmarkt, very early on Sunday"],
+    eat:["Currywurst","Berlin-style döner","Franzbrötchen in Hamburg","Fischbrötchen by the harbour","A pretzel in a beer garden"],
+    bring:["Ampelmännchen souvenirs","A wooden Christmas ornament","A nutcracker"]
+  },
+  PL: {
+    go:["Kraków: Main Market Square and the Cloth Hall","Kraków: Wawel Castle","Kraków: Kazimierz","Wieliczka Salt Mine","Warsaw: the rebuilt Old Town","Warsaw: Łazienki Park"],
+    do:["Auschwitz-Birkenau memorial (book ahead, a sobering day)","A Chopin concert","An evening on the Vistula boulevards"],
+    eat:["Pierogi, every kind","Obwarzanek, Kraków's street bagel","Żurek soup in a bread bowl","Zapiekanka in Kazimierz","Pączki"],
+    bring:["Bolesławiec pottery","Baltic amber","Polish vodka"]
+  },
+  CZ: {
+    go:["Charles Bridge at sunrise","Prague Castle and St Vitus Cathedral","Old Town Square and the astronomical clock","Josefov, the Jewish Quarter","Petřín Hill"],
+    do:["A paddle boat on the Vltava","Letná beer garden at sunset","A classical concert in a church","The John Lennon Wall"],
+    eat:["Trdelník (touristy, but fun)","Svíčková, beef in cream sauce","Goulash with dumplings","Chlebíčky, little open sandwiches","Czech beer"],
+    bring:["Bohemian crystal","A wooden marionette","Becherovka"]
+  },
+  HU: {
+    go:["The Parliament","Buda Castle and Fisherman's Bastion","St Stephen's Basilica","The Great Market Hall","Andrássy Avenue to Heroes' Square"],
+    do:["Széchenyi or Gellért thermal baths","A Danube cruise at night","A ruin bar in the Jewish Quarter","Sunset from Gellért Hill"],
+    eat:["Lángos with sour cream and cheese","Goulash soup","Kürtőskalács, chimney cake","Dobos torte","Chicken paprikash"],
+    bring:["Hungarian paprika","Tokaji wine","Hand embroidery"]
+  },
+  AT: {
+    go:["Schönbrunn Palace","Belvedere, for Klimt's The Kiss","St Stephen's Cathedral","Naschmarkt","The Hofburg"],
+    do:["A long afternoon in a classic coffee house","Standing tickets at the State Opera","The Prater giant Ferris wheel","Christmas markets in December"],
+    eat:["Sachertorte","Wiener schnitzel","Apple strudel","Kaiserschmarrn","A sausage from a Würstelstand"],
+    bring:["Mozartkugeln","Manner wafers","A Klimt print"]
+  },
+  CH: {
+    go:["Zermatt and the Matterhorn","Jungfraujoch","Lucerne's Chapel Bridge","Lauterbrunnen valley","Lake Geneva"],
+    do:["The Glacier Express or the Bernina Express","Hiking in summer","Skiing in winter","A swim in a mountain lake"],
+    eat:["Cheese fondue","Raclette","Rösti","Swiss chocolate, lots of it"],
+    bring:["Swiss chocolate","A Swiss army knife","A cowbell"]
+  },
+  IT: {
+    go:["Rome: the Colosseum and Roman Forum","Rome: the Pantheon and the Vatican Museums","Florence: the Uffizi, the Duomo and Ponte Vecchio","Venice: St Mark's Square and the Rialto Bridge","Venice: Burano, the colourful island"],
+    do:["Throw a coin in the Trevi Fountain","Sunset at Piazzale Michelangelo","Get lost in Venice's back streets","Cross the Grand Canal by traghetto"],
+    eat:["Gelato every single day","Carbonara or cacio e pepe in Rome","Bistecca alla fiorentina","Schiacciata sandwiches in Florence","Cicchetti and a spritz in Venice"],
+    bring:["Murano glass","Florentine leather","Marbled paper from Florence","A Venetian mask"]
+  },
+  GR: {
+    go:["The Acropolis and the Parthenon","The Acropolis Museum","Plaka and Anafiotika","The Ancient Agora","Lycabettus Hill"],
+    do:["Sunset at Cape Sounion","A ferry to Aegina or Hydra","Monastiraki flea market","An open-air cinema in summer"],
+    eat:["Souvlaki and gyros","A real Greek salad","Spanakopita","Loukoumades","Freddo espresso"],
+    bring:["Greek olive oil","Thyme honey","A mati (evil eye) charm","Olive wood"]
+  },
+  TH: {
+    go:["Bangkok: the Grand Palace and Wat Phra Kaew","Bangkok: Wat Arun and Wat Pho","Bangkok: Chatuchak Weekend Market","Phuket: Phi Phi islands","Phuket: Phang Nga Bay"],
+    do:["A longtail boat through Bangkok's canals","A Thai cooking class","A Thai massage","Diving off Phuket (Similan Islands, roughly October to May)"],
+    eat:["Pad thai","Green curry","Mango sticky rice","Som tam","Street food in Chinatown (Yaowarat)"],
+    bring:["Thai silk","Elephant pants","Curry paste and spices"]
+  },
+  JP: {
+    go:["Tokyo: Shibuya Crossing, Senso-ji and Meiji Shrine","Kyoto: Fushimi Inari, Kiyomizu-dera and Arashiyama","Osaka: Dotonbori and Osaka Castle","Hakone: Lake Ashi, with Fuji views on clear days"],
+    do:["A night in a ryokan with an onsen in Hakone","teamLab in Tokyo","A day trip to the deer of Nara","A tea ceremony in Kyoto"],
+    eat:["Sushi at Tsukiji Outer Market","Ramen","Takoyaki and okonomiyaki in Osaka","Taiyaki","A konbini egg sandwich"],
+    bring:["Matcha","Japanese stationery","Ceramics","A furoshiki cloth"]
+  },
 };
+/* Good to know: practical info per country (money, words, plugs, tipping, getting around, water, best time, emergency) */
+const INFO = {
+  PT:{money:"Euro (€). Cards almost everywhere",say:"Olá · Obrigado (obrigada if you're a woman)",plug:"Type F, 230V",tip:"Not expected. Round up, or 5–10% for great service",move:"Lisbon: Viva Viagem card for metro and trams. Porto: Andante card. Lisbon to Porto is about 3 hours by train",water:"Tap water is safe",best:"April to June, September to October",sos:"112"},
+  ES:{money:"Euro (€)",say:"Hola · Gracias",plug:"Type F, 230V",tip:"Optional. Leave small change or 5–10%",move:"AVE high-speed trains link Madrid, Sevilla, Málaga and Barcelona",water:"Tap water is safe",best:"Spring and autumn. Sevilla can pass 40°C in summer",sos:"112",note:"Lunch is around 2pm and dinner rarely before 9pm"},
+  UK:{money:"Pound sterling (£). Contactless everywhere",say:"Hello · Cheers",plug:"Type G, 230V (three square pins)",tip:"10–12.5% in restaurants; check if service is already on the bill",move:"Tap a contactless card on the Tube and buses, with a daily cap",water:"Tap water is safe",best:"May to September",sos:"999 or 112"},
+  NL:{money:"Euro (€). Some places are card only",say:"Hallo · Dank je wel",plug:"Type F, 230V",tip:"Round up, or 5–10%",move:"Trams, trains and bikes. Tap a contactless card to ride",water:"Tap water is excellent",best:"Mid March to mid May for the tulips",sos:"112",note:"Never walk in the bike lane"},
+  SE:{money:"Swedish krona (SEK). Almost cashless",say:"Hej · Tack",plug:"Type F, 230V",tip:"Not expected. Round up for good service",move:"SL metro, buses and ferries; tap a contactless card",water:"Tap water is excellent",best:"June to August, with very long days",sos:"112",note:"Strong alcohol is only sold at Systembolaget"},
+  DE:{money:"Euro (€). Carry some cash, not everywhere takes cards",say:"Hallo · Danke",plug:"Type F, 230V",tip:"5–10%. Tell the waiter the total you want to pay",move:"U-Bahn and S-Bahn; validate paper tickets before riding",water:"Tap water is safe",best:"May to September, or December for Christmas markets",sos:"112",note:"Most shops are closed on Sundays"},
+  PL:{money:"Polish złoty (PLN)",say:"Dzień dobry · Dziękuję",plug:"Type E, 230V",tip:"Around 10%",move:"Intercity trains between Kraków and Warsaw take about 2.5 hours",water:"Safe to drink, though many people prefer bottled",best:"May to September",sos:"112",note:"Saying \"dziękuję\" while handing over cash can mean \"keep the change\""},
+  CZ:{money:"Czech koruna (CZK), not the euro",say:"Dobrý den · Děkuji",plug:"Type E, 230V",tip:"Around 10%",move:"Trams and metro; validate your ticket when you board",water:"Tap water is safe",best:"April to June, September",sos:"112",note:"When a card machine offers to charge in euros, choose CZK"},
+  HU:{money:"Hungarian forint (HUF)",say:"Szia · Köszönöm",plug:"Type F, 230V",tip:"10–15%; check if a service charge is already added",move:"Metro, trams and buses; validate paper tickets",water:"Tap water is safe",best:"April to June, September to October",sos:"112",note:"Bring flip-flops for the thermal baths"},
+  AT:{money:"Euro (€)",say:"Grüß Gott · Danke",plug:"Type F, 230V",tip:"Round up, 5–10%",move:"Vienna's metro runs on trust; buy your ticket before you board",water:"Alpine spring water from the tap",best:"April to October, or December for the markets",sos:"112",note:"Coffee comes with a glass of water"},
+  CH:{money:"Swiss franc (CHF), not the euro",say:"Grüezi · Bonjour · Grazie",plug:"Type J, 230V (slim two-pin plugs fit too)",tip:"Service is included; round up if you like",move:"Trains run on time. Look at the Swiss Travel Pass or Half Fare Card",water:"Even the town fountains are drinkable",best:"June to September for hiking, December to March for skiing",sos:"112"},
+  IT:{money:"Euro (€)",say:"Ciao · Grazie",plug:"Types F and L, 230V",tip:"Not expected; a coperto (cover charge) is normal",move:"Fast trains link Rome, Florence and Venice. Validate regional tickets",water:"Safe, and free from Rome's nasoni fountains",best:"April to June, September to October",sos:"112",note:"Espresso is cheaper standing at the bar. Venice charges day-trippers an entry fee on busy days"},
+  GR:{money:"Euro (€)",say:"Yia sas · Efharistó",plug:"Type F, 230V",tip:"5–10%",move:"The metro runs from the airport into central Athens",water:"Tap water in Athens is safe",best:"April to June, September to October",sos:"112",note:"Visit the Acropolis right at opening, before the heat and the crowds"},
+  TR:{money:"Turkish lira (TRY)",say:"Merhaba · Teşekkürler",plug:"Type F, 230V",tip:"Around 10%",move:"Fly to Kayseri or Nevşehir for Cappadocia, and Dalaman for Göcek and Ölüdeniz",water:"Drink bottled water",best:"April to June, September to October",sos:"112",note:"Book balloons ahead; flights are cancelled when it's windy"},
+  TH:{money:"Thai baht (THB)",say:"Sawasdee ka/krub · Khop khun ka/krub",plug:"Types A, B, C and O, 220V",tip:"Leave small change, or 20–50 baht",move:"Bangkok: BTS Skytrain, MRT and river boats. Grab for rides",water:"Drink bottled water",best:"November to February",sos:"1155 tourist police · 1669 ambulance",note:"Cover your shoulders and knees in temples"},
+  JP:{money:"Japanese yen (JPY). Cash is still handy",say:"Konnichiwa · Arigatō",plug:"Type A, 100V. Check your chargers",tip:"No tipping, ever",move:"Add a Suica or ICOCA card to your phone wallet. Shinkansen between cities",water:"Tap water is safe",best:"Late March to April for sakura, November for autumn leaves",sos:"110 police · 119 ambulance",note:"There are few bins, so carry your rubbish"},
+};
+window.INFO = INFO;
+
 /* ===================================================== */
 window.PLACES = PLACES; window.GUIDE = GUIDE;
 
@@ -911,6 +1016,7 @@ const openCountry = code => {
   cdBody.innerHTML = (tours.length ? `<h3 class="cd-h">One perfect day</h3><div class="tours">${tours.map(tourHTML).join('')}</div>` : '')
     + (g ? `<h3 class="cd-h">My guide</h3><div class="cd-guide">${sec('See', g.go)}${sec('Do', g.do)}${sec('Eat', g.eat)}${sec('Bring home', g.bring)}</div>`
          : `<p class="cd-soon">My favourite places, restaurants and souvenirs for ${p.name} are still in the notebook. Coming soon.</p>`)
+    + ((i => i ? `<h3 class="cd-h">Good to know</h3><div class="cd-info">${[['💶','Money',i.money],['💬','Hello · Thanks',i.say],['🔌','Plugs',i.plug],['🪙','Tipping',i.tip],['🚆','Getting around',i.move],['🚰','Water',i.water],['🗓','Best time',i.best],['🆘','Emergency',i.sos],['✨','Local tip',i.note]].filter(r => r[2]).map(([e, h, t]) => `<div class="cd-fact"><span class="e" aria-hidden="true">${e}</span><div><span class="mono">${h}</span><p>${t}</p></div></div>`).join('')}</div>` : '')(INFO[code]))
     + `<a class="pill ghost show cd-pc" href="#postcard" data-pc="${code}">Send me a postcard from ${p.name} ✉</a>`;
   cdBody.querySelectorAll('.tour').forEach(el => { el.classList.add('in'); wireTour(el); });
   cdLast = document.activeElement; cd.hidden = false; document.body.style.overflow = 'hidden';
@@ -1149,6 +1255,28 @@ let got = new Set(), bag = new Set();
 // one iconic souvenir per country, floating between landmarks
 const SOUV = {JP:['🍵','Matcha'],UK:['☂️','An umbrella, obviously'],ES:['🥘','Paella pan'],TR:['🧿','Nazar boncuğu'],PT:['🐟','Tinned sardines'],NL:['🌷','Tulip bulbs'],IT:['🍕','A slice of pizza'],TH:['🐘','Elephant pants'],DE:['🥨','A pretzel'],SE:['🐴','Dala horse'],CH:['🍫','Swiss chocolate'],HU:['🌶️','Paprika'],CZ:['🔮','Bohemian crystal'],AT:['🎻','A Vienna violin tune'],GR:['🫒','Olive oil'],PL:['🥟','Pierogi']};
 window.SOUV = SOUV;
+// one quick question per stop (two per country, picked at random); the answer is always the first option
+const QUIZ = {
+  PT:[["Which number is Lisbon's famous yellow tram through Alfama?","28","7","42"],["Fado is Portugal's…","soulful folk song","card game","custard pastry"]],
+  ES:[["Which city is home to Gaudí's Sagrada Família?","Barcelona","Madrid","Sevilla"],["Flamenco was born in which region?","Andalusia","Catalonia","Galicia"]],
+  UK:[["What is the name of the great bell in London's clock tower?","Big Ben","Little John","Old Tom"],["Which river flows through London?","The Thames","The Seine","The Danube"]],
+  NL:[["Which flower is the Netherlands famous for?","Tulip","Rose","Sunflower"],["Amsterdam's ring of canals was dug mostly in which century?","17th","12th","20th"]],
+  SE:[["Which Swedish band sang 'Dancing Queen'?","ABBA","Roxette","Europe"],["Stockholm is built on how many islands?","14","3","40"]],
+  DE:[["In which year did the Berlin Wall fall?","1989","1975","1999"],["Hamburg's harbour sits on which river?","The Elbe","The Rhine","The Spree"]],
+  PL:[["Which famous composer was born in Poland?","Chopin","Mozart","Vivaldi"],["Kraków's legendary creature living under Wawel Hill is a…","dragon","mermaid","bear"]],
+  CZ:[["Prague's Charles Bridge crosses which river?","The Vltava","The Danube","The Elbe"],["Prague's medieval astronomical clock is called the…","Orloj","Zytglogge","Big Ben"]],
+  HU:[["Which river splits Buda from Pest?","The Danube","The Tisza","The Rhine"],["Budapest was formed by joining Buda, Pest and…","Óbuda","Debrecen","Szeged"]],
+  AT:[["Which composer was born in Salzburg?","Mozart","Beethoven","Bach"],["Vienna's Sachertorte hides a thin layer of which jam?","Apricot","Strawberry","Cherry"]],
+  CH:[["Which pyramid-shaped peak is a Swiss icon?","The Matterhorn","Mont Blanc","The Zugspitze"],["How many official languages does Switzerland have?","4","2","6"]],
+  IT:[["Venice is built on more than 100…","islands","hills","volcanoes"],["Who designed the great dome of Florence's cathedral?","Brunelleschi","Michelangelo","Bernini"]],
+  GR:[["The Parthenon was built for which goddess?","Athena","Aphrodite","Hera"],["In which year did Athens host the first modern Olympics?","1896","1924","1900"]],
+  TR:[["Cappadocia's rock towers are nicknamed…","fairy chimneys","giant teeth","stone candles"],["Ölüdeniz is famous for flying down from Babadağ by…","paraglider","zip line","cable car"]],
+  TH:[["What does 'sawasdee' mean in Thai?","Hello","Thank you","Delicious"],["Phuket sits in which sea?","The Andaman Sea","The South China Sea","The Red Sea"]],
+  JP:[["What is Japan's bullet train called?","Shinkansen","Maglev Express","Tokaido Line"],["Which Kyoto shrine has thousands of orange torii gates?","Fushimi Inari","Meiji Jingu","Itsukushima"]],
+};
+let stars = new Set(), quizNow = null;
+try { stars = new Set(JSON.parse(localStorage.getItem('serap-quiz') || '[]')); } catch(e) {}
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const SY = [.22,.36,.16,.30,.42,.20,.34,.26];
 try { bag = new Set(JSON.parse(localStorage.getItem('serap-souvenirs') || '[]')); } catch(e) {}
 let vy = .35, vKeys = 0, vHeld = 0, toastT;
@@ -1255,10 +1383,10 @@ const setVehicle = code => { const v = VEH[code] || VEH.ES; if (code === vehNow)
 const setFood = f => { if (f !== foodNow) { foodNow = f; const el = document.getElementById('food'); const t = TREAT[f] || TREAT.X; if (el) { el.innerHTML = `<svg viewBox="0 0 64 64" role="img" aria-label="${t[0]}">${t[1]}</svg>`; el.title = t[0]; } } };
 const routeEl = document.getElementById('route');
 try { got = new Set(JSON.parse(localStorage.getItem('serap-passport') || '[]')); } catch(e) {}
-const save = () => { try { localStorage.setItem('serap-passport', JSON.stringify([...got])); localStorage.setItem('serap-souvenirs', JSON.stringify([...bag])); } catch(e) {} };
+const save = () => { try { localStorage.setItem('serap-passport', JSON.stringify([...got])); localStorage.setItem('serap-souvenirs', JSON.stringify([...bag])); localStorage.setItem('serap-quiz', JSON.stringify([...stars])); } catch(e) {} };
 stampsEl.innerHTML = PL.map(p => `<span data-c="${p.code}">${p.code}</span>`).join('');
 routeEl.insertAdjacentHTML('beforeend', PL.map((p,i) => `<i class="dot" data-c="${p.code}" style="left:${(i/(PL.length-1))*100}%"></i>`).join('') + '<i class="me-dot" id="meDot"></i>');
-const paintStamps = () => { stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('got', got.has(s.dataset.c))); routeEl.querySelectorAll('.dot').forEach(d => d.classList.toggle('got', got.has(d.dataset.c))); pcount.textContent = got.size; document.getElementById('scount').textContent = bag.size; };
+const paintStamps = () => { stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('got', got.has(s.dataset.c))); routeEl.querySelectorAll('.dot').forEach(d => d.classList.toggle('got', got.has(d.dataset.c))); pcount.textContent = got.size; document.getElementById('scount').textContent = bag.size; document.getElementById('qcount').textContent = stars.size; stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('star', stars.has(s.dataset.c))); };
 paintStamps();
 
 /* ---- landmark drawings (canvas, base at x,y, scale s) ---- */
@@ -1336,7 +1464,8 @@ const tMin = T0, tMax = T0 + (START + (PL.length-1)*GAP + 700) / PX;
 let lastT = T0;
 function step(W, travel, H){
   const sc = window.scene; if (!sc) return;
-  const dir = (keys > 0 ? 1 : keys < 0 ? -1 : 0) + held;
+  const dir = quizNow ? 0 : (keys > 0 ? 1 : keys < 0 ? -1 : 0) + held;
+  if (quizNow) sc.target = sc.t;
   if (dir) sc.target = sc.target + Math.sign(dir) * 0.006;
   sc.target = Math.max(tMin, Math.min(tMax, sc.target));
   const v = sc.t - lastT; lastT = sc.t;
@@ -1400,13 +1529,35 @@ function arrive(i){
   const stops = p.name === 'Switzerland' ? 'The Alps' : `${p.cities.length} ${p.cities.length > 1 ? 'cities' : 'city'}`;
   const g = (window.GUIDE || {})[p.code] || {}; const picks = [].concat((g.go||[]).slice(0,1), (g.do||[]).slice(0,1), (g.eat||[]).slice(0,1));
   pop.innerHTML = `<span class="mono">${p.coords} · ${stops}</span><h3>${p.name}</h3><ul class="cities">${p.cities.map(c => `<li>${c}</li>`).join('')}</ul>${picks.length ? `<p class="picks"><b>Serap's picks:</b> ${picks.join(' · ')}</p>` : ''}<div class="bigstamp">${p.code}</div>`;
-  clearTimeout(popT); pop.classList.remove('on'); void pop.offsetWidth; pop.classList.add('on');
-  const fresh = !got.has(p.code); got.add(p.code); save(); paintStamps();
-  const b = document.getElementById('bubble');
-  if (b) { b.textContent = fresh ? `Welcome to ${p.name}! Stamp ${got.size} of ${PL.length}.` : `Back in ${p.name}!`; b.classList.add('on'); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('on'), 2200); }
-  if (fresh && got.size === PL.length && !celebrated) { celebrated = true; setTimeout(finale, 1600); }
+  clearTimeout(popT); pop.classList.remove('on','quizzing','stamped'); void pop.offsetWidth; pop.classList.add('on');
+  if (got.has(p.code)) pop.classList.add('stamped');
+  if (got.has(p.code) || !QUIZ[p.code]) { if (!got.has(p.code)) stamp(p, false); else sayB(`Back in ${p.name}!`); return; }
+  // a fresh stop: answer the question to earn the stamp
+  const [q, ...opts] = QUIZ[p.code][Math.floor(Math.random() * QUIZ[p.code].length)];
+  quizNow = {code: p.code, right: opts[0], tries: 0}; keys = 0; held = 0;
+  pop.classList.add('quizzing');
+  pop.insertAdjacentHTML('beforeend', `<div class="quiz"><p class="q">${q}</p><div class="opts">${shuffle(opts).map((o, k) => `<button type="button" data-o="${o}"><b>${k + 1}</b>${o}</button>`).join('')}</div></div>`);
+  pop.querySelectorAll('.opts button').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); answer(btn); }));
+  sayB(`Welcome to ${p.name}! Answer to get your stamp.`);
 }
-function leave(){ where.textContent = flying ? 'Flying…' : 'On the road…'; popT = setTimeout(() => pop.classList.remove('on'), 900); }
+function answer(btn){
+  if (!quizNow) return;
+  const p = PL.find(x => x.code === quizNow.code);
+  if (btn.dataset.o === quizNow.right) {
+    btn.classList.add('ok'); pop.querySelectorAll('.opts button').forEach(x => x.disabled = true);
+    const first = quizNow.tries === 0; quizNow = null; pop.classList.remove('quizzing');
+    stamp(p, first);
+  } else {
+    quizNow.tries++; btn.classList.add('no'); btn.disabled = true; sayB('Not quite, try again!');
+  }
+}
+function stamp(p, star){
+  got.add(p.code); if (star) stars.add(p.code); save(); paintStamps();
+  pop.classList.add('stamped');
+  sayB(star ? `Correct! Stamp ${got.size} of ${PL.length} and a gold star ★` : `Got it! Stamp ${got.size} of ${PL.length}.`);
+  if (got.size === PL.length && !celebrated) { celebrated = true; setTimeout(finale, 1600); }
+}
+function leave(){ if (quizNow) { quizNow = null; pop.classList.remove('quizzing'); sayB('Come back for your stamp!'); } where.textContent = flying ? 'Flying…' : 'On the road…'; popT = setTimeout(() => pop.classList.remove('on'), 900); }
 
 /* ---- enter / exit ---- */
 const home = me.parentNode, homeNext = me.nextSibling;
@@ -1431,7 +1582,7 @@ $('#playBtn').addEventListener('click', enter);
 $('#exitBtn').addEventListener('click', exit);
 // start a brand new trip: empty passport, souvenirs back in the sky
 function restart(){
-  got = new Set(); bag = new Set(); celebrated = false; save(); paintStamps();
+  got = new Set(); bag = new Set(); stars = new Set(); quizNow = null; pop.classList.remove('quizzing'); celebrated = false; save(); paintStamps();
   $('#finale').classList.remove('on'); pop.classList.remove('on');
   window.scene.jump(T0); lastT = T0; current = -1; flying = false; jy = 0; jv = 0; curTop = null;
   balloon.classList.add('walk'); vehNow = ''; setVehicle(PL[0] ? PL[0].code : 'PT'); setFood('X'); if (window.meCostume) meCostume('');
@@ -1445,6 +1596,7 @@ addEventListener('resize', () => { if (window.gameOn) { bx = innerWidth <= 820 ?
 /* ---- controls ---- */
 addEventListener('keydown', e => {
   if (!window.gameOn) return;
+  if (quizNow && ['1','2','3'].includes(e.key)) { const b = pop.querySelectorAll('.opts button')[+e.key - 1]; if (b && !b.disabled) answer(b); e.preventDefault(); return; }
   if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') { keys = 1; e.preventDefault(); }
   else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') { keys = -1; e.preventDefault(); }
   else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') { vKeys = -1; e.preventDefault(); }
@@ -1468,12 +1620,12 @@ holdV($('#goU'), -1); holdV($('#goD'), 1);
 // drag anywhere on the sky to fly
 let dragX = null, dragY = null;
 hero.addEventListener('pointerdown', e => { if (!window.gameOn || e.target.closest('button')) return; dragX = e.clientX; dragY = e.clientY; });
-addEventListener('pointermove', e => { if (dragX === null || !window.gameOn) return; window.scene.target += (dragX - e.clientX) / PX * -1.6; dragX = e.clientX; if (flying) { vy = Math.max(0, Math.min(1, vy + (e.clientY - dragY) / (innerHeight*.4))); dragY = e.clientY; } else if (dragY - e.clientY > 40) { jumpReq = true; dragY = e.clientY; } else if (e.clientY > dragY) dragY = e.clientY; });
+addEventListener('pointermove', e => { if (dragX === null || !window.gameOn || quizNow) return; window.scene.target += (dragX - e.clientX) / PX * -1.6; dragX = e.clientX; if (flying) { vy = Math.max(0, Math.min(1, vy + (e.clientY - dragY) / (innerHeight*.4))); dragY = e.clientY; } else if (dragY - e.clientY > 40) { jumpReq = true; dragY = e.clientY; } else if (e.clientY > dragY) dragY = e.clientY; });
 addEventListener('pointerup', () => dragX = null);
 
 /* ---- finale confetti ---- */
 function finale(){
-  $('#finaleTxt').textContent = bag.size === PL.length ? `All 16 stamps and all 16 souvenirs. You're a real traveler! Got a place I should add next?` : `You caught ${bag.size} of 16 souvenirs. Fly again to catch the rest, or tell me a place I should add.`;
+  $('#finaleTxt').textContent = (bag.size === PL.length ? `All 16 stamps and all 16 souvenirs. You're a real traveler!` : `You caught ${bag.size} of 16 souvenirs.`) + ` Quiz: ${stars.size} of 16 gold stars on the first try.` + (bag.size === PL.length && stars.size === PL.length ? ' Perfect trip! Got a place I should add next?' : ' Start a new trip to beat it, or tell me a place I should add.');
   $('#finale').classList.add('on');
   if (reduce) return;
   const cv = $('#confetti'), c = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
