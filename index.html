@@ -265,6 +265,8 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .cd-col{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--ink-2)}
 .cd-col .mono{color:var(--ember);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .cd-col ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.4;font-size:15px}
+.cd-cities{display:flex;flex-wrap:wrap;gap:8px}.cd-cities button{background:transparent;color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:600 13px var(--f-body);cursor:pointer;transition:background .2s,color .2s}.cd-cities button:hover{border-color:var(--paper)}.cd-cities button.sel{background:var(--ember);border-color:var(--ember);color:var(--ink)}
+.cd-city{display:flex;flex-direction:column;gap:12px}.cd-line{margin:4px 0 0;color:var(--mute)}.cd-line b{color:var(--paper);font-family:var(--f-display);font-size:20px}
 .cd-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cd-fact{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--ink-2)}.cd-fact .e{font-size:22px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}.cd-fact .mono{color:var(--ember);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.cd-fact p{margin:4px 0 0;font-size:14px;line-height:1.4}
 .cd-soon{color:var(--mute);margin:0;max-width:52ch}
 .cd-pc{align-self:flex-start;margin-top:10px}
@@ -312,6 +314,13 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 @media (max-width:900px){.posts{grid-template-columns:1fr}}
 .room{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.7);background:#ffd3df}
 .room>svg{display:block;width:100%;height:auto}
+.radio{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--line);border-radius:18px;padding:12px 16px;background:var(--ink-2)}
+.rd-play{background:var(--paper);color:var(--ink);border:0;border-radius:999px;padding:10px 18px;font:700 14px var(--f-body);cursor:pointer;min-width:96px}.radio.on .rd-play{background:var(--ember)}
+.rd-mid{display:flex;flex-direction:column;gap:6px;flex:1;min-width:180px}.rd-now{font-size:11px;color:var(--mute)}.radio.on .rd-now{color:var(--paper)}
+.rd-st{display:flex;gap:6px;flex-wrap:wrap}.rd-st button{background:transparent;color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font:600 12px var(--f-body);cursor:pointer}.rd-st button.sel{background:var(--paper);color:var(--ink)}
+.rd-vol{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--mute)}.rd-vol input{width:100px;accent-color:var(--ember)}
+.rd-eq{display:flex;gap:3px;align-items:flex-end;height:22px}.rd-eq i{width:4px;height:4px;border-radius:2px;background:var(--ember)}.radio.on .rd-eq i{animation:rdEq .9s ease-in-out infinite alternate}.rd-eq i:nth-child(2){animation-delay:-.3s!important}.rd-eq i:nth-child(3){animation-delay:-.6s!important}.rd-eq i:nth-child(4){animation-delay:-.45s!important}
+@keyframes rdEq{to{height:22px}}
 .room-hint{margin:14px 0 0;color:var(--mute);font-size:12px}
 @media (max-width:820px){.room{overflow-x:auto;scrollbar-width:none}.room::-webkit-scrollbar{display:none}.room>svg{width:960px;max-width:none}}
 .room .sway{animation:rmSway 6s ease-in-out infinite alternate}.room .sway.s2{animation-duration:8s}
@@ -756,6 +765,77 @@ const GUIDE = {
     bring:["Matcha","Japanese stationery","Ceramics","A furoshiki cloth"]
   },
 };
+/* City guides inside a country's drawer (Türkiye has many). Keys: name, line, go, do, eat, bring */
+const CITIES = {
+  TR: [
+    {name:"İstanbul", line:"Two continents, one ferry ride apart.",
+      go:["Hagia Sophia and the Blue Mosque","Topkapı Palace","The Basilica Cistern","Galata Tower","The Grand Bazaar and the Spice Bazaar","Balat's colourful streets"],
+      do:["A public ferry across the Bosphorus, Eminönü to Kadıköy","A day on the Princes' Islands","A hammam","The Kadıköy market streets"],
+      eat:["Simit and tea by the water","Balık ekmek in Eminönü","A long Turkish breakfast","Midye dolma","Baklava"],
+      bring:["Turkish delight","Turkish coffee","İznik-style tiles","A peshtemal"]},
+    {name:"İzmir", line:"Sea breeze, the Kordon and the best breakfast buns.",
+      go:["The Kordon seafront","Kemeraltı market and Kızlarağası Han","The Asansör","Konak clock tower","Ephesus and Şirince","Alaçatı, Çeşme and Urla"],
+      do:["Sunset on the Kordon","Windsurfing in Alaçatı","The Urla vineyard road","A ferry across the bay"],
+      eat:["Boyoz with a boiled egg","Kumru","İzmir gevrek","Aegean herb dishes in Alaçatı"],
+      bring:["Fruit wine from Şirince","Olive oil soap","Mastic sweets from Çeşme"]},
+    {name:"Ayvalık", line:"Stone houses, olive groves and Cunda sunsets.",
+      go:["Cunda Island","Şeytan Sofrası viewpoint","The old Greek stone houses","Sarımsaklı beach"],
+      do:["Sunset at Şeytan Sofrası","Get lost in the back streets","Visit an old olive oil factory","A boat trip around the islands"],
+      eat:["Ayvalık tostu","Olive oil mezes","Lor tatlısı on Cunda","Fresh seafood"],
+      bring:["Ayvalık olive oil","Olive oil soap"]},
+    {name:"Datça", line:"Almond trees, quiet coves and two seas.",
+      go:["Knidos ancient city","Old Datça's stone houses","Palamutbükü","The coves along the peninsula"],
+      do:["Swim in a different cove every day","Sail the Hisarönü Gulf","Almond blossom in February and March","Sunset at Knidos"],
+      eat:["Datça almonds","Thyme honey","Grilled fish by the sea","Almond cookies"],
+      bring:["Datça almonds","Thyme honey","Local olive oil"]},
+    {name:"Marmaris", line:"Pine forests down to a turquoise bay.",
+      go:["Marmaris Castle and the marina","Cleopatra Island (Sedir Adası) and its golden sand","Selimiye and Bozburun","İçmeler","Turgut waterfall"],
+      do:["A day on a boat","Start a blue cruise","Diving","Village roads on the Bozburun peninsula"],
+      eat:["Marmaris pine honey","Fresh fish","Gözleme in the villages"],
+      bring:["Pine honey","A natural sponge"]},
+    {name:"Antalya", line:"Old town, waterfalls and ancient theatres.",
+      go:["Kaleiçi and Hadrian's Gate","Düden and Kurşunlu waterfalls","Aspendos theatre and Perge","Antalya Museum","Olympos and Çıralı","Konyaaltı beach"],
+      do:["A boat trip from the old harbour","The cable car up Tahtalı","The Chimaera flames at night","A stretch of the Lycian Way"],
+      eat:["Antalya piyaz with tahini","Şiş köfte","Hibeş","Fresh citrus"],
+      bring:["Orange blossom cologne","Citrus jams"]},
+    {name:"Denizli", line:"Home of the white terraces of Pamukkale.",
+      go:["The Pamukkale travertines","Hierapolis and Cleopatra's Pool","Laodicea","Karahayıt red springs","Kaklık cave"],
+      do:["Walk the travertines barefoot","Paragliding over Pamukkale","Sunset at the Hierapolis theatre","A thermal bath"],
+      eat:["Denizli kebabı","Wine from Çal"],
+      bring:["Buldan towels and peshtemals","A Denizli rooster figure"]},
+    {name:"Eskişehir", line:"A young student city with a river running through it.",
+      go:["Odunpazarı's old wooden houses","Odunpazarı Modern Museum","Sazova Park and its fairy-tale castle","The Porsuk river"],
+      do:["A gondola ride on the Porsuk","A meerschaum (lületaşı) workshop","Ride the city trams","Evenings in the student quarter"],
+      eat:["Çibörek","Met helvası","Balaban kebabı","Haşhaşlı çörek"],
+      bring:["Meerschaum pieces","Met helvası"]},
+    {name:"Bolu", line:"Lakes, forests and the best autumn colours.",
+      go:["Abant Lake","Yedigöller, the Seven Lakes","Gölcük Lake","Mudurnu old town"],
+      do:["Autumn colours at Yedigöller in October","A walk around Abant","Skiing at Kartalkaya in winter","A picnic by the lake"],
+      eat:["Abant kebabı","Dishes in the style of Mengen's famous cooks","Village breakfasts"],
+      bring:["Honey and jam from mountain villages"]},
+    {name:"Mardin", line:"Honey-coloured stone above the Mesopotamian plain.",
+      go:["The old town on the hill","Zinciriye and Kasımiye madrasas","Deyrulzafaran Monastery","Midyat and Mor Gabriel Monastery","Dara ancient city"],
+      do:["Sunset over the plain","Wander the rooftops and alleys","A telkari silver workshop in Midyat"],
+      eat:["Kaburga dolması","Sembusek","İkbebet","Süryani wine"],
+      bring:["Telkari silver filigree","Bıttım soap","Süryani wine"]},
+    {name:"Şanlıurfa", line:"Where Göbekli Tepe rewrote history.",
+      go:["Göbekli Tepe","Karahan Tepe","Balıklıgöl, the sacred fish pool","Harran's beehive houses","Şanlıurfa Archaeology Museum"],
+      do:["A sıra gecesi music night","The old bazaar and Bedesten","Sunset over Harran"],
+      eat:["Urfa kebabı","Çiğ köfte","Liver kebab for breakfast","Şıllık tatlısı","Mırra coffee"],
+      bring:["İsot pepper","Mırra cups"]},
+    {name:"Adana", line:"Kebab, şalgam and a river at sunset.",
+      go:["Sabancı Central Mosque and the Stone Bridge","Varda Viaduct","Yılankale","Anavarza ancient city"],
+      do:["A walk along the Seyhan at sunset","The Orange Blossom Carnival in April"],
+      eat:["Adana kebap","Şalgam","Bici bici in summer","Liver kebab"],
+      bring:["Pul biber","Local cotton textiles"]},
+    {name:"Mersin", line:"A castle in the sea and tantuni on every corner.",
+      go:["Kızkalesi, the castle in the sea","Cennet and Cehennem caves","Tarsus: St Paul's Well and Cleopatra's Gate","Uzuncaburç","Anamur castle"],
+      do:["Swim out to Kızkalesi","Birdwatching in the Göksu Delta","Tarsus waterfall"],
+      eat:["Tantuni","Cezerye","Kerebiç","Batırık"],
+      bring:["Cezerye","Anamur bananas"]},
+  ],
+};
+window.CITIES = CITIES;
 /* Good to know: practical info per country (money, words, plugs, tipping, getting around, water, best time, emergency) */
 const INFO = {
   PT:{money:"Euro (€). Cards almost everywhere",say:"Olá · Obrigado (obrigada if you're a woman)",plug:"Type F, 230V",tip:"Not expected. Round up, or 5–10% for great service",move:"Lisbon: Viva Viagem card for metro and trams. Porto: Andante card. Lisbon to Porto is about 3 hours by train",water:"Tap water is safe",best:"April to June, September to October",sos:"112"},
@@ -1016,9 +1096,14 @@ const openCountry = code => {
   cdBody.innerHTML = (tours.length ? `<h3 class="cd-h">One perfect day</h3><div class="tours">${tours.map(tourHTML).join('')}</div>` : '')
     + (g ? `<h3 class="cd-h">My guide</h3><div class="cd-guide">${sec('See', g.go)}${sec('Do', g.do)}${sec('Eat', g.eat)}${sec('Bring home', g.bring)}</div>`
          : `<p class="cd-soon">My favourite places, restaurants and souvenirs for ${p.name} are still in the notebook. Coming soon.</p>`)
+    + ((CITIES[code] || []).length ? `<h3 class="cd-h">More of ${p.name}, city by city</h3><div class="cd-cities" role="tablist">${CITIES[code].map((c, k) => `<button type="button" role="tab" data-city="${k}">${c.name}</button>`).join('')}</div><div class="cd-city" id="cdCity"></div>` : '')
     + ((i => i ? `<h3 class="cd-h">Good to know</h3><div class="cd-info">${[['💶','Money',i.money],['💬','Hello · Thanks',i.say],['🔌','Plugs',i.plug],['🪙','Tipping',i.tip],['🚆','Getting around',i.move],['🚰','Water',i.water],['🗓','Best time',i.best],['🆘','Emergency',i.sos],['✨','Local tip',i.note]].filter(r => r[2]).map(([e, h, t]) => `<div class="cd-fact"><span class="e" aria-hidden="true">${e}</span><div><span class="mono">${h}</span><p>${t}</p></div></div>`).join('')}</div>` : '')(INFO[code]))
     + `<a class="pill ghost show cd-pc" href="#postcard" data-pc="${code}">Send me a postcard from ${p.name} ✉</a>`;
   cdBody.querySelectorAll('.tour').forEach(el => { el.classList.add('in'); wireTour(el); });
+  const showCity = k => { const c = CITIES[code][k]; cdBody.querySelectorAll('[data-city]').forEach(b => { const on = +b.dataset.city === k; b.classList.toggle('sel', on); b.setAttribute('aria-selected', on); });
+    $('#cdCity').innerHTML = `<p class="cd-line"><b>${c.name}</b> · ${c.line}</p><div class="cd-guide">${sec('See', c.go)}${sec('Do', c.do)}${sec('Eat', c.eat)}${sec('Bring home', c.bring)}</div>`; };
+  cdBody.querySelectorAll('[data-city]').forEach(b => b.addEventListener('click', () => showCity(+b.dataset.city)));
+  if ((CITIES[code] || []).length) showCity(0);
   cdLast = document.activeElement; cd.hidden = false; document.body.style.overflow = 'hidden';
   requestAnimationFrame(() => { cd.classList.add('open'); cd.querySelector('.cd-panel').focus(); cd.querySelector('.cd-panel').scrollTop = 0; });
 };
@@ -1831,7 +1916,83 @@ const cat = document.getElementById('rmCat'); let catT;
 cat.addEventListener('click', () => { cat.classList.add('pet'); clearTimeout(catT); catT = setTimeout(() => cat.classList.remove('pet'), 2600); });
 const rec = document.getElementById('rmRecord');
 svg.pauseAnimations();
-rec.addEventListener('click', () => { const on = rec.classList.toggle('playing'); on ? svg.unpauseAnimations() : svg.pauseAnimations(); });
+// Serap's radio: royalty-free music made live in the browser with Web Audio (no files, nothing to license)
+const RADIO = (() => {
+  let ac, master, crackle, timer, station = 'jazz', step = 0, nextT = 0, on = false, vol = .7;
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+  const ST = {
+    jazz: {name:'Lo-fi jazz', bpm:76, swing:.33, chords:[[50,[53,57,60,64]],[43,[53,59,64,69]],[48,[52,55,59,62]],[45,[55,61,65,71]]], scale:[62,64,65,67,69,72,74,76]},
+    house:{name:'Chill house', bpm:118, swing:0, chords:[[45,[60,64,67,71]],[41,[57,60,64,67]],[48,[55,60,64,67]],[43,[55,59,62,66]]], scale:[64,67,69,71,72,74,76,79]},
+  };
+  let noiseBuf;
+  const noise = () => { if (!noiseBuf) { noiseBuf = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; } const s = ac.createBufferSource(); s.buffer = noiseBuf; return s; };
+  const env = (g, t, a, peak, dec) => { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec); };
+  // a soft electric-piano note: sine + bell overtone, gentle tremolo
+  const keys = (m, t, v, dur) => {
+    const g = ac.createGain(); env(g, t, .008, v, dur); g.connect(master);
+    [[1, 1], [2, .18], [3.01, .05]].forEach(([r, a]) => { const o = ac.createOscillator(), og = ac.createGain(); o.frequency.value = mtof(m) * r; og.gain.value = a; o.connect(og); og.connect(g); o.start(t); o.stop(t + dur + .1); });
+  };
+  const bass = (m, t, v, dur) => { const o = ac.createOscillator(), f = ac.createBiquadFilter(), g = ac.createGain(); o.type = 'triangle'; o.frequency.value = mtof(m); f.type = 'lowpass'; f.frequency.value = 420; env(g, t, .01, v, dur); o.connect(f); f.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .1); };
+  const kick = (t, v) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.setValueAtTime(130, t); o.frequency.exponentialRampToValueAtTime(42, t + .12); env(g, t, .002, v, .28); o.connect(g); g.connect(master); o.start(t); o.stop(t + .4); };
+  const hit = (t, v, freq, q, dur, type = 'bandpass') => { const s = noise(), f = ac.createBiquadFilter(), g = ac.createGain(); f.type = type; f.frequency.value = freq; f.Q.value = q; env(g, t, .002, v, dur); s.connect(f); f.connect(g); g.connect(master); s.start(t, Math.random()); s.stop(t + dur + .05); };
+  const schedule = (s, t) => {
+    const S = ST[station], bar = Math.floor(s / 16) % S.chords.length, i = s % 16, [root, ch] = S.chords[bar];
+    if (station === 'jazz') {
+      if (i === 0) { ch.forEach((m, k) => keys(m, t + k * .012, .07, 2.6)); bass(root, t, .32, 1.1); }
+      if (i === 6 && Math.random() < .6) ch.slice(1).forEach(m => keys(m + 12, t, .035, .8));
+      if (i === 8) bass(root + 7, t, .26, .9);
+      if (i === 14 && Math.random() < .5) bass(root + 10, t, .2, .4);
+      if (i % 2 === 0 && Math.random() < .22) keys(S.scale[Math.floor(Math.random() * S.scale.length)] + 12, t, .05, .9);
+      if (i === 0 || i === 10) kick(t, .5);
+      if (i === 4 || i === 12) hit(t, .16, 1800, .8, .18);
+      if (i % 2 === 0) hit(t, i % 4 === 0 ? .05 : .03, 8000, 1, .05, 'highpass');
+    } else {
+      if (i % 4 === 0) kick(t, .6);
+      if (i === 4 || i === 12) hit(t, .14, 1400, 1.2, .14);
+      if (i % 4 === 2) { hit(t, .06, 9000, 1, .12, 'highpass'); ch.forEach(m => keys(m, t, .035, .35)); }
+      if (i % 2 === 1 && Math.random() < .3) hit(t, .02, 10000, 1, .03, 'highpass');
+      if (i % 4 === 2) bass(root + (i === 14 ? 12 : 0), t, .3, .22);
+      if (i === 0 && bar === 0) ch.forEach(m => keys(m + 12, t, .03, 3));
+      if (i % 4 === 0 && Math.random() < .25) keys(S.scale[Math.floor(Math.random() * S.scale.length)] + 12, t, .04, .6);
+    }
+  };
+  const tick = () => {
+    const S = ST[station], six = 60 / S.bpm / 4;
+    while (nextT < ac.currentTime + .15) { schedule(step, nextT + (step % 2 ? S.swing * six : 0)); nextT += six; step++; }
+  };
+  const vinyl = () => {
+    const len = ac.sampleRate * 4, b = ac.createBuffer(1, len, ac.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * .012 + (Math.random() < .0004 ? (Math.random() - .5) * .5 : 0);
+    const s = ac.createBufferSource(), f = ac.createBiquadFilter(); s.buffer = b; s.loop = true; f.type = 'highpass'; f.frequency.value = 900; s.connect(f); f.connect(master); s.start(); return s;
+  };
+  const start = () => {
+    if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200; master = ac.createGain(); master.connect(lp); lp.connect(ac.destination); }
+    ac.resume(); master.gain.setValueAtTime(vol * (station === 'jazz' ? 1.6 : 1), ac.currentTime);
+    step = 0; nextT = ac.currentTime + .08; clearInterval(timer); timer = setInterval(tick, 25); on = true;
+  };
+  const stop = () => { on = false; clearInterval(timer); if (ac) { master.gain.setTargetAtTime(0, ac.currentTime, .15); setTimeout(() => { if (!on) ac.suspend(); }, 600); } };
+  return {
+    get on() { return on; }, get station() { return station; }, ST,
+    toggle() { on ? stop() : start(); return on; },
+    tune(s) { station = s; if (on) { step = 0; nextT = ac.currentTime + .08; master.gain.setTargetAtTime(vol * (s === 'jazz' ? 1.6 : 1), ac.currentTime, .05); } },
+    volume(v) { vol = v; if (ac && on) master.gain.setTargetAtTime(v * (station === 'jazz' ? 1.6 : 1), ac.currentTime, .05); },
+  };
+})();
+window.RADIO = RADIO;
+const radioEl = document.getElementById('radio'), playEl = document.getElementById('rdPlay'), nowEl = document.getElementById('rdNow');
+const paintRadio = () => {
+  const on = RADIO.on; rec.classList.toggle('playing', on); on ? svg.unpauseAnimations() : svg.pauseAnimations();
+  radioEl.classList.toggle('on', on); playEl.textContent = on ? '❚❚ Pause' : '▶ Play'; playEl.setAttribute('aria-pressed', on);
+  nowEl.textContent = on ? `Now playing: ${RADIO.ST[RADIO.station].name}` : 'The record player is quiet';
+  radioEl.querySelectorAll('[data-st]').forEach(b => b.classList.toggle('sel', b.dataset.st === RADIO.station));
+};
+rec.addEventListener('click', () => { RADIO.toggle(); paintRadio(); });
+playEl.addEventListener('click', () => { RADIO.toggle(); paintRadio(); });
+radioEl.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', () => { RADIO.tune(b.dataset.st); if (!RADIO.on) RADIO.toggle(); paintRadio(); }));
+document.getElementById('rdVol').addEventListener('input', e => RADIO.volume(+e.target.value));
+// stop the music when the room scrolls out of view
+new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting && RADIO.on) { RADIO.toggle(); paintRadio(); } }), {threshold: 0}).observe(document.getElementById('home'));
+paintRadio();
 // a postcard slides in under the door (called after a postcard is sent)
 window.homeMail = (emoji = '💌') => {
   const m = document.getElementById('rmMail'), n = m.children.length; if (n > 6) return;
