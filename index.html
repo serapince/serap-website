@@ -462,7 +462,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <div class="hold"><span id="food"></span><i></i></div>
     </div>
     <div class="hud" id="hud">
-      <div class="passport"><span class="mono">Stamps <span id="pcount">0</span>/16 · Souvenirs <span id="scount">0</span>/16 · Quiz ★ <span id="qcount">0</span></span><b id="where">Ride right to start</b><div class="stamps" id="stamps"></div><button class="restart mono" type="button" id="restartBtn">↺ Start over</button></div>
+      <div class="passport"><span class="mono">Stamps <span id="pcount">0</span>/<span class="ptot">16</span> · Souvenirs <span id="scount">0</span>/<span class="ptot">16</span> · Quiz ★ <span id="qcount">0</span></span><b id="where">Ride right to start</b><div class="stamps" id="stamps"></div><button class="restart mono" type="button" id="restartBtn">↺ Start over</button></div>
       <button class="exit" type="button" id="exitBtn" aria-label="Exit journey">✕ Exit</button>
     </div>
     <div class="card-pop" id="pop"></div>
@@ -473,7 +473,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     </div>
     <div class="toast" id="toast"></div>
     <canvas class="confetti" id="confetti"></canvas>
-    <div class="finale" id="finale"><div><span class="eyebrow mono">16 of 16 stamps</span><h3>You've seen it all!</h3><p id="finaleTxt">Thanks for flying with me. Got a place I should add to the passport?</p><div class="row"><button class="pill show" type="button" id="toHello">Say hello</button><button class="pill ghost show" type="button" id="again">Start a new trip</button></div></div></div>
+    <div class="finale" id="finale"><div><span class="eyebrow mono" id="finEye">All stamps</span><h3>You've seen it all!</h3><p id="finaleTxt">Thanks for flying with me. Got a place I should add to the passport?</p><div class="row"><button class="pill show" type="button" id="toHello">Say hello</button><button class="pill ghost show" type="button" id="again">Start a new trip</button></div></div></div>
     <div class="hero-inner">
       <span class="intro mono"><i></i>Traveler · Maker · Storyteller</span>
       <h1 class="type" id="type" aria-label="Hi, I'm Serap. I collect places, make things, and write it all down."></h1>
@@ -622,15 +622,18 @@ const PLACES = [
   {name:"Portugal", code:"PT", coords:"38.72°N 9.14°W", cities:["Lisbon","Porto"], c:["#ffd27a","#e07a5f","#22385b"]},
   {name:"Spain", code:"ES", coords:"37.39°N 5.98°W", cities:["Sevilla","Madrid","Barcelona","Málaga","Ibiza"], c:["#ffcf5c","#e4572e","#3a1424"]},
   {name:"England", code:"UK", coords:"51.51°N 0.13°W", cities:["London"], c:["#9ab6d6","#c0435a","#141a33"]},
+  {name:"Belgium", code:"BE", coords:"50.85°N 4.35°E", cities:["Brussels","Tomorrowland"], c:["#ffd84d","#e0303f","#1a1620"]},
   {name:"Netherlands", code:"NL", coords:"52.37°N 4.90°E", cities:["Amsterdam"], c:["#ff9f43","#4f7cac","#12213a"]},
   {name:"Sweden", code:"SE", coords:"59.33°N 18.07°E", cities:["Stockholm"], c:["#ffe08a","#3b82c4","#0d1a33"]},
   {name:"Germany", code:"DE", coords:"52.52°N 13.40°E", cities:["Berlin","Hamburg"], c:["#c3b2ff","#e0a458","#16141f"]},
   {name:"Poland", code:"PL", coords:"50.06°N 19.94°E", cities:["Kraków","Warsaw"], c:["#ffd6a5","#c9184a","#1f1426"]},
   {name:"Czechia", code:"CZ", coords:"50.08°N 14.44°E", cities:["Prague"], c:["#f4a261","#7d5ba6","#1a1530"]},
-  {name:"Hungary", code:"HU", coords:"47.50°N 19.04°E", cities:["Budapest"], c:["#ffd166","#3c8d5a","#1d1a2c"]},
   {name:"Austria", code:"AT", coords:"48.21°N 16.37°E", cities:["Vienna"], c:["#ffb3c1","#b23a48","#24142a"]},
   {name:"Switzerland", code:"CH", coords:"46.82°N 8.23°E", cities:["The Alps"], c:["#e8f1ff","#d64545","#1a2238"]},
   {name:"Italy", code:"IT", coords:"41.90°N 12.50°E", cities:["Rome","Florence","Venice"], c:["#f7b267","#c8553d","#2e1d2b"]},
+  {name:"Hungary", code:"HU", coords:"47.50°N 19.04°E", cities:["Budapest","Sziget Festival"], c:["#ffd166","#3c8d5a","#1d1a2c"]},
+  {name:"Serbia", code:"RS", coords:"44.79°N 20.45°E", cities:["Belgrade"], c:["#ffb38a","#3b5ba5","#1a1830"]},
+  {name:"North Macedonia", code:"MK", coords:"41.12°N 20.80°E", cities:["Skopje","Ohrid"], c:["#ffd166","#d6281f","#2a1420"]},
   {name:"Greece", code:"GR", coords:"37.98°N 23.73°E", cities:["Athens"], c:["#a5d8ff","#2f6fdb","#0c1a3a"]},
   {name:"Türkiye", code:"TR", coords:"38.64°N 34.83°E", cities:["Cappadocia","Göcek","Ölüdeniz"], c:["#ff9a76","#7b4fa8","#1d1838"]},
   {name:"Thailand", code:"TH", coords:"13.76°N 100.50°E", cities:["Bangkok","Phuket"], c:["#5eead4","#f472b6","#1b1a3f"]},
@@ -724,7 +727,7 @@ const GUIDE = {
   },
   HU: {
     go:["The Parliament","Buda Castle and Fisherman's Bastion","St Stephen's Basilica","The Great Market Hall","Andrássy Avenue to Heroes' Square"],
-    do:["Széchenyi or Gellért thermal baths","A Danube cruise at night","A ruin bar in the Jewish Quarter","Sunset from Gellért Hill"],
+    do:["Széchenyi or Gellért thermal baths","Sziget Festival on Óbuda Island in August","A Danube cruise at night","A ruin bar in the Jewish Quarter","Sunset from Gellért Hill"],
     eat:["Lángos with sour cream and cheese","Goulash soup","Kürtőskalács, chimney cake","Dobos torte","Chicken paprikash"],
     bring:["Hungarian paprika","Tokaji wine","Hand embroidery"]
   },
@@ -752,6 +755,24 @@ const GUIDE = {
     eat:["Souvlaki and gyros","A real Greek salad","Spanakopita","Loukoumades","Freddo espresso"],
     bring:["Greek olive oil","Thyme honey","A mati (evil eye) charm","Olive wood"]
   },
+  BE: {
+    go:["Brussels: the Grand-Place","Brussels: the Atomium","Brussels: Manneken Pis and the Royal Galleries of Saint-Hubert","Brussels: the Magritte Museum","A day trip to Bruges or Ghent"],
+    do:["Tomorrowland in Boom, two weekends every July","The comic strip mural walk in Brussels","A chocolate tasting","A beer in a traditional Brussels café"],
+    eat:["Waffles, Brussels and Liège style","Fries with mayonnaise from a frietkot","Moules-frites","Pralines","Speculoos"],
+    bring:["Belgian pralines","Speculoos","Belgian beer","Something Tintin"]
+  },
+  RS: {
+    go:["Kalemegdan fortress and the Pobednik statue","The Temple of Saint Sava","Knez Mihailova street","Skadarlija, the bohemian quarter","Zemun and the Gardoš tower","The Nikola Tesla Museum"],
+    do:["Sunset at Kalemegdan, where the Sava meets the Danube","A night on a splav, a floating river club","Ada Ciganlija, Belgrade's lake beach","A day trip to Novi Sad and Petrovaradin fortress"],
+    eat:["Ćevapi and pljeskavica","Kajmak","Burek with yogurt for breakfast","Sarma","Rakija, carefully"],
+    bring:["Rakija","Homemade ajvar","Miniature opanci, the traditional shoes"]
+  },
+  MK: {
+    go:["Ohrid old town","The Church of St John at Kaneo","Samuel's Fortress","Skopje's Old Bazaar","The Stone Bridge and Macedonia Square","Matka Canyon"],
+    do:["A boat on Lake Ohrid at sunset","Kayaking in Matka Canyon","A swim in Lake Ohrid","St Naum monastery and its springs"],
+    eat:["Tavče gravče, baked beans","Ajvar","Shopska salad","Burek in the Old Bazaar","Pastrmajlija"],
+    bring:["Ohrid pearls","Ajvar","Silver filigree jewellery"]
+  },
   TH: {
     go:["Bangkok: the Grand Palace and Wat Phra Kaew","Bangkok: Wat Arun and Wat Pho","Bangkok: Chatuchak Weekend Market","Phuket: Phi Phi islands","Phuket: Phang Nga Bay"],
     do:["A longtail boat through Bangkok's canals","A Thai cooking class","A Thai massage","Diving off Phuket (Similan Islands, roughly October to May)"],
@@ -767,6 +788,25 @@ const GUIDE = {
 };
 /* City guides inside a country's drawer (Türkiye has many). Keys: name, line, go, do, eat, bring */
 const CITIES = {
+  BE: [
+    {name:"Brussels", line:"Waffles, comics and the prettiest square in Europe.",
+      go:["The Grand-Place, best at night","The Atomium","Manneken Pis (smaller than you think)","The Royal Galleries of Saint-Hubert","The Magritte Museum","Mont des Arts at sunset"],
+      do:["The comic strip mural walk","A chocolate tasting","Flea market at Place du Jeu de Balle","A beer in a traditional café"],
+      eat:["A warm Liège waffle","Fries from a frietkot","Moules-frites","Pralines"],
+      bring:["Belgian pralines","Speculoos","Something Tintin"]},
+    {name:"Tomorrowland", line:"A fairy-tale world built around a stage in Boom, every July.",
+      go:["The Main Stage and its new theme every year","De Schorre park, the festival grounds","DreamVille, the festival campsite"],
+      do:["Dance at sunset in front of the Main Stage","Hop between the themed smaller stages","Camp or glamp in DreamVille","Find your festival friends from all over the world"],
+      eat:["Festival food from around the world","Belgian fries between sets"],
+      bring:["The festival bracelet","Tomorrowland merch","A thousand photos"]},
+  ],
+  HU: [
+    {name:"Sziget Festival", line:"A week of music on an island in the Danube, every August.",
+      go:["Óbuda Island (Hajógyári-sziget) in Budapest","The Main Stage","The smaller stages, art and circus tents"],
+      do:["Get the week pass and camp on the island","Discover new bands between the headliners","Cool off in Budapest's thermal baths after"],
+      eat:["Lángos between concerts","Festival food from everywhere"],
+      bring:["The Sziget bracelet","Festival merch"]},
+  ],
   TR: [
     {name:"İstanbul", line:"Two continents, one ferry ride apart.",
       go:["Hagia Sophia and the Blue Mosque","Topkapı Palace","The Basilica Cistern","Galata Tower","The Grand Bazaar and the Spice Bazaar","Balat's colourful streets"],
@@ -852,6 +892,9 @@ const INFO = {
   IT:{money:"Euro (€)",say:"Ciao · Grazie",plug:"Types F and L, 230V",tip:"Not expected; a coperto (cover charge) is normal",move:"Fast trains link Rome, Florence and Venice. Validate regional tickets",water:"Safe, and free from Rome's nasoni fountains",best:"April to June, September to October",sos:"112",note:"Espresso is cheaper standing at the bar. Venice charges day-trippers an entry fee on busy days"},
   GR:{money:"Euro (€)",say:"Yia sas · Efharistó",plug:"Type F, 230V",tip:"5–10%",move:"The metro runs from the airport into central Athens",water:"Tap water in Athens is safe",best:"April to June, September to October",sos:"112",note:"Visit the Acropolis right at opening, before the heat and the crowds"},
   TR:{money:"Turkish lira (TRY)",say:"Merhaba · Teşekkürler",plug:"Type F, 230V",tip:"Around 10%",move:"Fly to Kayseri or Nevşehir for Cappadocia, and Dalaman for Göcek and Ölüdeniz",water:"Drink bottled water",best:"April to June, September to October",sos:"112",note:"Book balloons ahead; flights are cancelled when it's windy"},
+  BE:{money:"Euro (€)",say:"Bonjour · Merci in Brussels, Hallo · Dank u in Flanders",plug:"Type E, 230V",tip:"Service is included; round up if you like",move:"Brussels metro and trams, tap a contactless card. Bruges is about an hour by train",water:"Tap water is safe",best:"May to September; Tomorrowland is in late July",sos:"112",note:"Belgium has three official languages: Dutch, French and German"},
+  RS:{money:"Serbian dinar (RSD)",say:"Zdravo · Hvala",plug:"Type F, 230V",tip:"Around 10%",move:"Buses and trams in Belgrade. A fast train reaches Novi Sad in about 35 minutes",water:"Tap water in Belgrade is generally safe",best:"May to September",sos:"192 police · 194 ambulance",note:"Signs use both Cyrillic and Latin letters"},
+  MK:{money:"Macedonian denar (MKD)",say:"Zdravo · Blagodaram",plug:"Type F, 230V",tip:"Around 10%",move:"Buses link Skopje and Ohrid in about 3 hours. Ohrid also has its own airport",water:"Tap water in Skopje and Ohrid is generally safe",best:"June to September for the lake",sos:"112",note:"Lake Ohrid is one of the oldest lakes in Europe"},
   TH:{money:"Thai baht (THB)",say:"Sawasdee ka/krub · Khop khun ka/krub",plug:"Types A, B, C and O, 220V",tip:"Leave small change, or 20–50 baht",move:"Bangkok: BTS Skytrain, MRT and river boats. Grab for rides",water:"Drink bottled water",best:"November to February",sos:"1155 tourist police · 1669 ambulance",note:"Cover your shoulders and knees in temples"},
   JP:{money:"Japanese yen (JPY). Cash is still handy",say:"Konnichiwa · Arigatō",plug:"Type A, 100V. Check your chargers",tip:"No tipping, ever",move:"Add a Suica or ICOCA card to your phone wallet. Shinkansen between cities",water:"Tap water is safe",best:"Late March to April for sakura, November for autumn leaves",sos:"110 police · 119 ambulance",note:"There are few bins, so carry your rubbish"},
 };
@@ -1096,7 +1139,7 @@ const openCountry = code => {
   cdBody.innerHTML = (tours.length ? `<h3 class="cd-h">One perfect day</h3><div class="tours">${tours.map(tourHTML).join('')}</div>` : '')
     + (g ? `<h3 class="cd-h">My guide</h3><div class="cd-guide">${sec('See', g.go)}${sec('Do', g.do)}${sec('Eat', g.eat)}${sec('Bring home', g.bring)}</div>`
          : `<p class="cd-soon">My favourite places, restaurants and souvenirs for ${p.name} are still in the notebook. Coming soon.</p>`)
-    + ((CITIES[code] || []).length ? `<h3 class="cd-h">More of ${p.name}, city by city</h3><div class="cd-cities" role="tablist">${CITIES[code].map((c, k) => `<button type="button" role="tab" data-city="${k}">${c.name}</button>`).join('')}</div><div class="cd-city" id="cdCity"></div>` : '')
+    + ((CITIES[code] || []).length ? `<h3 class="cd-h">More of ${p.name}</h3><div class="cd-cities" role="tablist">${CITIES[code].map((c, k) => `<button type="button" role="tab" data-city="${k}">${c.name}</button>`).join('')}</div><div class="cd-city" id="cdCity"></div>` : '')
     + ((i => i ? `<h3 class="cd-h">Good to know</h3><div class="cd-info">${[['💶','Money',i.money],['💬','Hello · Thanks',i.say],['🔌','Plugs',i.plug],['🪙','Tipping',i.tip],['🚆','Getting around',i.move],['🚰','Water',i.water],['🗓','Best time',i.best],['🆘','Emergency',i.sos],['✨','Local tip',i.note]].filter(r => r[2]).map(([e, h, t]) => `<div class="cd-fact"><span class="e" aria-hidden="true">${e}</span><div><span class="mono">${h}</span><p>${t}</p></div></div>`).join('')}</div>` : '')(INFO[code]))
     + `<a class="pill ghost show cd-pc" href="#postcard" data-pc="${code}">Send me a postcard from ${p.name} ✉</a>`;
   cdBody.querySelectorAll('.tour').forEach(el => { el.classList.add('in'); wireTour(el); });
@@ -1240,6 +1283,8 @@ const COSTUME = {
   CZ: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y + 2}" stroke="#d9d9e8" stroke-width="2"/><path d="M${x},${y + 2} l8,10 l-8,14 l-8,-14Z" fill="#bfe3ff" stroke="#7aa7d6" stroke-width="1.2"/><path d="M${x - 3},${y + 10} l3,-4" stroke="#fff" stroke-width="1.5"/>`) },
   AT: { body: '<path d="M140,336 Q200,372 260,336 L262,372 Q200,404 138,372 Z" fill="#e0303f"/><path d="M139,352 Q200,386 261,352" stroke="#fff" stroke-width="8" fill="none"/><path d="M236,360 l24,84 l-18,4 l-22,-82 Z" fill="#e0303f"/>' },
   GR: { head: arcPts(14, -2.75, -.4, 102, 96).map(([x, y], i) => `<ellipse cx="${x.toFixed(1)}" cy="${(y - 2).toFixed(1)}" rx="10" ry="4.5" transform="rotate(${(i - 6.5) * 11} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${i % 2 ? '#7a9a45' : '#94b35a'}"/>`).join('') + '<circle cx="246" cy="88" r="4" fill="#3d4a2a"/><circle cx="156" cy="88" r="4" fill="#3d4a2a"/>' },
+  BE: { head: '<path d="M106,186 Q104,62 200,58 Q296,62 294,186" fill="none" stroke="#1d1d24" stroke-width="12" stroke-linecap="round"/><rect x="86" y="170" width="34" height="50" rx="14" fill="#1d1d24"/><rect x="280" y="170" width="34" height="50" rx="14" fill="#1d1d24"/><circle cx="103" cy="195" r="8" fill="#ffd84d"/><circle cx="297" cy="195" r="8" fill="#ffd84d"/>' },
+  MK: { head: ear((x, y) => `<line x1="${x}" y1="${y - 12}" x2="${x}" y2="${y}" stroke="#d9b45a" stroke-width="2"/><circle cx="${x}" cy="${y + 7}" r="7" fill="#fbf6ee" stroke="#cfc2ad" stroke-width="1.2"/><circle cx="${x - 2}" cy="${y + 5}" r="2" fill="#fff"/>`) },
   PL: { head: arcPts(7).map(([x, y], i) => flower(x, y, 13, ['#e0303f', '#ff8fa3', '#ffd166'][i % 3], '#5b2a86')).join('') + '<path d="M286,150 q10,60 -6,110 M292,150 q22,50 10,104" stroke="#e0303f" stroke-width="5" fill="none"/><path d="M296,150 q16,58 2,110" stroke="#1f3b73" stroke-width="5" fill="none"/>' },
 };
 // fabric for the top and the bandana: [pattern size, svg content, trim colour], per country
@@ -1264,6 +1309,9 @@ const OUTFIT = {
   CZ: { top: [...solid('#7a1f3d'), '#4d1226'], band: [...solid('#f2e6d0'), '#c9b48f'] },
   AT: { top: [16, '<rect width="16" height="16" fill="#2f6b4f"/><rect width="16" height="3" y="0" fill="#f4f1ec"/><circle cx="8" cy="10" r="1.6" fill="#e0303f"/>', '#1f4a36'], band: [...solid('#f4f1ec'), '#c9c2b4'] },
   GR: { top: [16, '<rect width="16" height="16" fill="#f4f6fb"/><path d="M0,12 h4 v-6 h8 v6 h4" stroke="#2456a6" stroke-width="1.8" fill="none"/>', '#2456a6'], band: [...solid('#2456a6'), '#163a73'] },
+  BE: { top: [...dots('#1d1d24', '#ffd84d', 2, 14), '#000'], band: [...solid('#e0303f'), '#a5172b'] },
+  RS: { top: [...stripes('#f4f1ec', '#c6363c'), '#9e2329'], band: [...solid('#2456a6'), '#163a73'] },
+  MK: { top: [...solid('#d6281f'), '#9e1f15'], band: [...solid('#ffd166'), '#d9a520'] },
   PL: { top: [...dots('#16141c', '#e0303f', 2.4, 16), '#000'], band: [...solid('#e0303f'), '#a5172b'] },
 };
 const setFabric = (id, f, def) => { const v = f || def; [id, id + 'W'].forEach(k => { const p = document.getElementById(k); if (!p) return; p.setAttribute('width', v[0]); p.setAttribute('height', v[0]); p.innerHTML = v[1]; }); return v[2]; };
@@ -1338,10 +1386,13 @@ const START = 900, GAP = 1100, T0 = 0.27, PX = 2600;
 let bx = 0, current = -1, keys = 0, held = 0, popT, celebrated = false;
 let got = new Set(), bag = new Set();
 // one iconic souvenir per country, floating between landmarks
-const SOUV = {JP:['🍵','Matcha'],UK:['☂️','An umbrella, obviously'],ES:['🥘','Paella pan'],TR:['🧿','Nazar boncuğu'],PT:['🐟','Tinned sardines'],NL:['🌷','Tulip bulbs'],IT:['🍕','A slice of pizza'],TH:['🐘','Elephant pants'],DE:['🥨','A pretzel'],SE:['🐴','Dala horse'],CH:['🍫','Swiss chocolate'],HU:['🌶️','Paprika'],CZ:['🔮','Bohemian crystal'],AT:['🎻','A Vienna violin tune'],GR:['🫒','Olive oil'],PL:['🥟','Pierogi']};
+const SOUV = {BE:['🍟','Belgian fries in a paper cone'],RS:['🎺','A Guča brass trumpet'],MK:['📿','Ohrid pearls'],JP:['🍵','Matcha'],UK:['☂️','An umbrella, obviously'],ES:['🥘','Paella pan'],TR:['🧿','Nazar boncuğu'],PT:['🐟','Tinned sardines'],NL:['🌷','Tulip bulbs'],IT:['🍕','A slice of pizza'],TH:['🐘','Elephant pants'],DE:['🥨','A pretzel'],SE:['🐴','Dala horse'],CH:['🍫','Swiss chocolate'],HU:['🌶️','Paprika'],CZ:['🔮','Bohemian crystal'],AT:['🎻','A Vienna violin tune'],GR:['🫒','Olive oil'],PL:['🥟','Pierogi']};
 window.SOUV = SOUV;
 // one quick question per stop (two per country, picked at random); the answer is always the first option
 const QUIZ = {
+  BE:[["Brussels' giant model of an iron crystal is called the…","Atomium","Manneken","Belvedere"],["Tomorrowland takes place in which Belgian town?","Boom","Bruges","Ghent"]],
+  RS:[["Belgrade sits where the Sava meets which river?","The Danube","The Drina","The Morava"],["Belgrade's airport is named after which inventor?","Nikola Tesla","Thomas Edison","Alfred Nobel"]],
+  MK:[["Which famous humanitarian was born in Skopje?","Mother Teresa","Florence Nightingale","Marie Curie"],["Lake Ohrid is one of the oldest lakes in…","Europe","South America","Africa"]],
   PT:[["Which number is Lisbon's famous yellow tram through Alfama?","28","7","42"],["Fado is Portugal's…","soulful folk song","card game","custard pastry"]],
   ES:[["Which city is home to Gaudí's Sagrada Família?","Barcelona","Madrid","Sevilla"],["Flamenco was born in which region?","Andalusia","Catalonia","Galicia"]],
   UK:[["What is the name of the great bell in London's clock tower?","Big Ben","Little John","Old Tom"],["Which river flows through London?","The Thames","The Seine","The Danube"]],
@@ -1387,6 +1438,9 @@ const TREAT = (() => {
     GR: ['a gyro', `<path d="M14,22 C14,16 50,16 50,22 L40,60 L24,60 Z" fill="#f2d39b" ${K}/><path d="M18,22 C24,26 40,26 46,22" stroke="#2a2433" stroke-width="2" fill="none"/><path d="M20,22 C22,10 28,8 30,18 M30,20 C32,6 38,8 38,18 M38,20 C42,10 48,12 44,22" stroke="#ffd27a" stroke-width="4" stroke-linecap="round" fill="none"/><circle cx="26" cy="22" r="4" fill="#e0303f"/><path d="M34,20 h8" stroke="#7cc6a4" stroke-width="4" stroke-linecap="round"/><path d="M24,40 l16,-4 M26,50 l12,-3" stroke="#d9a25a" stroke-width="2"/>`],
     TR: ['a simit', `<circle cx="32" cy="34" r="22" fill="#b5651d" ${K}/><circle cx="32" cy="34" r="9" fill="#fff0d0" ${K}/><path d="M14,26 q18,-8 36,0 M12,40 q20,10 40,0" stroke="#8a4a14" stroke-width="2" fill="none"/>${dots([[18,30],[24,20],[34,16],[44,22],[50,32],[46,46],[36,52],[24,50],[16,42],[40,30],[26,40],[42,40]], '#fff3d6', 1.5)}`],
     TH: ['a Thai iced tea', `<path d="M16,16 H48 L44,60 H20 Z" fill="#ff9a3c" ${K}/><path d="M17,26 H47 L46,34 H18 Z" fill="#fffaf2" opacity=".8"/><path d="M36,16 L44,2" stroke="#e0303f" stroke-width="4" stroke-linecap="round"/><rect x="14" y="12" width="36" height="6" rx="3" fill="#fffaf2" ${K}/><circle cx="26" cy="46" r="2" fill="#fff" opacity=".7"/>`],
+    BE: ['a Belgian waffle', `<rect x="8" y="16" width="48" height="38" rx="6" fill="#e9b05a" ${K}/><path d="M8,28 h48 M8,41 h48 M20,16 v38 M32,16 v38 M44,16 v38" stroke="#b9752a" stroke-width="2"/><path d="M14,18 C14,8 30,6 32,14 C36,4 52,8 50,18 C48,24 16,24 14,18 Z" fill="#fffaf2" ${K}/><path d="M26,10 c-6,-2 -6,-8 0,-8 c6,0 6,6 0,8 Z" fill="#e0303f" ${K}/><path d="M24,3 l2,-3 2,3" stroke="#3c8d5a" stroke-width="2" fill="none"/>${dots([[38,10],[22,15],[44,16]], '#7a3b12', 1.4)}`],
+    RS: ['a pljeskavica', `<path d="M8,30 C8,12 56,12 56,30 Z" fill="#e9b05a" ${K}/><path d="M6,32 C14,28 50,28 58,32 C56,38 8,38 6,32 Z" fill="#7a3b12" ${K}/><path d="M8,38 q6,-3 12,0 t12,0 t12,0 t12,0" stroke="#fffaf2" stroke-width="4" fill="none"/><path d="M10,36 l8,4 8,-4 8,4 8,-4 8,4 8,-4" stroke="#e0303f" stroke-width="2.5" fill="none"/><path d="M8,42 h48 v4 C56,54 8,54 8,46 Z" fill="#e9b05a" ${K}/>${dots([[22,18],[30,15],[40,19],[34,22]], '#fffaf2', 1.3)}`],
+    MK: ['a jar of ajvar', `<rect x="14" y="14" width="36" height="10" rx="3" fill="#e0303f" ${K}/><path d="M16,24 H48 V54 Q48,60 42,60 H22 Q16,60 16,54 Z" fill="#c8331f" ${K}/><path d="M18,28 H46" stroke="#ffb38a" stroke-width="2" opacity=".6"/><rect x="20" y="36" width="24" height="14" rx="3" fill="#fffaf2" ${K}/><path d="M32,39 v8 M28,43 h8" stroke="#3c8d5a" stroke-width="2"/>${dots([[22,30],[38,32],[30,55],[42,52]], '#ff8a5c', 1.5)}`],
     JP: ['a taiyaki', `<path d="M8,34 C14,18 40,16 50,30 L60,20 L58,36 L60,50 L50,40 C40,54 14,52 8,34 Z" fill="#e0a35a" ${K}/><circle cx="18" cy="30" r="2.5" fill="#2a2433"/><path d="M14,40 q4,3 8,1" stroke="#2a2433" stroke-width="2" fill="none"/>${[[28,28],[36,30],[30,38],[38,40],[44,34]].map(([x, y]) => `<path d="M${x},${y} a4,4 0 0 1 6,0" stroke="#b06a24" stroke-width="2" fill="none"/>`).join('')}`],
   };
 })();
@@ -1461,6 +1515,9 @@ const VEH = (() => {
     AT: tram('#d6281f', '#f4f1ec', 'a Vienna tram', 'D'),
     GR: boat('#fffaf2', '#2456a6', 'a sailboat', `<path d="M250,124 V-90" stroke="${INK}" stroke-width="5"/><path d="M256,-80 C330,-10 352,60 356,116 H256 Z" fill="#fffaf2" stroke="${INK}" stroke-width="3"/><path d="M244,-60 C200,0 190,60 196,116 H244 Z" fill="#f4f6fb" stroke="${INK}" stroke-width="3"/><path d="M250,-90 l26,8 -26,8" fill="#2456a6"/>`),
     PL: train('#ffc94d', '#2a2433', 'the train'),
+    BE: tram('#2456a6', '#fffaf2', 'a Brussels tram', '92'),
+    RS: car('#e0303f', 'a little Yugo', false),
+    MK: boat('#fffaf2', '#d6281f', 'a boat on Lake Ohrid', `<path d="M300,124 V60" stroke="${INK}" stroke-width="3"/><path d="M300,62 l30,10 -30,10 Z" fill="#d6281f" stroke="${INK}" stroke-width="2"/>`),
   };
 })();
 let vehNow = '';
@@ -1469,6 +1526,7 @@ const setFood = f => { if (f !== foodNow) { foodNow = f; const el = document.get
 const routeEl = document.getElementById('route');
 try { got = new Set(JSON.parse(localStorage.getItem('serap-passport') || '[]')); } catch(e) {}
 const save = () => { try { localStorage.setItem('serap-passport', JSON.stringify([...got])); localStorage.setItem('serap-souvenirs', JSON.stringify([...bag])); localStorage.setItem('serap-quiz', JSON.stringify([...stars])); } catch(e) {} };
+document.querySelectorAll('.ptot').forEach(e => e.textContent = PL.length);
 stampsEl.innerHTML = PL.map(p => `<span data-c="${p.code}">${p.code}</span>`).join('');
 routeEl.insertAdjacentHTML('beforeend', PL.map((p,i) => `<i class="dot" data-c="${p.code}" style="left:${(i/(PL.length-1))*100}%"></i>`).join('') + '<i class="me-dot" id="meDot"></i>');
 const paintStamps = () => { stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('got', got.has(s.dataset.c))); routeEl.querySelectorAll('.dot').forEach(d => d.classList.toggle('got', got.has(d.dataset.c))); pcount.textContent = got.size; document.getElementById('scount').textContent = bag.size; document.getElementById('qcount').textContent = stars.size; stampsEl.querySelectorAll('span').forEach(s => s.classList.toggle('star', stars.has(s.dataset.c))); };
@@ -1504,6 +1562,17 @@ const DRAW = {
     for (let i=0;i<12;i++){ const an=rot+i*Math.PI/6; c.beginPath(); c.moveTo(x,cy); c.lineTo(x+Math.cos(an)*r,cy+Math.sin(an)*r); c.stroke(); R(c,x+Math.cos(an)*r-9*s,cy+Math.sin(an)*r,18*s,14*s,a); }
     P(c,k,[x-70*s,y, x-6*s,cy, x+6*s,cy, x+70*s,y]); },
   GR(c,x,y,s,k,a){ const w='#ece2cf'; R(c,x-120*s,y-16*s,240*s,16*s,w); R(c,x-110*s,y-28*s,220*s,12*s,w); for (let i=0;i<8;i++) R(c,x+(-104+i*29)*s,y-110*s,14*s,82*s,w); R(c,x-114*s,y-126*s,228*s,16*s,w); P(c,w,[x-118*s,y-126*s, x,y-160*s, x+118*s,y-126*s]); },
+  BE(c,x,y,s,k,a){ const N = [[0,-150],[0,-250],[0,-60],[-72,-200],[72,-200],[-72,-100],[72,-100],[-38,-175],[38,-125]];
+    c.strokeStyle=k; c.lineWidth=7*s; c.beginPath(); [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[1,3],[1,4],[2,5],[2,6],[3,5],[4,6],[0,7],[0,8]].forEach(([p,q]) => { c.moveTo(x+N[p][0]*s,y+N[p][1]*s); c.lineTo(x+N[q][0]*s,y+N[q][1]*s); }); c.stroke();
+    c.lineWidth=5*s; c.beginPath(); c.moveTo(x+N[5][0]*s,y+N[5][1]*s); c.lineTo(x-90*s,y); c.moveTo(x+N[6][0]*s,y+N[6][1]*s); c.lineTo(x+90*s,y); c.moveTo(x,y-60*s); c.lineTo(x,y); c.stroke();
+    N.forEach(([dx,dy]) => { C(c,x+dx*s,y+dy*s,19*s,k); C(c,x+dx*s,y+dy*s,15*s,'#d9dde3'); C(c,x+(dx-5)*s,y+(dy-5)*s,5*s,'rgba(255,255,255,.8)'); }); C(c,x,y-250*s,6*s,a); },
+  RS(c,x,y,s,k,a){ R(c,x-110*s,y-80*s,220*s,80*s,k); R(c,x-70*s,y-130*s,140*s,50*s,k); c.fillStyle=k; c.beginPath(); c.ellipse(x,y-130*s,60*s,62*s,0,Math.PI,0); c.fill();
+    [-90,90].forEach(dx => { R(c,x+(dx-16)*s,y-120*s,32*s,40*s,k); c.beginPath(); c.ellipse(x+dx*s,y-120*s,18*s,22*s,0,Math.PI,0); c.fill(); R(c,x+(dx-1.5)*s,y-160*s,3*s,18*s,a); });
+    R(c,x-3*s,y-232*s,6*s,40*s,a); R(c,x-12*s,y-222*s,24*s,5*s,a); for (let i=0;i<5;i++) { c.fillStyle=a; c.beginPath(); c.ellipse(x+(-80+i*40)*s,y-40*s,9*s,16*s,0,Math.PI,0); c.fill(); R(c,x+(-89+i*40)*s,y-40*s,18*s,22*s,a); } },
+  MK(c,x,y,s,k,a){ P(c,k,[x-150*s,y, x-120*s,y-70*s, x-60*s,y-96*s, x+20*s,y-104*s, x+60*s,y-80*s, x+90*s,y-30*s, x+110*s,y]);
+    const cx = x-10*s, by = y-104*s; R(c,cx-40*s,by-46*s,80*s,46*s,'#ecd9b8'); R(c,cx-18*s,by-76*s,36*s,30*s,'#ecd9b8');
+    P(c,a,[cx-46*s,by-46*s, cx,by-62*s, cx+46*s,by-46*s]); P(c,a,[cx-22*s,by-76*s, cx,by-98*s, cx+22*s,by-76*s]); R(c,cx-1.5*s,by-112*s,3*s,16*s,k);
+    for (let i=0;i<3;i++) R(c,cx+(-28+i*24)*s,by-34*s,8*s,16*s,k); c.strokeStyle='rgba(165,216,255,.7)'; c.lineWidth=3*s; c.beginPath(); for (let i=0;i<3;i++){ c.moveTo(x+40*s,y-(8+i*12)*s); c.lineTo(x+170*s,y-(8+i*12)*s); } c.stroke(); },
   PL(c,x,y,s,k,a){ R(c,x-100*s,y-60*s,200*s,60*s,k); R(c,x-30*s,y-170*s,60*s,110*s,k); for (let i=0;i<4;i++) R(c,x+(-30+i*17)*s,y-182*s,10*s,12*s,k); c.fillStyle=a; c.beginPath(); c.ellipse(x+60*s,y-80*s,24*s,30*s,0,Math.PI,0); c.fill(); R(c,x+36*s,y-80*s,48*s,20*s,k); R(c,x-8*s,y-140*s,16*s,24*s,'#f6e7c1'); },
 };
 
@@ -1710,7 +1779,8 @@ addEventListener('pointerup', () => dragX = null);
 
 /* ---- finale confetti ---- */
 function finale(){
-  $('#finaleTxt').textContent = (bag.size === PL.length ? `All 16 stamps and all 16 souvenirs. You're a real traveler!` : `You caught ${bag.size} of 16 souvenirs.`) + ` Quiz: ${stars.size} of 16 gold stars on the first try.` + (bag.size === PL.length && stars.size === PL.length ? ' Perfect trip! Got a place I should add next?' : ' Start a new trip to beat it, or tell me a place I should add.');
+  $('#finEye').textContent = `${PL.length} of ${PL.length} stamps`;
+  $('#finaleTxt').textContent = (bag.size === PL.length ? `All ${PL.length} stamps and all ${PL.length} souvenirs. You're a real traveler!` : `You caught ${bag.size} of ${PL.length} souvenirs.`) + ` Quiz: ${stars.size} of ${PL.length} gold stars on the first try.` + (bag.size === PL.length && stars.size === PL.length ? ' Perfect trip! Got a place I should add next?' : ' Start a new trip to beat it, or tell me a place I should add.');
   $('#finale').classList.add('on');
   if (reduce) return;
   const cv = $('#confetti'), c = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
