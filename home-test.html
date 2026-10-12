@@ -313,7 +313,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .post p{margin:0;color:var(--mute);font-size:15px}
 .post .soon{margin-top:auto;color:var(--dusk)}
 @media (max-width:900px){.posts{grid-template-columns:1fr}}
-.room{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.7);background:#ffd3df}
+.room{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.7);background:#f2ebe1}.room .linked{cursor:pointer}.room .linked:hover{filter:brightness(1.06)}
 .room>svg{display:block;width:100%;height:auto}
 .radio{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--line);border-radius:18px;padding:12px 16px;background:var(--ink-2)}
 .rd-play{background:var(--paper);color:var(--ink);border:0;border-radius:999px;padding:10px 18px;font:700 14px var(--f-body);cursor:pointer;min-width:96px}.radio.on .rd-play{background:var(--ember)}
@@ -340,7 +340,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .room .playing .notes{opacity:1}.room .playing .notes text{animation:rmZ 2.2s ease-in-out infinite}.room .playing .notes text:nth-child(2){animation-delay:.7s}.room .playing .notes text:nth-child(3){animation-delay:1.4s}
 .room #rmLampGlow{transition:opacity .4s}.room .off #rmLampGlow{opacity:0}
 .room .frame{transition:transform .4s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:50% 0}
-.room .frame:hover{transform:rotate(-2deg)}
+.room .frame.linked:hover{transform:rotate(-2deg)}
 .room .mailcard{animation:rmMail 1.6s cubic-bezier(.3,1.2,.5,1) both}
 @keyframes rmMail{from{transform:translate(70px,-10px) rotate(0)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){.room *{animation:none!important}}
@@ -557,133 +557,153 @@ section.block{padding-block:clamp(80px,12vw,160px)}
       <p>My living room, where the trips get planned and the souvenirs end up. Say hi to the cat.</p>
     </div>
     <div class="room rv">
-      <svg id="roomSvg" viewBox="0 0 1600 900" role="img" aria-label="Serap's colourful open-plan living room: Serap on an orange sofa next to a sleeping cat, plants, souvenirs on shelves, framed pictures, a kitchen and a front door">
+      <svg id="roomSvg" viewBox="0 0 1600 900" role="img" aria-label="Serap's living room: Serap sitting on a terracotta sofa next to a sleeping cat, framed pictures, plants, a record player, souvenirs on shelves and the front door">
         <defs>
-          <pattern id="rmChk" width="60" height="60" patternUnits="userSpaceOnUse"><rect width="60" height="60" fill="#ffb3c8"/><rect width="30" height="30" fill="#ff7a59"/><rect x="30" y="30" width="30" height="30" fill="#ff7a59"/></pattern>
-          <pattern id="rmTerr" width="90" height="90" patternUnits="userSpaceOnUse"><rect width="90" height="90" fill="#f6eadb"/><path d="M12,14 l9,3 -4,7z" fill="#ff8fab"/><path d="M52,30 l8,-2 2,8z" fill="#7cc6a4"/><path d="M28,62 l10,4 -7,5z" fill="#ffc94d"/><path d="M70,70 l6,6 -8,1z" fill="#ff8fab"/><circle cx="75" cy="12" r="3" fill="#6c8cff"/><circle cx="40" cy="45" r="2.5" fill="#ff7a59"/></pattern>
-          <pattern id="rmTile" width="44" height="44" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#fffaf2"/><rect x="2" y="2" width="40" height="40" rx="6" fill="#8fd9c2"/></pattern>
-          <pattern id="rmWave" width="80" height="40" patternUnits="userSpaceOnUse"><path d="M0,20 q20,-16 40,0 t40,0" stroke="#ff9cb6" stroke-width="6" fill="none"/></pattern>
-          <linearGradient id="rmSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" id="rmSky0" stop-color="#7cc4ff"/><stop offset="1" id="rmSky1" stop-color="#ffd6a5"/></linearGradient>
-          <radialGradient id="rmGlow"><stop offset="0" stop-color="#fff3c4" stop-opacity=".75"/><stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></radialGradient>
-          <clipPath id="rmWin"><path d="M90,520 V250 a120,120 0 0 1 240,0 V520 Z"/></clipPath>
+          <linearGradient id="rmSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" id="rmSky0" stop-color="#9cc9e8"/><stop offset="1" id="rmSky1" stop-color="#f3dcc2"/></linearGradient>
+          <radialGradient id="rmGlow"><stop offset="0" stop-color="#ffe2a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe2a8" stop-opacity="0"/></radialGradient>
+          <pattern id="rmGing" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#fbf4ee"/><rect width="6" height="12" fill="#c8453c" opacity=".55"/><rect width="12" height="6" fill="#c8453c" opacity=".55"/></pattern>
+          <pattern id="rmPlank" width="240" height="46" patternUnits="userSpaceOnUse"><rect width="240" height="46" fill="#d8b48a"/><path d="M0,45.5 H240 M120,0 V46" stroke="#c49b6e" stroke-width="2"/><path d="M30,20 q40,-4 80,0 M150,30 q40,4 70,-2" stroke="#cfa77b" stroke-width="1.5" fill="none"/></pattern>
+          <clipPath id="rmWin"><path d="M100,470 V250 a110,110 0 0 1 220,0 V470 Z"/></clipPath>
         </defs>
         <!-- walls -->
-        <rect width="1600" height="700" fill="#ffd3df"/>
-        <rect y="660" width="1060" height="40" fill="url(#rmWave)" opacity=".7"/>
-        <path d="M430,700 V330 a275,275 0 0 1 550,0 V700 Z" fill="#ff8a5b"/>
-        <rect x="1060" width="540" height="700" fill="#fff0b3"/>
-        <path d="M1060,0 V700" stroke="#ffb703" stroke-width="10"/>
-        <rect x="1250" y="400" width="350" height="170" fill="url(#rmTile)"/>
+        <rect width="1600" height="640" fill="#f2ebe1"/>
+        <path d="M470,640 V300 a270,270 0 0 1 540,0 V640 Z" fill="#b8c4ad"/>
+        <!-- floor -->
+        <rect y="640" width="1600" height="260" fill="url(#rmPlank)"/>
+        <rect y="628" width="1600" height="14" fill="#fbf7f1"/><path d="M0,642 H1600" stroke="#2a2433" stroke-width="2" opacity=".25"/>
         <!-- window -->
         <g>
-          <path d="M90,520 V250 a120,120 0 0 1 240,0 V520 Z" fill="url(#rmSky)"/>
-          <g clip-path="url(#rmWin)"><circle id="rmSun" cx="260" cy="230" r="34" fill="#fff3c4"/><g id="rmStars" fill="#fff" opacity="0"><circle cx="130" cy="210" r="2"/><circle cx="190" cy="170" r="1.6"/><circle cx="290" cy="300" r="2"/><circle cx="150" cy="330" r="1.4"/><circle cx="240" cy="140" r="1.8"/></g>
-            <path d="M90,470 q60,-50 120,-10 t120,-20 V520 H90Z" fill="#7cc6a4" opacity=".8"/><path d="M90,500 q80,-40 150,-5 t90,-10 V520 H90Z" fill="#4fa37e" opacity=".85"/></g>
-          <path d="M90,520 V250 a120,120 0 0 1 240,0 V520 Z M210,130 V520 M90,360 H330" fill="none" stroke="#fffaf2" stroke-width="12"/>
-          <rect x="74" y="514" width="272" height="20" rx="8" fill="#fffaf2"/>
-          <path class="curtain" d="M60,110 h46 c-14,60 14,120 0,180 s14,120 0,180 s10,60 -6,80 h-40 Z" fill="#c3a6ff"/>
-          <path class="curtain c2" d="M360,110 h-46 c14,60 -14,120 0,180 s-14,120 0,180 s-10,60 6,80 h40 Z" fill="#c3a6ff"/>
-          <rect x="44" y="96" width="332" height="16" rx="8" fill="#ffb703"/>
+          <path d="M100,470 V250 a110,110 0 0 1 220,0 V470 Z" fill="url(#rmSky)"/>
+          <g clip-path="url(#rmWin)"><circle id="rmSun" cx="250" cy="230" r="30" fill="#fff4d6"/><g id="rmStars" fill="#fff" opacity="0"><circle cx="140" cy="200" r="2"/><circle cx="190" cy="165" r="1.6"/><circle cx="280" cy="300" r="2"/><circle cx="160" cy="300" r="1.5"/><circle cx="230" cy="150" r="1.4"/></g>
+            <path d="M90,420 q60,-50 120,-20 t130,-10 V480 H90Z" fill="#9db89a"/><path d="M90,450 q70,-30 140,-6 t120,4 V480 H90Z" fill="#7f9f80"/></g>
+          <path d="M100,470 V250 a110,110 0 0 1 220,0 V470 Z M210,140 V470 M100,330 H320" fill="none" stroke="#fbf7f1" stroke-width="12"/>
+          <rect x="84" y="466" width="252" height="16" rx="4" fill="#fbf7f1"/>
+          <rect x="60" y="112" width="300" height="8" rx="4" fill="#8a6a4a"/>
+          <path class="curtain" d="M70,118 h56 c-4,120 10,240 -6,360 h-46 c10,-120 -4,-240 -4,-360Z" fill="#e7dccb"/>
+          <path class="curtain c2" d="M294,118 h56 c0,120 -14,240 -4,360 h-46 c-16,-120 -2,-240 -6,-360Z" fill="#e7dccb"/>
         </g>
-        <!-- hanging plant -->
-        <g class="sway" style="transform-origin:410px 0px">
-          <path d="M410,0 V120" stroke="#8a5a3c" stroke-width="3"/>
-          <path d="M378,120 h64 l-8,40 h-48 Z" fill="#ff7a59"/>
-          <g fill="#4fa37e"><path d="M384,150 q-10,60 4,120" stroke="#4fa37e" stroke-width="4" fill="none"/><path d="M432,150 q14,70 -2,150" stroke="#4fa37e" stroke-width="4" fill="none"/>
-            <ellipse cx="384" cy="190" rx="12" ry="7" transform="rotate(-30 384 190)"/><ellipse cx="392" cy="240" rx="12" ry="7" transform="rotate(30 392 240)"/><ellipse cx="385" cy="268" rx="11" ry="6"/><ellipse cx="440" cy="200" rx="12" ry="7" transform="rotate(30 440 200)"/><ellipse cx="434" cy="250" rx="12" ry="7" transform="rotate(-30 434 250)"/><ellipse cx="438" cy="296" rx="11" ry="6"/><ellipse cx="408" cy="162" rx="14" ry="8"/></g>
-        </g>
-        <!-- gallery wall -->
-        <g id="rmGallery"></g>
-        <!-- floor -->
-        <rect y="700" width="1600" height="200" fill="url(#rmTerr)"/>
-        <rect y="694" width="1600" height="12" fill="#fffaf2"/>
-        <!-- rug -->
-        <ellipse cx="715" cy="800" rx="360" ry="70" fill="url(#rmChk)" stroke="#fffaf2" stroke-width="8"/>
         <!-- floor lamp -->
         <g>
-          <circle id="rmLampGlow" cx="360" cy="380" r="150" fill="url(#rmGlow)"/>
-          <path d="M360,770 V420" stroke="#2a2433" stroke-width="6"/><ellipse cx="360" cy="772" rx="34" ry="8" fill="#2a2433"/>
-          <path id="rmLamp" d="M300,420 a60,60 0 0 1 120,0 Z" fill="#ffc94d" stroke="#ff9f1c" stroke-width="4" style="cursor:pointer"/>
-          <circle cx="345" cy="400" r="5" fill="#fff" opacity=".7" pointer-events="none"/>
+          <circle id="rmLampGlow" cx="400" cy="330" r="170" fill="url(#rmGlow)"/>
+          <path d="M400,340 V632" stroke="#2a2433" stroke-width="5"/><ellipse cx="400" cy="634" rx="38" ry="8" fill="#2a2433"/>
+          <path id="rmLamp" data-link="lamp" d="M350,340 L366,284 H434 L450,340 Z" fill="#e9c46a" stroke="#2a2433" stroke-width="2.5" stroke-linejoin="round" style="cursor:pointer"/>
         </g>
-        <!-- monstera -->
-        <g class="sway s2" style="transform-origin:300px 780px">
-          <path d="M260,700 h80 l-12,90 h-56 Z" fill="#6c8cff"/><path d="M262,712 h76" stroke="#fffaf2" stroke-width="5" stroke-dasharray="8 8"/>
-          <g fill="#2f8a5f"><path d="M300,700 C240,640 200,620 180,560 C240,560 290,610 300,700Z"/><path d="M300,700 C300,620 270,560 280,500 C330,540 330,620 300,700Z"/><path d="M300,700 C350,640 400,630 420,580 C360,580 320,630 300,700Z"/><path d="M300,700 C260,660 220,670 190,640 C240,630 280,660 300,700Z"/></g>
-          <g stroke="#7cc6a4" stroke-width="3" fill="none" opacity=".7"><path d="M300,700 C260,640 220,600 190,565"/><path d="M300,700 C298,620 288,560 282,505"/><path d="M300,700 C350,640 385,610 412,585"/></g>
-        </g>
-        <!-- sofa -->
-        <g id="rmSofa">
-          <rect x="450" y="470" width="540" height="190" rx="70" fill="#ff6f3c"/>
-          <path d="M490,520 v120 M590,505 v140 M690,500 v145 M790,500 v145 M890,505 v140 M950,520 v120" stroke="#ff8a5b" stroke-width="6" stroke-linecap="round"/>
-        </g>
-        <g id="rmMe"></g>
-        <g id="rmSofaFront">
-          <rect x="470" y="600" width="500" height="90" rx="36" fill="#ff8a5b"/>
-          <rect x="420" y="560" width="90" height="150" rx="45" fill="#ff6f3c"/><rect x="930" y="560" width="90" height="150" rx="45" fill="#ff6f3c"/>
-          <path d="M470,710 l-8,40 M980,710 l8,40 M560,700 l-4,46 M880,700 l4,46" stroke="#ffb703" stroke-width="10" stroke-linecap="round"/>
-          <rect x="455" y="520" width="110" height="100" rx="30" fill="url(#rmChk)" transform="rotate(-10 510 570)"/>
-        </g>
-        <!-- cat -->
-        <g id="rmCat" style="cursor:pointer">
-          <path class="tail" d="M890,602 c40,10 60,-20 50,-50 c-6,-16 -20,-14 -16,2 c6,22 -8,34 -36,32" fill="#f4a261" stroke="#2a2433" stroke-width="3"/>
-          <ellipse cx="830" cy="590" rx="78" ry="40" fill="#f4a261" stroke="#2a2433" stroke-width="3"/>
-          <path d="M790,566 q14,-8 28,0 M820,560 q14,-8 28,0 M850,566 q12,-6 22,2" stroke="#d9773c" stroke-width="7" fill="none" stroke-linecap="round"/>
-          <g class="cathead">
-            <path d="M752,560 l8,-38 22,22 Z M800,548 l14,-36 12,40 Z" fill="#f4a261" stroke="#2a2433" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M762,548 l3,-14 8,9 Z M808,540 l6,-14 4,15 Z" fill="#ffb3c8"/>
-            <ellipse cx="786" cy="580" rx="48" ry="38" fill="#f4a261" stroke="#2a2433" stroke-width="3"/>
-            <path d="M762,578 q8,6 16,0 M796,578 q8,6 16,0" stroke="#2a2433" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M784,590 l4,4 4,-4 Z" fill="#ff8fab"/><path d="M788,594 q-6,7 -12,2 M788,594 q6,7 12,2" stroke="#2a2433" stroke-width="2" fill="none"/>
-            <path d="M742,590 h-18 M742,596 l-16,6 M832,590 h18 M832,596 l16,6" stroke="#2a2433" stroke-width="1.6"/>
-            <circle cx="764" cy="592" r="6" fill="#ff8fab" opacity=".5"/><circle cx="810" cy="592" r="6" fill="#ff8fab" opacity=".5"/>
+        <!-- big plant in a terracotta pot -->
+        <g data-link="plant">
+          <g class="sway" style="transform-origin:200px 640px">
+            <path d="M200,560 C150,500 110,470 70,470 C110,500 140,530 196,566Z" fill="#6f8f6a"/>
+            <path d="M200,560 C190,470 210,400 250,370 C230,430 220,500 206,566Z" fill="#7fa079"/>
+            <path d="M204,566 C250,500 300,490 330,500 C290,520 250,540 210,570Z" fill="#5f7f5c"/>
+            <path d="M198,566 C170,480 130,430 100,410 C140,460 170,510 194,570Z" fill="#88a882"/>
           </g>
-          <g class="zzz" font-family="Syne, sans-serif" font-weight="800" fill="#6c8cff"><text x="840" y="520" font-size="22">z</text><text x="858" y="496" font-size="28">z</text><text x="880" y="466" font-size="34">Z</text></g>
-          <text class="purr" x="760" y="500" font-family="Caveat, cursive" font-size="34" fill="#2a2433" opacity="0">prrr…</text>
+          <path d="M160,566 H244 L232,640 H172 Z" fill="#c96f4a" stroke="#2a2433" stroke-width="2.5" stroke-linejoin="round"/><rect x="154" y="558" width="96" height="14" rx="4" fill="#b85f3c" stroke="#2a2433" stroke-width="2.5"/>
+        </g>
+        <!-- gallery wall on the arch -->
+        <g id="rmGallery"></g>
+        <!-- rug -->
+        <ellipse data-link="rug" cx="760" cy="760" rx="380" ry="74" fill="#efe6d8" stroke="#c96f4a" stroke-width="10"/>
+        <ellipse cx="760" cy="760" rx="340" ry="56" fill="none" stroke="#d9a441" stroke-width="3" stroke-dasharray="4 10"/>
+        <!-- sofa -->
+        <g id="rmSofa" data-link="sofa">
+          <path d="M540,650 l-8,26 M980,650 l8,26 M560,650 v20 M960,650 v20" stroke="#5a3e2b" stroke-width="7" stroke-linecap="round"/>
+          <rect x="520" y="420" width="480" height="150" rx="40" fill="#b9603f" stroke="#2a2433" stroke-width="2.5"/>
+          <rect x="500" y="500" width="70" height="150" rx="30" fill="#c96f4a" stroke="#2a2433" stroke-width="2.5"/>
+          <rect x="950" y="500" width="70" height="150" rx="30" fill="#c96f4a" stroke="#2a2433" stroke-width="2.5"/>
+          <rect x="556" y="534" width="408" height="90" rx="18" fill="#c96f4a" stroke="#2a2433" stroke-width="2.5"/>
+          <path d="M760,540 V620" stroke="#2a2433" stroke-width="2" opacity=".35"/>
+          <rect x="578" y="470" width="86" height="70" rx="18" fill="#e9dcc6" stroke="#2a2433" stroke-width="2.5" transform="rotate(-8 621 505)"/>
+          <path d="M590,480 l60,52 M650,476 l-56,58" stroke="#d9a441" stroke-width="3" transform="rotate(-8 621 505)"/>
+        </g>
+        <!-- Serap, full figure, sitting on the sofa -->
+        <g id="rmMe">
+          <!-- hair behind -->
+          <path d="M622,368 C596,380 590,430 600,470 C604,500 594,520 606,536 C620,530 640,520 650,512 C660,520 680,530 694,536 C706,520 696,500 700,470 C710,430 704,380 678,368 C664,344 636,344 622,368Z" fill="#6b2f1e"/>
+          <g><circle cx="607.6" cy="370.0" r="10.5" fill="#6b2f1e"/><circle cx="605.1" cy="382.7" r="10.6" fill="#6b2f1e"/><circle cx="603.9" cy="395.4" r="9.7" fill="#6b2f1e"/><circle cx="603.9" cy="408.1" r="11.1" fill="#6b2f1e"/><circle cx="598.5" cy="420.8" r="10.6" fill="#6b2f1e"/><circle cx="597.5" cy="433.5" r="9.9" fill="#6b2f1e"/><circle cx="595.8" cy="446.2" r="9.0" fill="#6b2f1e"/><circle cx="594.6" cy="458.8" r="8.8" fill="#6b2f1e"/><circle cx="594.5" cy="471.5" r="9.8" fill="#8b4428"/><circle cx="592.1" cy="484.2" r="9.5" fill="#8b4428"/><circle cx="596.5" cy="496.9" r="8.3" fill="#8b4428"/><circle cx="600.2" cy="509.6" r="8.9" fill="#c46a3a"/><circle cx="598.2" cy="522.3" r="9.0" fill="#c46a3a"/><circle cx="604.5" cy="535.0" r="8.2" fill="#c46a3a"/><circle cx="688.1" cy="370.0" r="11.0" fill="#6b2f1e"/><circle cx="690.4" cy="382.7" r="10.7" fill="#6b2f1e"/><circle cx="697.7" cy="395.4" r="11.4" fill="#6b2f1e"/><circle cx="696.7" cy="408.1" r="10.4" fill="#6b2f1e"/><circle cx="700.2" cy="420.8" r="10.9" fill="#6b2f1e"/><circle cx="703.2" cy="433.5" r="10.6" fill="#6b2f1e"/><circle cx="701.4" cy="446.2" r="9.6" fill="#6b2f1e"/><circle cx="707.5" cy="458.8" r="9.6" fill="#6b2f1e"/><circle cx="706.2" cy="471.5" r="8.5" fill="#8b4428"/><circle cx="703.3" cy="484.2" r="9.5" fill="#8b4428"/><circle cx="705.0" cy="496.9" r="7.8" fill="#8b4428"/><circle cx="702.2" cy="509.6" r="8.0" fill="#c46a3a"/><circle cx="698.4" cy="522.3" r="8.2" fill="#c46a3a"/><circle cx="694.7" cy="535.0" r="9.0" fill="#c46a3a"/><circle cx="606.5" cy="384.8" r="12" fill="#6b2f1e"/><circle cx="611.6" cy="369.5" r="12" fill="#6b2f1e"/><circle cx="621.4" cy="357.0" r="12" fill="#6b2f1e"/><circle cx="634.8" cy="348.8" r="12" fill="#6b2f1e"/><circle cx="650.0" cy="346.0" r="12" fill="#6b2f1e"/><circle cx="665.2" cy="348.8" r="12" fill="#6b2f1e"/><circle cx="678.6" cy="357.0" r="12" fill="#6b2f1e"/><circle cx="688.4" cy="369.5" r="12" fill="#6b2f1e"/><circle cx="693.5" cy="384.8" r="12" fill="#6b2f1e"/></g>
+          <!-- legs: wide trousers, crossed at the knee -->
+          <path d="M624,540 C622,560 626,574 640,580 L716,572 C726,566 724,548 714,540 Z" fill="#2f3a56" stroke="#2a2433" stroke-width="2"/>
+          <path d="M650,576 L644,640 H670 L676,576 Z" fill="#2f3a56" stroke="#2a2433" stroke-width="2"/>
+          <path d="M690,572 C720,580 740,600 742,616 L716,628 C710,608 696,596 676,588 Z" fill="#35426a" stroke="#2a2433" stroke-width="2"/>
+          <path d="M638,636 h38 c6,0 8,10 2,12 h-44 c-4,-2 -2,-12 4,-12Z" fill="#fbf7f1" stroke="#2a2433" stroke-width="2"/>
+          <path d="M712,622 l30,-10 c6,-2 12,8 6,12 l-30,12 c-6,0 -10,-10 -6,-14Z" fill="#fbf7f1" stroke="#2a2433" stroke-width="2"/>
+          <!-- top -->
+          <path d="M618,450 C626,440 674,440 682,450 C690,476 692,516 688,546 H612 C608,516 610,476 618,450Z" fill="url(#rmGing)" stroke="#2a2433" stroke-width="2"/>
+          <!-- arms: one holds a mug, one rests toward the cat -->
+          <path d="M618,454 C602,480 600,512 618,526 L640,520" fill="none" stroke="#f1c7a8" stroke-width="13" stroke-linecap="round"/>
+          <path d="M682,454 C700,476 712,500 738,512" fill="none" stroke="#f1c7a8" stroke-width="13" stroke-linecap="round"/>
+          <path d="M618,454 C610,466 606,474 604,484" fill="none" stroke="url(#rmGing)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M682,454 C690,464 694,470 698,480" fill="none" stroke="url(#rmGing)" stroke-width="16" stroke-linecap="round"/>
+          <g transform="translate(636 500)"><rect width="22" height="26" rx="4" fill="#fbf7f1" stroke="#2a2433" stroke-width="2"/><path d="M22,6 c8,0 8,12 0,12" fill="none" stroke="#2a2433" stroke-width="2"/><rect y="8" width="22" height="6" fill="#8fa58a"/></g>
+          <g class="steam" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".9"><path d="M642,494 q-5,-8 0,-16 t0,-14"/><path d="M652,494 q5,-8 0,-16 t0,-14"/></g>
+          <!-- neck + head -->
+          <rect x="642" y="420" width="16" height="26" rx="6" fill="#ebb995"/>
+          <ellipse cx="650" cy="396" rx="32" ry="38" fill="#f1c7a8"/>
+          <!-- hair framing the face -->
+          <path d="M620,384 C614,410 616,440 608,466 C620,462 626,440 628,416 C632,400 640,384 650,376 C660,384 668,400 672,416 C674,440 680,462 692,466 C684,440 686,410 680,384 C676,360 624,360 620,384Z" fill="#7a3620"/>
+          <g><path d="M616.0,392.0 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M615.4,403.4 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M614.9,414.9 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M614.3,426.3 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M613.7,437.7 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M613.1,449.1 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M612.6,460.6 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M612.0,472.0 q-7,5 0,10 q7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M684.0,392.0 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M684.6,403.4 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M685.1,414.9 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M685.7,426.3 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M686.3,437.7 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M686.9,449.1 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M687.4,460.6 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/><path d="M688.0,472.0 q7,5 0,10 q-7,5 0,10" fill="none" stroke="#8b3f24" stroke-width="4" stroke-linecap="round"/></g>
+          <!-- bandana -->
+          <path d="M618,372 C630,352 670,352 682,372 C672,366 628,366 618,372Z" fill="#c8453c" stroke="#2a2433" stroke-width="2"/>
+          <path d="M680,370 l12,-8 2,12 Z M680,370 l14,4 -8,8 Z" fill="#c8453c" stroke="#2a2433" stroke-width="1.5"/>
+          <!-- face: round sunglasses, smile, beauty mark -->
+          <g stroke="#2a2433" stroke-width="2.5"><circle cx="637" cy="396" r="10" fill="#2a2433"/><circle cx="663" cy="396" r="10" fill="#2a2433"/><path d="M647,396 h6" fill="none"/></g>
+          <circle cx="634" cy="393" r="3" fill="#fff" opacity=".5"/><circle cx="660" cy="393" r="3" fill="#fff" opacity=".5"/>
+          <path d="M641,416 q9,8 18,0" fill="none" stroke="#a8433a" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="664" cy="418" r="1.6" fill="#6b3a2a"/><circle cx="628" cy="410" r="5" fill="#e89a8a" opacity=".45"/><circle cx="672" cy="410" r="5" fill="#e89a8a" opacity=".45"/>
+        </g>
+        <!-- cat curled up on the sofa -->
+        <g id="rmCat" style="cursor:pointer">
+          <path class="tail" d="M906,560 c30,8 44,-14 36,-36 c-4,-12 -14,-10 -12,2 c4,16 -6,24 -26,24" fill="#e39a5f" stroke="#2a2433" stroke-width="2.5"/>
+          <ellipse cx="860" cy="552" rx="56" ry="28" fill="#e39a5f" stroke="#2a2433" stroke-width="2.5"/>
+          <path d="M832,536 q10,-6 20,0 M856,532 q10,-6 20,0 M880,536 q8,-4 16,2" stroke="#c97c42" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <g class="cathead">
+            <path d="M776,540 l6,-28 16,16 Z M812,530 l10,-26 8,30 Z" fill="#e39a5f" stroke="#2a2433" stroke-width="2.5" stroke-linejoin="round"/>
+            <ellipse cx="802" cy="550" rx="34" ry="27" fill="#e39a5f" stroke="#2a2433" stroke-width="2.5"/>
+            <path d="M786,548 q6,4 12,0 M806,548 q6,4 12,0" stroke="#2a2433" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M800,556 l3,3 3,-3 Z" fill="#e8838f"/><path d="M780,556 h-14 M780,560 l-12,4 M824,556 h14 M824,560 l12,4" stroke="#2a2433" stroke-width="1.4"/>
+          </g>
+          <g class="zzz" font-family="Syne, sans-serif" font-weight="800" fill="#7d8fb3"><text x="870" y="506" font-size="18">z</text><text x="884" y="488" font-size="22">z</text><text x="900" y="466" font-size="26">Z</text></g>
+          <text class="purr" x="780" y="496" font-family="Caveat, cursive" font-size="30" fill="#2a2433" opacity="0">prrr…</text>
         </g>
         <!-- coffee table -->
-        <g>
-          <ellipse cx="715" cy="760" rx="130" ry="26" fill="#2a2433" opacity=".12"/>
-          <path d="M630,740 l-14,60 M800,740 l14,60 M715,744 v66" stroke="#2a2433" stroke-width="6" stroke-linecap="round"/>
-          <ellipse cx="715" cy="736" rx="140" ry="28" fill="#7cc6a4"/><ellipse cx="715" cy="730" rx="140" ry="28" fill="#a6e3c9"/>
-          <rect x="630" y="706" width="90" height="16" rx="3" fill="#6c8cff"/><rect x="636" y="694" width="80" height="14" rx="3" fill="#ffc94d"/>
-          <path d="M760,690 h36 v34 a18,10 0 0 1 -36,0 Z" fill="#fffaf2" stroke="#2a2433" stroke-width="3"/><path d="M796,700 q16,0 14,12 q-2,10 -14,8" fill="none" stroke="#2a2433" stroke-width="3"/>
-          <g class="steam" stroke="#fffaf2" stroke-width="4" fill="none" stroke-linecap="round" opacity=".9"><path d="M770,680 q-8,-14 0,-26 q8,-12 0,-24"/><path d="M786,682 q-8,-14 0,-26 q8,-12 0,-24"/></g>
-          <path d="M670,692 v-30" stroke="#2f8a5f" stroke-width="3"/><path d="M660,664 q10,-26 20,0 q-10,8 -20,0" fill="#ff5d8f"/>
+        <g data-link="table">
+          <ellipse cx="770" cy="700" rx="130" ry="20" fill="#2a2433" opacity=".12"/>
+          <path d="M690,690 l-10,46 M850,690 l10,46 M740,694 l-4,46 M800,694 l4,46" stroke="#5a3e2b" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="770" cy="686" rx="120" ry="18" fill="#a77b52" stroke="#2a2433" stroke-width="2.5"/>
+          <rect x="700" y="662" width="70" height="10" rx="2" fill="#2f3a56"/><rect x="706" y="652" width="60" height="10" rx="2" fill="#d9a441"/>
+          <path d="M820,676 h18 l-3,-22 h-12 Z" fill="#c96f4a"/><path d="M829,654 c-6,-14 -2,-24 0,-30 M829,654 c8,-10 10,-20 8,-28" stroke="#6f8f6a" stroke-width="3" fill="none"/><circle cx="829" cy="622" r="6" fill="#e9c46a"/><circle cx="838" cy="626" r="5" fill="#e9c46a"/>
         </g>
-        <!-- sideboard + record player + shelves -->
+        <!-- sideboard, record player and shelves -->
         <g>
-          <rect x="1080" y="300" width="150" height="12" rx="6" fill="#ff6f3c"/><rect x="1080" y="410" width="150" height="12" rx="6" fill="#ff6f3c"/>
-          <g id="rmSouv" font-size="40" text-anchor="middle" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif"></g>
-          <rect x="1070" y="560" width="190" height="140" rx="18" fill="#6c8cff"/>
-          <path d="M1165,570 v120" stroke="#4f6fe0" stroke-width="5"/><circle cx="1150" cy="630" r="6" fill="#ffc94d"/><circle cx="1180" cy="630" r="6" fill="#ffc94d"/>
-          <path d="M1084,700 l-6,30 M1246,700 l6,30" stroke="#2a2433" stroke-width="6" stroke-linecap="round"/>
-          <g id="rmRecord" style="cursor:pointer">
-            <rect x="1085" y="508" width="160" height="54" rx="8" fill="#fffaf2" stroke="#2a2433" stroke-width="3"/>
-            <g transform="translate(1145 528) scale(1 .3)"><circle r="46" fill="#2a2433"/><g><circle r="34" fill="none" stroke="#55505e" stroke-width="2" stroke-dasharray="40 30"/><circle r="24" fill="none" stroke="#55505e" stroke-width="2" stroke-dasharray="30 24"/><circle r="14" fill="#ff5d8f"/><circle cx="6" r="3" fill="#ffc94d"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.8s" repeatCount="indefinite"/></g></g>
-            <path d="M1220,516 l-24,14" stroke="#2a2433" stroke-width="4" stroke-linecap="round"/><circle cx="1222" cy="515" r="5" fill="#ffc94d"/>
-            <g class="notes" pointer-events="none" font-size="26" fill="#ff5d8f" font-family="Syne, sans-serif" opacity="0"><text x="1110" y="490">♪</text><text x="1160" y="470">♫</text><text x="1196" y="494">♪</text></g>
+          <rect x="1080" y="250" width="250" height="10" rx="3" fill="#8a6a4a"/>
+          <rect x="1080" y="360" width="250" height="10" rx="3" fill="#8a6a4a"/>
+          <g id="rmSouv"></g>
+          <g data-link="sideboard">
+            <path d="M1100,620 l-6,22 M1310,620 l6,22" stroke="#5a3e2b" stroke-width="6" stroke-linecap="round"/>
+            <rect x="1080" y="490" width="250" height="132" rx="10" fill="#2f3a56" stroke="#2a2433" stroke-width="2.5"/>
+            <path d="M1205,500 V612" stroke="#4a5677" stroke-width="3"/><circle cx="1192" cy="556" r="4" fill="#d9a441"/><circle cx="1218" cy="556" r="4" fill="#d9a441"/>
+            <g stroke="#4a5677" stroke-width="2"><path d="M1096,506 h94 M1096,520 h94 M1096,534 h94 M1220,506 h94 M1220,520 h94 M1220,534 h94"/></g>
+          </g>
+          <g id="rmRecord" data-link="record" style="cursor:pointer">
+            <rect x="1125" y="440" width="160" height="50" rx="8" fill="#a77b52" stroke="#2a2433" stroke-width="2.5"/>
+            <g transform="translate(1185 458) scale(1 .3)"><circle r="44" fill="#2a2433"/><g><circle r="32" fill="none" stroke="#55505e" stroke-width="2" stroke-dasharray="40 30"/><circle r="22" fill="none" stroke="#55505e" stroke-width="2" stroke-dasharray="30 24"/><circle r="13" fill="#c96f4a"/><circle cx="6" r="3" fill="#e9c46a"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.8s" repeatCount="indefinite"/></g></g>
+            <path d="M1262,448 l-24,14" stroke="#2a2433" stroke-width="3.5" stroke-linecap="round"/><circle cx="1264" cy="447" r="5" fill="#e9c46a"/>
+            <g class="notes" pointer-events="none" font-size="24" fill="#c96f4a" font-family="Syne, sans-serif" opacity="0"><text x="1150" y="420">♪</text><text x="1200" y="400">♫</text><text x="1236" y="424">♪</text></g>
           </g>
         </g>
-        <!-- kitchen -->
-        <g>
-          <path d="M1290,0 V150" stroke="#2a2433" stroke-width="3"/><path d="M1250,150 h80 a40,40 0 0 0 -80,0Z" transform="rotate(180 1290 150)" fill="#ff5d8f"/><circle id="rmBulb" cx="1290" cy="158" r="9" fill="#fff3c4"/>
-          <rect x="1270" y="300" width="190" height="12" rx="6" fill="#ff5d8f"/>
-          <g><rect x="1284" y="262" width="26" height="38" rx="6" fill="#ffc94d"/><rect x="1318" y="270" width="26" height="30" rx="6" fill="#6c8cff"/><rect x="1352" y="258" width="26" height="42" rx="6" fill="#ff7a59"/><path d="M1398,300 c-10,-30 10,-50 20,-40 c10,10 -6,26 -20,40" fill="#4fa37e"/><circle cx="1436" cy="286" r="14" fill="#c3a6ff"/></g>
-          <rect x="1260" y="570" width="210" height="130" rx="12" fill="#ff5d8f"/><rect x="1252" y="556" width="226" height="20" rx="8" fill="#fffaf2"/>
-          <circle cx="1310" cy="630" r="7" fill="#ffc94d"/><circle cx="1420" cy="630" r="7" fill="#ffc94d"/><path d="M1365,580 v110" stroke="#e8467a" stroke-width="5"/>
-          <path d="M1290,556 c0,-30 20,-36 30,-36 c14,0 20,10 20,36" fill="#7cc6a4" stroke="#2a2433" stroke-width="3"/><path d="M1300,520 q4,-20 18,-26" stroke="#2a2433" stroke-width="3" fill="none"/>
-          <g font-size="30" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif"><text x="1372" y="550">🍋</text><text x="1408" y="550">🥐</text></g>
+        <!-- hanging plant -->
+        <g class="sway s2" style="transform-origin:1440px 0" data-link="hanging">
+          <path d="M1440,0 V120" stroke="#8a6a4a" stroke-width="2"/>
+          <path d="M1414,120 h52 l-6,30 h-40 Z" fill="#e7dccb" stroke="#2a2433" stroke-width="2"/>
+          <path d="M1420,146 c-6,40 4,70 -4,110 M1440,150 c4,40 -6,60 2,90 M1460,146 c8,30 2,60 10,96" stroke="#6f8f6a" stroke-width="3" fill="none"/>
+          <g fill="#7fa079"><ellipse cx="1416" cy="190" rx="9" ry="5"/><ellipse cx="1422" cy="230" rx="9" ry="5"/><ellipse cx="1438" cy="200" rx="9" ry="5"/><ellipse cx="1444" cy="236" rx="9" ry="5"/><ellipse cx="1466" cy="180" rx="9" ry="5"/><ellipse cx="1470" cy="226" rx="9" ry="5"/></g>
         </g>
-        <!-- front door -->
+        <!-- front door with the mail -->
         <g id="rmDoor">
-          <path d="M1480,700 V330 a55,55 0 0 1 110,0 V700 Z" fill="#e63946"/>
-          <path d="M1492,700 V336 a43,43 0 0 1 86,0 V700" fill="none" stroke="#c1121f" stroke-width="5"/>
-          <rect x="1505" y="520" width="60" height="12" rx="4" fill="#ffc94d" stroke="#2a2433" stroke-width="2"/>
-          <circle cx="1500" cy="560" r="7" fill="#ffc94d"/>
-          <path d="M1516,360 a19,19 0 0 1 38,0 v40 h-38 Z" fill="#9ad1ff" opacity=".8"/>
-          <rect x="1462" y="700" width="138" height="18" rx="6" fill="#ffb703"/>
-          <text x="1531" y="714" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#2a2433" font-weight="700">HELLO</text>
+          <rect x="1400" y="270" width="150" height="362" rx="6" fill="#8fa58a" stroke="#2a2433" stroke-width="2.5"/>
+          <rect x="1418" y="290" width="114" height="140" rx="4" fill="none" stroke="#7a9176" stroke-width="3"/><rect x="1418" y="450" width="114" height="160" rx="4" fill="none" stroke="#7a9176" stroke-width="3"/>
+          <circle cx="1522" cy="452" r="7" fill="#d9a441" stroke="#2a2433" stroke-width="2"/>
+          <rect x="1450" y="520" width="50" height="10" rx="2" fill="#5a3e2b"/>
+          <rect x="1420" y="640" width="112" height="12" rx="3" fill="#a77b52"/>
+          <text x="1476" y="650" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fbf7f1" font-weight="700">HELLO</text>
           <g id="rmMail"></g>
         </g>
       </svg>
@@ -2088,9 +2108,6 @@ if (document.fonts) document.fonts.ready.then(() => { paint(); paintThumbs(); })
 const svg = document.getElementById('roomSvg'); if (!svg) return;
 const NS = 'http://www.w3.org/2000/svg', PL = window.PLACES || [], DRAW = window.DRAW || {}, SOUV = window.SOUV || {};
 const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
-// Serap on the sofa: a copy of the site's character
-const src = document.getElementById('meSvg');
-if (src) { const me = el('svg', {x: 540, y: 250, width: 300, height: 375, viewBox: '0 0 400 500'}, document.getElementById('rmMe')); me.innerHTML = src.innerHTML.replace(/\sid="[^"]*"/g, ''); }
 // gallery: little paintings of places, in the same style as the postcards
 const paint = (code, w, h) => {
   const p = PL.find(x => x.code === code); const c = document.createElement('canvas'); c.width = w * 2; c.height = h * 2; const x = c.getContext('2d');
@@ -2100,23 +2117,34 @@ const paint = (code, w, h) => {
   return c.toDataURL();
 };
 const gal = document.getElementById('rmGallery');
-const FR = [[500,170,130,160,'JP','#fffaf2',-2],[660,140,170,120,'IT','#ffc94d',1],[860,175,110,140,'GR','#fffaf2',3],[670,290,90,90,'NL','#6c8cff',-3],[780,300,120,85,'PT','#ff5d8f',2]];
-FR.forEach(([x, y, w, h, code, frame, r]) => {
+const FR = [[560,200,116,146,'JP','#2a2433'],[704,164,150,108,'IT','#a77b52'],[880,206,96,126,'GR','#fbf7f1'],[700,296,90,76,'NL','#fbf7f1'],[812,296,112,80,'PT','#2a2433']];
+FR.forEach(([x, y, w, h, code, frame]) => {
   if (!PL.find(p => p.code === code)) return;
-  const g = el('g', {class: 'frame', transform: `rotate(${r} ${x + w/2} ${y})`}, gal);
-  el('path', {d: `M${x + w/2},${y - 40} L${x + 10},${y} M${x + w/2},${y - 40} L${x + w - 10},${y}`, stroke: '#2a2433', 'stroke-width': 2, fill: 'none'}, g);
-  el('rect', {x: x - 9, y: y - 9, width: w + 18, height: h + 18, rx: 4, fill: frame, stroke: '#2a2433', 'stroke-width': 2}, g);
+  const g = el('g', {class: 'frame', 'data-link': 'art-' + code}, gal);
+  el('rect', {x: x - 8, y: y - 8, width: w + 16, height: h + 16, rx: 2, fill: frame, stroke: '#2a2433', 'stroke-width': 1.5}, g);
+  el('rect', {x: x - 2, y: y - 2, width: w + 4, height: h + 4, fill: '#fbf7f1'}, g);
   el('image', {href: paint(code, w, h), x, y, width: w, height: h, preserveAspectRatio: 'xMidYMid slice'}, g);
+  el('title', {}, g).textContent = PL.find(p => p.code === code).name;
 });
-// a polaroid of the cat
-const pol = el('g', {class: 'frame', transform: 'rotate(-6 560 360)'}, gal);
-el('rect', {x: 520, y: 350, width: 80, height: 92, fill: '#fffaf2', stroke: '#2a2433', 'stroke-width': 2}, pol);
-el('rect', {x: 528, y: 358, width: 64, height: 60, fill: '#ffc94d'}, pol);
-el('ellipse', {cx: 560, cy: 400, rx: 22, ry: 16, fill: '#f4a261'}, pol); el('path', {d: 'M542,392 l4,-14 8,10 M570,388 l6,-12 4,14', fill: '#f4a261', stroke: '#f4a261', 'stroke-width': 3}, pol);
-// souvenirs on the shelves, one from each trip
+// little souvenirs on the shelves, drawn (no emoji)
+const K = 'stroke="#2a2433" stroke-width="2" stroke-linejoin="round"';
+const SOUV_ART = [
+  ['TR', 'A nazar boncuğu', 1112, 250, `<circle cx="0" cy="-20" r="18" fill="#2f5fa8" ${K}/><circle cx="0" cy="-20" r="12" fill="#fbf7f1"/><circle cx="0" cy="-20" r="7" fill="#7fb3e0"/><circle cx="0" cy="-20" r="3.5" fill="#2a2433"/>`],
+  ['JP', 'A tin of matcha', 1166, 250, `<rect x="-14" y="-38" width="28" height="38" rx="3" fill="#8fa58a" ${K}/><rect x="-15" y="-42" width="30" height="8" rx="2" fill="#2a2433"/><circle cx="0" cy="-18" r="6" fill="#c8453c"/>`],
+  ['NL', 'Tulips in a little pot', 1220, 250, `<path d="M-12,0 h24 l-3,-20 h-18 Z" fill="#e7dccb" ${K}/><path d="M-4,-20 c-2,-14 -6,-22 -8,-30 M4,-20 c2,-14 6,-22 8,-30" stroke="#6f8f6a" stroke-width="2.5" fill="none"/><path d="M-18,-42 c0,10 12,12 12,0 l-3,4 -3,-6 -3,6 Z" fill="#c96f4a" ${K}/><path d="M6,-42 c0,10 12,12 12,0 l-3,4 -3,-6 -3,6 Z" fill="#d9a441" ${K}/>`],
+  ['SE', 'A Dala horse', 1282, 250, `<path d="M-22,0 l4,-18 c-2,-8 2,-14 8,-14 h18 l6,-12 c4,-2 8,0 8,4 l-2,12 c0,4 -4,6 -8,4 l-4,8 v16 h-6 v-12 h-14 v12 Z" fill="#c8453c" ${K}/><path d="M-10,-24 q8,6 16,0" stroke="#e9c46a" stroke-width="2.5" fill="none"/>`],
+  ['GR', 'A little amphora', 1112, 360, `<path d="M-8,-46 h16 v6 c0,4 12,8 12,22 c0,12 -8,18 -10,18 h-20 c-2,0 -10,-6 -10,-18 c0,-14 12,-18 12,-22 Z" fill="#c96f4a" ${K}/><path d="M-12,-22 h24" stroke="#2a2433" stroke-width="3"/><path d="M-8,-40 c-10,0 -12,8 -10,14 M8,-40 c10,0 12,8 10,14" stroke="#2a2433" stroke-width="2" fill="none"/>`],
+  ['photo', 'My camera', 1172, 360, `<rect x="-22" y="-30" width="44" height="30" rx="5" fill="#2a2433"/><rect x="-14" y="-36" width="14" height="8" rx="2" fill="#2a2433"/><circle cx="2" cy="-15" r="10" fill="#55505e" stroke="#fbf7f1" stroke-width="2"/><circle cx="2" cy="-15" r="4" fill="#7fb3e0"/><rect x="12" y="-27" width="6" height="4" fill="#e9c46a"/>`],
+  ['dive', 'A shell from a dive', 1230, 360, `<path d="M0,0 c-20,0 -24,-16 -18,-26 c6,-10 30,-10 36,0 c6,10 2,26 -18,26 Z" fill="#f3dcc2" ${K}/><path d="M0,0 L-12,-22 M0,0 L-4,-28 M0,0 L4,-28 M0,0 L12,-22" stroke="#c49b6e" stroke-width="1.8"/>`],
+  ['CZ', 'Bohemian crystal', 1290, 360, `<path d="M-12,-42 h24 l-4,26 h-16 Z" fill="#cfe3f2" ${K}/><path d="M-2,-16 h4 v12 h-4 Z M-10,0 h20 v-4 h-20 Z" fill="#cfe3f2" ${K}/><path d="M-8,-36 l6,8 6,-8" stroke="#8fb3cf" stroke-width="1.5" fill="none"/>`],
+];
 const sv = document.getElementById('rmSouv');
-['TR','JP','NL','SE','GR','TH','CZ','PT'].forEach((code, i) => { if (!SOUV[code]) return;
-  const t = el('text', {x: 1100 + (i % 4) * 36, y: i < 4 ? 296 : 406}, sv); t.textContent = SOUV[code][0]; el('title', {}, t).textContent = SOUV[code][1]; });
+SOUV_ART.forEach(([key, name, x, y, art]) => { const g = el('g', {transform: `translate(${x} ${y})`, 'data-link': 'souv-' + key}, sv); g.innerHTML = art; el('title', {}, g).textContent = name; });
+/* Links Serap will send: real photos/paintings for the frames (art-JP, art-IT, art-GR, art-NL, art-PT)
+   and shops for the things in the room (sofa, rug, lamp, plant, hanging, table, sideboard, record, souv-TR, souv-JP, ...) */
+const ROOM_LINKS = {};
+svg.querySelectorAll('[data-link]').forEach(n => { if (ROOM_LINKS[n.dataset.link]) n.classList.add('linked'); });
+svg.addEventListener('click', e => { const n = e.target.closest('[data-link]'); const u = n && ROOM_LINKS[n.dataset.link]; if (u && !n.closest('#rmRecord') && n.id !== 'rmLamp') window.open(u, '_blank', 'noopener'); });
 // day or night through the window, from the visitor's clock
 const hr = new Date().getHours(), night = hr < 7 || hr >= 19, dusk = !night && (hr >= 17 || hr < 9);
 const s0 = document.getElementById('rmSky0'), s1 = document.getElementById('rmSky1');
