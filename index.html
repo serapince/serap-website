@@ -426,6 +426,106 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   .pill{opacity:1;transform:none}
   .rv.pre{transform:none;opacity:1}
 }
+
+/* ---------- pack my bag (mini game) ---------- */
+.pk{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(22px,4vw,48px);align-items:start}
+.pk-left{position:sticky;top:90px}
+.pk-stage{position:relative;aspect-ratio:4/3;width:100%;border-radius:18px;overflow:hidden;background:radial-gradient(120% 90% at 30% 10%,#3a2f6e 0%,#221c3d 55%,#17151f 100%);box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 1px var(--line);touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pk-stage::before{content:"";position:absolute;left:0;right:0;bottom:0;height:24%;background:linear-gradient(180deg,#5a3f2c,#3d2a1e);box-shadow:inset 0 3px 0 rgba(255,255,255,.08)}
+.pk-stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.1'/></svg>")}
+.pk-stage.hot{box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 2px var(--ember)}
+.pk-win{position:absolute;left:6%;top:7%;width:30%;aspect-ratio:1;border-radius:50% 50% 8px 8px;background:linear-gradient(180deg,#ffd27a,#ff8a6b 60%,#5b2a86);border:6px solid #f1ece4;opacity:.9;overflow:hidden}
+.pk-win i{position:absolute;left:58%;top:30%;width:22%;aspect-ratio:1;border-radius:50%;background:#fff3c4}
+.pk-win b{position:absolute;left:-10%;right:-10%;bottom:-6%;height:34%;background:#5b2a86;border-radius:50% 50% 0 0}
+.pk-win::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;background:#f1ece4}
+.pk-bag{position:absolute;left:4%;bottom:6%;width:64%;aspect-ratio:400/300;z-index:2;transition:transform .9s cubic-bezier(.6,-.2,.7,1)}
+.pk-bag svg{width:100%;height:100%;display:block;overflow:visible}
+.pk-bag .lid{transform-box:view-box;transform-origin:200px 146px}
+.pk-bag .shell{opacity:0}
+.pk-bag.closed .lining{opacity:0}.pk-bag.closed .shell{opacity:1}
+.pk-bag.heavy .base{animation:bulge .5s ease-in-out infinite alternate;transform-box:view-box;transform-origin:200px 290px}
+@keyframes bulge{to{transform:scale(1.03,.97)}}
+.pk-bag.gone{transform:translateX(160%) rotate(6deg)}
+.pk-in{position:absolute;left:8%;right:8%;top:53%;bottom:10%}
+.pk-it{position:absolute;font-size:clamp(22px,4.4vw,46px);line-height:1;transform:translate(-50%,-50%) rotate(var(--r,0deg));cursor:pointer;background:none;border:0;padding:0;filter:drop-shadow(0 4px 3px rgba(0,0,0,.35));animation:drop .55s cubic-bezier(.3,1.6,.5,1) both;transition:opacity .3s}
+.pk-it:hover{filter:drop-shadow(0 0 8px var(--ember))}
+@keyframes drop{from{transform:translate(-50%,-180%) rotate(0) scale(.6);opacity:0}}
+.pk-bag.closed .pk-it,.pk-bag.closing .pk-it{opacity:0}
+.pk-tag{position:absolute;right:-6%;top:56%;width:30%;transform-origin:20% 0;animation:tagSwing 3.5s ease-in-out infinite;z-index:3;pointer-events:none}
+.pk-tag div{background:#f6f0e4;color:#2a2433;border-radius:6px 6px 6px 18px;padding:9% 10% 10%;font-family:"Caveat",cursive;font-size:clamp(13px,2vw,22px);line-height:1;box-shadow:0 8px 16px rgba(0,0,0,.35);word-break:break-word}
+.pk-tag small{display:block;font-family:var(--f-mono);font-size:clamp(6px,.8vw,9px);letter-spacing:.08em;text-transform:uppercase;color:#c42435;margin-bottom:4px}
+@keyframes tagSwing{50%{transform:rotate(5deg)}}
+.pk-me{position:absolute;right:-4%;bottom:0;width:40%;aspect-ratio:400/500;z-index:1}
+.pk-me svg{width:100%;height:100%;display:block;overflow:visible}
+.pk-say{position:absolute;right:5%;top:6%;max-width:44%;z-index:4;padding:9px 13px;border-radius:16px 16px 4px 16px;background:var(--paper);color:var(--ink);font:500 14px/1.35 var(--f-body);box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;transform:translateY(8px) scale(.9);transform-origin:bottom right;transition:opacity .35s,transform .45s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.pk-say.on{opacity:1;transform:none}
+.pk-ghost{position:fixed;z-index:120;left:0;top:0;font-size:44px;line-height:1;pointer-events:none;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 10px 10px rgba(0,0,0,.4))}
+.pk-pass{position:absolute;inset:12% 8%;z-index:6;display:grid;grid-template-columns:1fr auto;border-radius:14px;overflow:hidden;background:#f6f0e4;color:#2a2433;box-shadow:0 30px 60px -10px rgba(0,0,0,.6);transform:translateY(30px) rotate(-3deg) scale(.9);opacity:0;transition:opacity .5s,transform .7s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
+.pk-pass.on{opacity:1;transform:rotate(-2deg);pointer-events:auto}
+.pk-pass .main{padding:6% 7%;display:flex;flex-direction:column;justify-content:space-between;gap:6px;min-width:0}
+.pk-pass .top{display:flex;justify-content:space-between;color:#c42435;font-family:var(--f-mono);font-size:clamp(8px,1.1vw,11px);letter-spacing:.08em}
+.pk-pass h4{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(20px,3.6vw,40px);line-height:1;letter-spacing:-.02em;overflow-wrap:anywhere}
+.pk-pass dl{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 12px}
+.pk-pass dt{font-family:var(--f-mono);font-size:clamp(7px,.9vw,9px);letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+.pk-pass dd{margin:0;font-weight:600;font-size:clamp(11px,1.5vw,15px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk-pass .stub{width:clamp(70px,22%,140px);border-left:2px dashed rgba(42,36,51,.3);padding:12% 10%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:#ffb38a;font-size:clamp(20px,3.4vw,36px);text-align:center}
+.pk-pass .stub span{font-family:var(--f-mono);font-size:clamp(7px,.9vw,9px);letter-spacing:.08em}
+.pk-pass .bar{height:clamp(18px,3vw,30px);width:100%;background:repeating-linear-gradient(90deg,#2a2433 0 2px,transparent 2px 4px,#2a2433 4px 7px,transparent 7px 9px)}
+.pk-ctl{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap}
+.pk-kg{flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px}
+.pk-kg .meter{height:8px;border-radius:999px;background:var(--ink-2);border:1px solid var(--line);overflow:hidden}
+.pk-kg .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--dusk),var(--ember));transition:width .5s cubic-bezier(.3,1.4,.5,1),background .3s}
+.pk-kg.over .meter i{background:#ff5a5f}.pk-kg.over{color:#ff8a8d}
+.pk-empty{background:transparent;color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;font-size:12px}
+.pk-empty:hover{border-color:var(--ember);color:var(--ember)}
+.pk-dest{display:flex;flex-wrap:wrap;gap:8px}
+.pk-dest button{background:var(--ink-2);color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 14px;font:500 14px var(--f-body);cursor:pointer}
+.pk-dest button.on{border-color:var(--ember);color:var(--ember)}
+.pk-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.pk-items button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;color:var(--paper);cursor:grab;font:500 11px/1.15 var(--f-body);transition:transform .2s,border-color .2s,opacity .2s}
+.pk-items button span{font-size:28px;line-height:1}
+.pk-items button small{color:var(--mute);font-family:var(--f-mono);font-size:10px}
+.pk-items button:hover{border-color:var(--ember);transform:translateY(-2px)}
+.pk-items button.in{opacity:.35;border-style:dashed}
+.pk-own{display:grid;grid-template-columns:auto 1fr auto;gap:8px}
+.pk-own select{background:var(--ink-2);color:var(--paper);border:1px solid var(--line);border-radius:12px;font-size:20px;padding:0 6px}
+.pk-own button{background:transparent;color:var(--paper);border:1px solid var(--line);border-radius:12px;padding:0 14px;cursor:pointer;font:600 14px var(--f-body)}
+.pk-own button:hover{border-color:var(--ember);color:var(--ember)}
+.pk-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pk-list li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center}
+.pk-list li>span{font-size:24px;text-align:center}
+.pk-list label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mute)}
+.pk-list .none{display:block;color:var(--mute);font-size:14px;border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+@media (max-width:900px){.pk{grid-template-columns:1fr}.pk-left{top:70px;z-index:4;background:var(--ink);padding-bottom:8px;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter)}.pk-ctl{margin-top:8px}.pk-pass h4{font-size:clamp(16px,5vw,30px)}}
+@media (prefers-reduced-motion:reduce){.pk-tag,.pk-bag.heavy .base{animation:none}.pk-it{animation:none}}
+.pk-top{margin-bottom:clamp(28px,4vw,48px)}
+.tc{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,280px);max-width:900px;gap:14px;align-items:start;padding:14px;border:1px dashed var(--line);border-radius:16px}
+.tc-fields{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tc .pc-row{grid-template-columns:1fr 1fr}
+.tc-prev{display:flex;flex-direction:column;gap:8px;align-items:stretch;position:sticky;top:90px}
+.tc-prev canvas{width:100%;height:auto;border-radius:10px;box-shadow:0 20px 40px -14px rgba(0,0,0,.7);transform:rotate(2deg)}
+.tc-pick{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.tc-pick>span{color:var(--mute);font-size:11px;width:56px}
+.tc-pick>div{display:flex;flex-wrap:wrap;gap:6px}
+#tcPal button{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
+#tcPal button.on,#tcIco button.on{border-color:var(--paper)}
+#tcIco button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--ink-2);font-size:18px;cursor:pointer;padding:0}
+.tc-view{position:fixed;inset:0;z-index:130;background:rgba(14,13,22,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:grid;place-items:center;padding:20px}
+.tc-view[hidden]{display:none}
+.tc-view-in{display:flex;flex-direction:column;gap:16px;align-items:center;max-height:100%}
+.tc-view canvas{height:min(72svh,640px);width:auto;max-width:90vw;border-radius:14px;box-shadow:0 40px 80px -20px rgba(0,0,0,.8)}
+.tc-view .row{display:flex;gap:10px}
+@media (max-width:520px){.tc{grid-template-columns:1fr}.tc-prev{position:static;max-width:220px;margin:0 auto}.tc .pc-row{grid-template-columns:1fr}}
+.pl-h{color:var(--mute);font-size:11px}
+.pl-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pl-chips button{background:var(--ink-2);color:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font:500 13px var(--f-body);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+#plCountry button::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--a)}
+.pl-chips button small{color:var(--mute);font-size:11px}
+.pl-chips button.on{border-color:var(--ember);color:var(--ember)}
+.pl-note{color:var(--mute);font-size:14px;margin:6px 0 0}
+.pl-btns{display:flex;flex-direction:column;gap:6px}
+.cd-pack{margin:0 10px 10px 0}
+.tc[hidden]{display:none}
+.tc.pl{grid-template-columns:minmax(0,1fr) minmax(160px,340px)}@media (max-width:520px){.tc.pl{grid-template-columns:1fr}.pl .tc-prev{max-width:300px}}
 </style>
 </head>
 <body>
@@ -439,13 +539,14 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <li><a href="#hobbies">Hobbies</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#journal">Journal</a></li>
+    <li><a href="#pack">Play</a></li>
     <li><a href="#postcard">Postcards</a></li>
   </ul>
   <a class="cta" href="#contact">Say hello ↗</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
 </header>
 <nav class="overlay" id="overlay" aria-label="Menu">
-  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#postcard">Postcards</a><a href="#contact">Say hello</a>
+  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#pack">Play</a><a href="#postcard">Postcards</a><a href="#contact">Say hello</a>
 </nav>
 
 <main id="top">
@@ -547,6 +648,102 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <div class="posts" id="posts"></div>
   </section>
 
+  <!-- PACK MY BAG: visitors pack a suitcase and suggest experiences -->
+  <section class="block wrap" id="pack">
+    <div class="head rv">
+      <div><span class="eyebrow mono">Play with me</span><h2>Pack my <span class="o">bag</span></h2></div>
+      <p>Send me somewhere: make a travel card for a place you love, pack my suitcase for it and tell me what to try there. The best ideas end up on my list.</p>
+    </div>
+    <div class="pc-tools pk-top">
+        <fieldset><legend class="mono">01 · Where should I go?</legend>
+          <div class="pk-dest" id="pkDest"></div>
+          <div class="tc" id="tcBox" hidden>
+            <div class="tc-fields">
+              <div class="pc-row"><input id="tcPlace" maxlength="30" placeholder="Place, e.g. Kotor"><input id="tcCountry" maxlength="30" placeholder="Country"></div>
+              <input id="tcWhen" maxlength="50" placeholder="Best time to go">
+              <input id="tcSee" maxlength="70" placeholder="Don't miss…">
+              <input id="tcEat" maxlength="70" placeholder="You have to eat…">
+              <input id="tcTip" maxlength="80" placeholder="A local tip">
+              <div class="tc-pick"><span class="mono">Colours</span><div id="tcPal"></div></div>
+              <div class="tc-pick"><span class="mono">Icon</span><div id="tcIco"></div></div>
+            </div>
+            <div class="tc-prev"><canvas id="tcCanvas" width="900" height="1200" aria-label="Your travel card"></canvas><button type="button" class="pk-empty mono" id="tcDl">↓ Download card</button></div>
+          </div>
+          <div class="tc pl" id="plBox" hidden>
+            <div class="tc-fields">
+              <span class="mono pl-h">Where?</span><div class="pl-chips" id="plCountry"></div>
+              <span class="mono pl-h">When?</span><div class="pl-chips" id="plSeason"></div>
+              <p class="pl-note">Your list is ready on the right. Download it, send it to your own email or copy it, then pack my bag below too.</p>
+            </div>
+            <div class="tc-prev"><canvas id="plCanvas" width="900" height="1200" role="img"></canvas>
+              <div class="pl-btns"><button type="button" class="pk-empty mono" id="plDl">↓ Download</button><button type="button" class="pk-empty mono" id="plMail">✉ Email it to me</button><button type="button" class="pk-empty mono" id="plCopy">⧉ Copy list</button></div></div>
+          </div>
+        </fieldset>
+    </div>
+    <div class="pk">
+      <div class="pk-left">
+        <div class="pk-stage" id="pkStage" aria-label="Serap's open suitcase. Drop items here.">
+          <div class="pk-win" aria-hidden="true"><i></i><b></b></div>
+          <div class="pk-me" id="pkMe" aria-hidden="true"></div>
+          <div class="pk-say" id="pkSay" aria-live="polite"></div>
+          <div class="pk-bag" id="pkBag">
+            <svg viewBox="0 0 400 300" aria-hidden="true">
+              <g class="lid">
+                <rect x="22" y="8" width="356" height="142" rx="18" fill="#c94f36"/>
+                <g class="lining">
+                  <rect x="34" y="18" width="332" height="122" rx="10" fill="#f6e3cf"/>
+                  <path d="M34 50 H366 M34 82 H366 M34 114 H366" stroke="#ecd0b4" stroke-width="12"/>
+                  <rect x="60" y="34" width="280" height="54" rx="8" fill="none" stroke="#2a4a6b" stroke-width="3" stroke-dasharray="6 5"/>
+                  <path d="M120 140 L130 26 M280 140 L270 26" stroke="#2a4a6b" stroke-width="8" stroke-linecap="round" opacity=".85"/>
+                  <circle cx="200" cy="60" r="16" fill="#ffb38a"/><path d="M193 60 l5 5 l9 -11" stroke="#2a2433" stroke-width="3" fill="none" stroke-linecap="round"/>
+                </g>
+                <g class="shell">
+                  <rect x="22" y="8" width="356" height="142" rx="18" fill="#d65a3e"/>
+                  <path d="M60 8 V150 M340 8 V150" stroke="#b5432c" stroke-width="10"/>
+                  <circle cx="110" cy="70" r="26" fill="#c3b2ff"/><text x="110" y="78" text-anchor="middle" font-size="22">✈️</text>
+                  <rect x="230" y="40" width="80" height="54" rx="6" fill="#f6f0e4" transform="rotate(8 270 67)"/><text x="270" y="76" text-anchor="middle" font-size="24" transform="rotate(8 270 67)">🌍</text>
+                  <rect x="150" y="96" width="70" height="36" rx="18" fill="#ffd27a"/><text x="185" y="120" text-anchor="middle" font-family="Syne,sans-serif" font-weight="800" font-size="14" fill="#2a2433">SERAP</text>
+                </g>
+              </g>
+              <g class="base">
+                <rect x="14" y="146" width="372" height="146" rx="20" fill="#e0603f"/>
+                <rect x="30" y="156" width="340" height="118" rx="12" fill="#3d2a40"/>
+                <rect x="30" y="156" width="340" height="18" rx="9" fill="#2c1e30"/>
+                <path d="M14 200 H30 M370 200 H386" stroke="#b5432c" stroke-width="10"/>
+                <rect x="170" y="284" width="60" height="10" rx="3" fill="#8a3a28"/>
+                <circle cx="48" cy="292" r="8" fill="#2a2433"/><circle cx="352" cy="292" r="8" fill="#2a2433"/>
+              </g>
+            </svg>
+            <div class="pk-in" id="pkIn"></div>
+            <div class="pk-tag" aria-hidden="true"><div><small>Destination</small><span id="pkTag">Sharm El Sheikh</span></div></div>
+          </div>
+          <div class="pk-pass" id="pkPass" aria-live="polite"></div>
+        </div>
+        <div class="pk-ctl">
+          <div class="pk-kg mono" id="pkKg"><span id="pkKgTxt">Bag weight 0 / 23 kg</span><span class="meter"><i id="pkKgBar"></i></span></div>
+          <button type="button" class="pk-empty mono" id="pkEmpty">↺ Unpack</button>
+        </div>
+      </div>
+      <form class="pc-tools" id="pkForm" autocomplete="on">
+        <fieldset><legend class="mono">02 · Pack it <small>drag into the suitcase, or tap</small></legend>
+          <div class="pk-items" id="pkItems"></div>
+          <div class="pk-own"><select id="pkOwnE" aria-label="Pick an icon"></select><input id="pkOwnN" maxlength="28" placeholder="Something else? Name it"><button type="button" id="pkOwnAdd">Add</button></div>
+        </fieldset>
+        <fieldset><legend class="mono">03 · What should I do with it?</legend>
+          <ul class="pk-list" id="pkList"></ul>
+          <textarea id="pkIdea" maxlength="400" rows="3" placeholder="The one experience I really should try…"></textarea>
+        </fieldset>
+        <fieldset><legend class="mono">04 · Sign the luggage tag</legend>
+          <div class="pc-row"><input id="pkName" maxlength="40" placeholder="Your name" required autocomplete="name"><input id="pkFrom" maxlength="40" placeholder="Where are you from?"></div>
+          <input id="pkEmail" type="email" maxlength="80" placeholder="Your email, only if you'd like a reply" autocomplete="email">
+          <label class="pc-hp" aria-hidden="true">Leave this empty <input type="checkbox" id="pkBot" tabindex="-1"></label>
+        </fieldset>
+        <div class="pc-send"><button class="pill play show" type="submit" id="pkSend">Zip it &amp; send ✈</button><span class="mono pc-status" id="pkStatus" role="status"></span></div>
+      </form>
+    </div>
+  </section>
+
+  <div class="tc-view" id="tcView" role="dialog" aria-modal="true" aria-label="A travel card" hidden><div class="tc-view-in"><canvas id="tcViewCv" width="900" height="1200"></canvas><div class="row"><button type="button" class="pill show" id="tcViewDl">↓ Download</button><button type="button" class="pill ghost show" id="tcViewX">Close</button></div></div></div>
   <!-- SEND ME A POSTCARD -->
   <section class="block wrap" id="postcard">
     <div class="head rv">
@@ -901,7 +1098,7 @@ const INFO = {
 window.INFO = INFO;
 
 /* ===================================================== */
-window.PLACES = PLACES; window.GUIDE = GUIDE;
+window.PLACES = PLACES; window.GUIDE = GUIDE; window.INFO = INFO;
 
 /* ---------- nav / menu ---------- */
 const nav = $('#nav'), burger = $('#burger'), overlay = $('#overlay');
@@ -1141,6 +1338,7 @@ const openCountry = code => {
          : `<p class="cd-soon">My favourite places, restaurants and souvenirs for ${p.name} are still in the notebook. Coming soon.</p>`)
     + ((CITIES[code] || []).length ? `<h3 class="cd-h">More of ${p.name}</h3><div class="cd-cities" role="tablist">${CITIES[code].map((c, k) => `<button type="button" role="tab" data-city="${k}">${c.name}</button>`).join('')}</div><div class="cd-city" id="cdCity"></div>` : '')
     + ((i => i ? `<h3 class="cd-h">Good to know</h3><div class="cd-info">${[['💶','Money',i.money],['💬','Hello · Thanks',i.say],['🔌','Plugs',i.plug],['🪙','Tipping',i.tip],['🚆','Getting around',i.move],['🚰','Water',i.water],['🗓','Best time',i.best],['🆘','Emergency',i.sos],['✨','Local tip',i.note]].filter(r => r[2]).map(([e, h, t]) => `<div class="cd-fact"><span class="e" aria-hidden="true">${e}</span><div><span class="mono">${h}</span><p>${t}</p></div></div>`).join('')}</div>` : '')(INFO[code]))
+    + `<button type="button" class="pill show cd-pc cd-pack" data-packfor="${code}">🧳 What to pack for ${p.name}</button>`
     + `<a class="pill ghost show cd-pc" href="#postcard" data-pc="${code}">Send me a postcard from ${p.name} ✉</a>`;
   cdBody.querySelectorAll('.tour').forEach(el => { el.classList.add('in'); wireTour(el); });
   const showCity = k => { const c = CITIES[code][k]; cdBody.querySelectorAll('[data-city]').forEach(b => { const on = +b.dataset.city === k; b.classList.toggle('sel', on); b.setAttribute('aria-selected', on); });
@@ -2075,6 +2273,339 @@ window.homeMail = (emoji = '💌') => {
 };
 let mail = 0; try { mail = +localStorage.getItem('serap-sent-postcards') || 0; } catch (e) {}
 for (let i = 0; i < Math.min(mail, 6); i++) window.homeMail();
+})();
+</script>
+<script>
+/* ---------- PACK MY BAG ----------
+   A mini game: visitors pick a destination, drag things into Serap's suitcase
+   (23 kg limit), say what to do with each one and send it via Web3Forms. */
+(() => {
+const $ = s => document.querySelector(s);
+if (!$('#pkStage')) return;
+const WEB3FORMS_KEY = '816d4c84-9216-443c-be9f-d341bdd514b9';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LIMIT = 23;
+// [emoji, name, kg, idea placeholder, what Serap says]
+const ITEMS = [
+  ['🤿', 'Snorkel set', 2, 'Snorkel a coral reef at sunrise', 'A reef day? Count me in!'],
+  ['📷', 'Film camera', 1, 'Shoot one roll in one street', 'One roll, 36 shots. No pressure.'],
+  ['🥾', 'Hiking boots', 2.5, 'Walk a whole trail, hut to hut', 'My legs already hurt. Yes!'],
+  ['⛺', 'Tent', 4, 'Sleep under the stars somewhere wild', 'Camping! Who brings the marshmallows?'],
+  ['🎨', 'Watercolours', 1, 'Paint one view every day', 'I can paint the postcards myself!'],
+  ['📚', 'A book', 1, 'Read this book there: …', 'Ooh, which book?'],
+  ['🍳', 'Frying pan', 2.5, 'Take a cooking class with a local', 'Teach me a dish, I\'ll bring it home.'],
+  ['💃', 'Dance shoes', 1, 'Join a dance class, any dance', 'Two left feet, but let\'s go!'],
+  ['🧘', 'Yoga mat', 2, 'Yoga at sunrise on the beach', 'Namaste… after coffee.'],
+  ['🪁', 'Kite', 1.5, 'Fly a kite on a windy cliff', 'Sailors love wind. Good pick.'],
+  ['🔭', 'Telescope', 3, 'Stargaze in the desert', 'Desert skies are my weakness.'],
+  ['🎸', 'Ukulele', 2, 'Learn one song from that country', 'I\'ll play it for you. Badly.'],
+  ['🛶', 'Paddle', 3, 'Kayak to a beach with no road', 'Paddle power!'],
+  ['🎿', 'Skis', 7, 'Learn to ski, finally', 'Skis are heavy, you know…'],
+  ['🏄', 'Surfboard', 9, 'Take a surf lesson', 'A surfboard?! The airline will cry.'],
+  ['🥐', 'A croissant', .2, 'Find the best bakery in town', 'For the road. Very wise.'],
+];
+const OWN_EMOJI = ['✨','🎁','🗺️','🎟️','🧩','🍷','🧁','🚲','🐎','🎈','🏺','🧭','🪩','🌶️','🎣','🧶'];
+const nextTrip = (() => { const dt = [...document.querySelectorAll('#about dt')].find(d => /next trip/i.test(d.textContent)); return dt && dt.nextElementSibling ? dt.nextElementSibling.textContent.trim() : 'my next trip'; })();
+const DEST = [
+  {k:'own', label:'✳ Suggest a place', tag:'Your pick?'},
+  {k:'mine', label:'🧳 Pack for one of my places', tag:''},
+  {k:'next', label:`My next trip: ${nextTrip}`, tag:nextTrip},
+  {k:'tr', label:'A weekend in Türkiye', tag:'Türkiye'},
+];
+const st = {dest:'own', items:[]}; // items: {e, n, kg, ph, say, note, x, y, r}
+let sent = false;
+
+/* ---- Serap next to the bag: a copy of the hero character ---- */
+const src = document.getElementById('meSvg');
+const cloneMe = () => { if (!src || !src.innerHTML) return false; $('#pkMe').innerHTML = `<svg viewBox="0 0 400 500">${src.innerHTML.replace(/\sid="[^"]*"/g, '')}</svg>`; return true; };
+if (!cloneMe()) addEventListener('load', cloneMe);
+let sayT;
+const say = (t, ms = 2600) => { const b = $('#pkSay'); b.textContent = t; b.classList.add('on'); clearTimeout(sayT); sayT = setTimeout(() => b.classList.remove('on'), ms); };
+
+/* ---- destination ---- */
+const destTag = () => st.dest === 'own' ? ($('#tcPlace').value.trim() || 'Your pick?') : st.dest === 'mine' ? ((window.PLACES || []).find(p => p.code === pl.code) || {name:'?'}).name : DEST.find(d => d.k === st.dest).tag;
+const paintDest = () => {
+  $('#pkDest').innerHTML = DEST.map(d => `<button type="button" data-k="${d.k}" class="${d.k === st.dest ? 'on' : ''}" aria-pressed="${d.k === st.dest}">${d.label}</button>`).join('');
+  $('#tcBox').hidden = st.dest !== 'own'; $('#plBox').hidden = st.dest !== 'mine';
+  $('#pkTag').textContent = destTag();
+};
+$('#pkDest').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.dest = b.dataset.k; paintDest(); if (st.dest === 'own') $('#tcPlace').focus(); if (st.dest === 'mine') { paintPl(); say('Pick a place and a season, I\'ll tell you what to pack.'); return; } say(st.dest === 'next' ? `${nextTrip}! What should I bring?` : st.dest === 'tr' ? 'Home sweet home. Surprise me!' : 'Ooh, where are you sending me?'); });
+
+/* ---- travel card: a place the visitor suggests, drawn on a canvas ---- */
+const TC_PAL = [['#ffd27a','#ff8a6b','#5b2a86'],['#a5f3fc','#2bb3c9','#0b3a5c'],['#ffe0b0','#e8945a','#7a3b1e'],['#d9f2c4','#6fae7c','#1f4d3a'],['#c3b2ff','#3b2f6b','#0e0d16'],['#ffe1ec','#ff8fb1','#7a2a5a']];
+const TC_ICO = ['🏝️','🏔️','🏙️','🏜️','🏛️','⛩️','🌊','🌲','🕌','🌋','🍜','🎭'];
+const tc = {pal:0, ico:0};
+const tcData = () => ({p:$('#tcPlace').value.trim(), c:$('#tcCountry').value.trim(), w:$('#tcWhen').value.trim(), s:$('#tcSee').value.trim(), e:$('#tcEat').value.trim(), t:$('#tcTip').value.trim(), pl:tc.pal, i:tc.ico, by:$('#pkName').value.trim()});
+const wrapTxt = (c, t, maxW, maxL) => { const words = t.split(/\s+/), L = []; let line = '';
+  for (const w of words) { const test = line ? line + ' ' + w : w; if (c.measureText(test).width > maxW && line) { L.push(line); line = w; } else line = test; }
+  if (line) L.push(line); if (L.length > maxL) { L.length = maxL; L[maxL - 1] = L[maxL - 1].replace(/\s*\S*$/, '…'); } return L; };
+const drawCard = (cv, d) => {
+  const c = cv.getContext('2d'), W = cv.width, H = cv.height, P = TC_PAL[d.pl] || TC_PAL[0], artH = H * .5;
+  c.clearRect(0, 0, W, H); c.fillStyle = '#f6f0e4'; c.fillRect(0, 0, W, H);
+  const g = c.createLinearGradient(0, 0, 0, artH); g.addColorStop(0, P[0]); g.addColorStop(.6, P[1]); g.addColorStop(1, P[2]); c.fillStyle = g; c.fillRect(0, 0, W, artH);
+  c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.arc(W * .74, artH * .3, artH * .16, 0, 6.283); c.fill();
+  c.fillStyle = P[2]; c.globalAlpha = .55; c.beginPath(); c.moveTo(0, artH); for (let x = 0; x <= W; x += 20) c.lineTo(x, artH * .8 + Math.sin(x / 110) * 22); c.lineTo(W, artH); c.fill(); c.globalAlpha = 1;
+  c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = `${artH * .38}px serif`; c.fillText(TC_ICO[d.i] || '✳', W * .5, artH * .52);
+  c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillStyle = 'rgba(255,255,255,.92)'; c.font = '600 22px "JetBrains Mono", monospace'; c.fillText('TRAVEL CARD FOR SERAP', 50, 70);
+  if (d.by) { c.font = '700 44px Caveat, cursive'; c.fillText(`from ${d.by}`.slice(0, 34), 50, 122); }
+  // stamp
+  c.save(); c.translate(W - 120, artH); c.rotate(-.25); c.strokeStyle = '#c42435'; c.lineWidth = 4; c.beginPath(); c.arc(0, 0, 74, 0, 6.283); c.stroke(); c.beginPath(); c.arc(0, 0, 62, 0, 6.283); c.stroke();
+  c.fillStyle = '#c42435'; c.textAlign = 'center'; c.font = '700 15px "JetBrains Mono", monospace'; c.fillText('SERAPINCE', 0, -6); c.fillText('.COM ✳', 0, 16); c.restore();
+  // text
+  let y = artH + 80; c.fillStyle = '#2a2433'; c.textAlign = 'left';
+  c.font = '600 22px "JetBrains Mono", monospace'; c.fillStyle = '#c42435'; c.fillText((d.c || 'Somewhere lovely').toUpperCase().slice(0, 30), 60, y);
+  let fs = 104; c.font = `800 ${fs}px Syne, sans-serif`; const name = d.p || 'Your pick?'; while (c.measureText(name).width > W - 120 && fs > 44) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
+  y += fs * .95; c.fillStyle = '#2a2433'; c.fillText(name, 56, y); y += 36;
+  const rows = [['Best time', d.w], ['Don\'t miss', d.s], ['Eat', d.e], ['Local tip', d.t]].filter(r => r[1]);
+  if (!rows.length) rows.push(['Tip', 'Fill in the card and it draws itself here.']);
+  for (const [k, v] of rows) { if (y > H - 70) break;
+    c.font = '600 20px "JetBrains Mono", monospace'; c.fillStyle = 'rgba(42,36,51,.55)'; c.fillText(k.toUpperCase(), 60, y + 30);
+    c.font = '500 34px "Hanken Grotesk", sans-serif'; c.fillStyle = '#2a2433';
+    const L = wrapTxt(c, v, W - 340, 2); L.forEach((l, i) => c.fillText(l, 260, y + 30 + i * 42)); y += 30 + L.length * 42 + 22;
+    c.strokeStyle = 'rgba(42,36,51,.12)'; c.lineWidth = 2; c.beginPath(); c.moveTo(60, y - 8); c.lineTo(W - 60, y - 8); c.stroke(); }
+};
+const paintTc = () => { drawCard($('#tcCanvas'), tcData()); $('#pkTag').textContent = destTag(); };
+$('#tcPal').innerHTML = TC_PAL.map((p, i) => `<button type="button" data-i="${i}" aria-label="Colour ${i + 1}" style="background:linear-gradient(135deg,${p[0]},${p[1]} 50%,${p[2]})"></button>`).join('');
+$('#tcIco').innerHTML = TC_ICO.map((e, i) => `<button type="button" data-i="${i}" aria-label="Icon ${e}">${e}</button>`).join('');
+const paintPicks = () => { document.querySelectorAll('#tcPal button').forEach(b => b.classList.toggle('on', +b.dataset.i === tc.pal)); document.querySelectorAll('#tcIco button').forEach(b => b.classList.toggle('on', +b.dataset.i === tc.ico)); };
+$('#tcPal').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tc.pal = +b.dataset.i; paintPicks(); paintTc(); } });
+$('#tcIco').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tc.ico = +b.dataset.i; paintPicks(); paintTc(); } });
+$('#tcBox').addEventListener('input', paintTc); $('#pkName').addEventListener('input', paintTc);
+let saidPlace = false; $('#tcPlace').addEventListener('change', () => { const p = $('#tcPlace').value.trim(); if (p && !saidPlace) { saidPlace = true; say(`${p}? I've never been! Now pack for me 🧳`); } });
+const download = (cv, name) => { const a = document.createElement('a'); a.download = `travel-card-${(name || 'serap').toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
+$('#tcDl').addEventListener('click', () => download($('#tcCanvas'), $('#tcPlace').value.trim()));
+// pack the card into a link, so Serap can open it on the site
+const tcPack = d => btoa(unescape(encodeURIComponent(JSON.stringify(d)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const tcOpen = () => {
+  const m = location.hash.match(/^#travelcard=([\w-]+)/); if (!m) return;
+  try { const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, '+').replace(/_/g, '/')))));
+    const d = {}; ['p','c','w','s','e','t','by'].forEach(k => d[k] = String(o[k] || '').slice(0, 80)); d.pl = Math.min(TC_PAL.length - 1, Math.max(0, +o.pl || 0)); d.i = Math.min(TC_ICO.length - 1, Math.max(0, +o.i || 0));
+    drawCard($('#tcViewCv'), d); $('#tcView').hidden = false; $('#tcViewDl').onclick = () => download($('#tcViewCv'), d.p);
+  } catch (e) {}
+};
+$('#tcViewX').addEventListener('click', () => { $('#tcView').hidden = true; history.replaceState(null, '', location.pathname); });
+$('#tcView').addEventListener('click', e => { if (e.target.id === 'tcView') $('#tcViewX').click(); });
+addEventListener('hashchange', tcOpen);
+
+/* ---- the bag ---- */
+const kg = () => st.items.reduce((a, i) => a + i.kg, 0);
+const fmt = n => (Math.round(n * 10) / 10).toString();
+const spot = () => { // a free-ish spot in the bag, in % of the inner area
+  let best, bestD = -1;
+  for (let t = 0; t < 24; t++) { const x = 8 + Math.random() * 64, y = 18 + Math.random() * 64;
+    const d = Math.min(99, ...st.items.map(i => Math.hypot(i.x - x, (i.y - y) * .6)));
+    if (d > bestD) { bestD = d; best = [x, y]; } }
+  return best;
+};
+const paintBag = () => {
+  $('#pkIn').innerHTML = st.items.map((it, i) => `<button type="button" class="pk-it" data-i="${i}" style="left:${it.x}%;top:${it.y}%;--r:${it.r}deg" aria-label="Take out ${it.n}" title="Take out ${it.n}">${it.e}</button>`).join('');
+  const w = kg(), over = w > LIMIT;
+  $('#pkKgTxt').textContent = over ? `Overweight! ${fmt(w)} / ${LIMIT} kg, take something out` : `Bag weight ${fmt(w)} / ${LIMIT} kg`;
+  $('#pkKgBar').style.width = Math.min(100, w / LIMIT * 100) + '%';
+  $('#pkKg').classList.toggle('over', over); $('#pkBag').classList.toggle('heavy', over && !reduce);
+  document.querySelectorAll('#pkItems button[data-n]').forEach(b => b.classList.toggle('in', st.items.some(i => i.n === b.dataset.n)));
+  paintList();
+};
+const paintList = () => {
+  const L = $('#pkList');
+  if (!st.items.length) { L.innerHTML = '<li class="none">Your suitcase is empty. Pack something first.</li>'; return; }
+  // keep what people already typed
+  L.innerHTML = st.items.map((it, i) => `<li><span aria-hidden="true">${it.e}</span><label>${esc(it.n)}<input data-i="${i}" maxlength="120" placeholder="${esc(it.ph)}" value="${esc(it.note)}"></label></li>`).join('');
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#pkList').addEventListener('input', e => { const i = +e.target.dataset.i; if (st.items[i]) st.items[i].note = e.target.value; });
+const add = (e, n, k, ph, line, at) => {
+  if (sent) reset();
+  if (st.items.some(i => i.n === n)) { say('Already in there!'); return; }
+  if (st.items.length >= 14) { say('It won\'t close! Take something out.'); return; }
+  const [x, y] = at || spot();
+  st.items.push({e, n, kg:k, ph, say:line, note:'', x, y, r:Math.round(Math.random() * 40 - 20)});
+  paintBag();
+  say(kg() > LIMIT ? 'Too heavy! The airline wants €60 😱' : line);
+};
+const remove = i => { const it = st.items.splice(i, 1)[0]; paintBag(); if (it) say(`Okay, no ${it.n.toLowerCase()}.`, 1600); };
+$('#pkIn').addEventListener('click', e => { const b = e.target.closest('.pk-it'); if (b) remove(+b.dataset.i); });
+$('#pkEmpty').addEventListener('click', () => { if (sent) { reset(); return; } st.items = []; paintBag(); say('Back to an empty bag.', 1600); });
+
+/* ---- items: tap or drag ---- */
+$('#pkItems').innerHTML = ITEMS.map(([e, n, k]) => `<button type="button" data-n="${n}" aria-label="Pack ${n}, ${k} kg"><span>${e}</span>${n}<small>${fmt(k)} kg</small></button>`).join('');
+$('#pkOwnE').innerHTML = OWN_EMOJI.map(e => `<option>${e}</option>`).join('');
+const addOwn = () => { const n = $('#pkOwnN').value.trim(); if (!n) { $('#pkOwnN').focus(); return; } add($('#pkOwnE').value, n.slice(0, 28), 1, `What should I do with the ${n.toLowerCase().slice(0, 28)}?`, `A ${n.toLowerCase()}? Intriguing…`); $('#pkOwnN').value = ''; };
+$('#pkOwnAdd').addEventListener('click', addOwn);
+$('#pkOwnN').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addOwn(); } });
+const stage = $('#pkStage'), inner = $('#pkIn');
+let drag = null, dragged = false;
+$('#pkItems').addEventListener('pointerdown', e => {
+  const b = e.target.closest('button[data-n]'); if (!b || e.button > 0 || e.pointerType === 'touch') return;
+  drag = {b, x:e.clientX, y:e.clientY, moved:false, ghost:null, id:e.pointerId};
+  b.setPointerCapture(e.pointerId);
+});
+$('#pkItems').addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 6) {
+    drag.moved = true; drag.ghost = document.createElement('div'); drag.ghost.className = 'pk-ghost';
+    drag.ghost.textContent = ITEMS.find(i => i[1] === drag.b.dataset.n)[0]; document.body.appendChild(drag.ghost);
+  }
+  if (drag.moved) { drag.ghost.style.left = e.clientX + 'px'; drag.ghost.style.top = e.clientY + 'px';
+    const r = stage.getBoundingClientRect(); stage.classList.toggle('hot', e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom); }
+});
+const endDrag = (e, cancel) => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const it = ITEMS.find(i => i[1] === drag.b.dataset.n);
+  if (drag.moved) { dragged = true;
+    drag.ghost.remove(); stage.classList.remove('hot');
+    const r = stage.getBoundingClientRect();
+    if (!cancel && e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom) {
+      const ir = inner.getBoundingClientRect();
+      const x = Math.min(74, Math.max(8, (e.clientX - ir.left) / ir.width * 100)), y = Math.min(85, Math.max(15, (e.clientY - ir.top) / ir.height * 100));
+      add(...it, [x, y]);
+    }
+  }
+  drag = null;
+};
+$('#pkItems').addEventListener('pointerup', e => endDrag(e, false));
+$('#pkItems').addEventListener('pointercancel', e => endDrag(e, true));
+$('#pkItems').addEventListener('click', e => { if (dragged) { dragged = false; return; } const b = e.target.closest('button[data-n]'); if (b) add(...ITEMS.find(i => i[1] === b.dataset.n)); });
+
+/* ---- packing list: one of Serap's places + a season -> what to pack ---- */
+const PLS = window.PLACES || [], DRAWS = window.DRAW || {}, INFOS = window.INFO || {};
+const SEASONS = [['spring', 'Spring', 'Mar–May'], ['summer', 'Summer', 'Jun–Aug'], ['autumn', 'Autumn', 'Sep–Nov'], ['winter', 'Winter', 'Dec–Feb']];
+// weather type per country for spring, summer, autumn, winter
+const CLIMATE = {PT:'mild hot warm wet', ES:'warm hot warm mild', UK:'mild warm wet cold', BE:'mild warm wet cold', NL:'mild warm wet cold', SE:'cool warm wet snow', DE:'mild warm wet cold', PL:'cool warm wet snow', CZ:'mild warm wet snow', AT:'mild warm wet snow', CH:'cool warm wet snow', IT:'warm hot warm mild', HU:'mild hot warm cold', RS:'mild hot warm cold', MK:'mild hot warm cold', GR:'warm hot warm mild', TR:'warm hot warm cold', TH:'hot monsoon monsoon dry', JP:'mild humid warm cold'};
+const WEATHER = {
+  hot:['Hot and sunny', [['🕶️','Sunglasses'],['🧴','SPF 50 sunscreen'],['👒','A sun hat'],['👗','Linen and cotton clothes'],['🩴','Sandals'],['🩱','Swimsuit']]],
+  humid:['Hot, humid, with sudden showers', [['👕','Light, breathable clothes'],['☂️','A compact umbrella'],['🧴','Sunscreen'],['🪭','A hand fan'],['🧻','Small towel or handkerchief'],['🦟','Mosquito repellent']]],
+  monsoon:['Hot, with heavy tropical rain', [['🧥','Rain poncho'],['👕','Quick-dry clothes'],['🩴','Waterproof sandals'],['🦟','Mosquito repellent'],['🎒','Dry bag for your phone'],['🧴','Sunscreen']]],
+  dry:['Warm, dry and sunny', [['👕','Light clothes'],['🧴','Sunscreen'],['🕶️','Sunglasses'],['🩱','Swimsuit'],['🧶','A light cardigan for cool evenings'],['🩴','Sandals']]],
+  warm:['Warm days, cooler evenings', [['🧥','A light jacket'],['👚','Layers you can peel off'],['🕶️','Sunglasses'],['🧴','Sunscreen'],['🧣','A light scarf'],['👟','Breathable sneakers']]],
+  mild:['Mild, with some rain', [['🧥','Light waterproof jacket'],['☂️','A compact umbrella'],['🧶','A warm sweater'],['👚','Tees for sunny afternoons'],['🧣','A scarf'],['🥾','Shoes that don\'t mind puddles']]],
+  cool:['Cool, some days still wintry', [['🧥','A warm jacket'],['🧶','Sweaters'],['🧣','Scarf'],['🧤','Light gloves'],['☂️','Umbrella'],['🥾','Waterproof shoes']]],
+  wet:['Cool and rainy', [['🧥','Waterproof jacket'],['☂️','A sturdy umbrella'],['🧶','A cosy sweater'],['🥾','Waterproof shoes'],['🧦','Warm socks'],['🧣','Scarf']]],
+  cold:['Cold, sometimes snowy', [['🧥','Winter coat'],['🌡️','Thermal layer'],['🧢','Beanie'],['🧤','Gloves'],['🧣','Warm scarf'],['🥾','Waterproof boots'],['💄','Lip balm']]],
+  snow:['Proper winter, snow likely', [['🧥','Down coat'],['🌡️','Thermal base layers'],['🧦','Wool socks'],['🧢','Beanie and gloves'],['🥾','Boots with good grip'],['🔥','Hand warmers'],['💄','Lip balm']]],
+};
+// [emoji, text, seasons it applies to (empty = all year)]
+const EXTRA = {
+  PT:[['👟','Shoes with grip for Lisbon\'s slippery cobbles','']],
+  ES:[['👗','Something nice for late dinners',''],['🪭','A hand fan','summer']],
+  UK:[['☂️','An umbrella. Always.','']],
+  NL:[['🧥','A rain jacket you can cycle in','']],
+  SE:[['😴','Sleep mask for the bright nights','summer'],['🕯️','Cosy socks for fika indoors','winter autumn']],
+  HU:[['🩱','Swimsuit for the thermal baths','']],
+  AT:[['👔','Something smart for a concert','']],
+  CH:[['🥾','Hiking shoes for a mountain day','spring summer autumn'],['🧴','Sunscreen, the snow reflects','winter']],
+  IT:[['🧣','A scarf to cover shoulders in churches','']],
+  GR:[['🩴','Water shoes for pebbly beaches','summer'],['🤿','Snorkel mask','summer']],
+  TR:[['🧣','A scarf for visiting mosques',''],['🤿','Snorkel mask','summer']],
+  MK:[['🩱','Swimsuit for Lake Ohrid','summer']],
+  TH:[['👖','Clothes covering shoulders and knees for temples',''],['💊','Stomach medicine',''],['🤿','Snorkel mask','dry']],
+  JP:[['🧦','Nice socks: shoes come off in temples',''],['💴','Some cash in yen',''],['🛍️','A small bag for rubbish, bins are rare','']],
+};
+const nowSeason = () => ['winter','winter','spring','spring','spring','summer','summer','summer','autumn','autumn','autumn','winter'][new Date().getMonth()];
+const pl = {code:(PLS[0] || {}).code, season:nowSeason()};
+const packList = (code, season) => {
+  const si = SEASONS.findIndex(s => s[0] === season), type = (CLIMATE[code] || 'mild mild mild mild').split(' ')[si], W = WEATHER[type] || WEATHER.mild, info = INFOS[code] || {};
+  const safe = !/bottled/i.test(info.water || '') || /safe/i.test(info.water || '');
+  const base = [['🛂','Passport or ID'], ['🔌', `Plug adapter: ${(info.plug || 'check the plug type').split(',')[0]}`], ['🔋','Power bank'], ['👟','Comfy walking shoes'], safe ? ['🚰','Refillable water bottle'] : ['💧','Bottled water, not the tap'], ['📷','A camera, for my sake']];
+  const extra = (EXTRA[code] || []).filter(e => !e[2] || e[2].split(' ').includes(season) || e[2] === type);
+  return {weather:W[0], items:[...W[1], ...extra, ...base]};
+};
+const drawList = (cv, code, season) => {
+  const p = PLS.find(x => x.code === code); if (!p) return;
+  const c = cv.getContext('2d'), Wd = cv.width, H = cv.height, hh = 380, L = packList(code, season), S = SEASONS.find(s => s[0] === season);
+  c.clearRect(0, 0, Wd, H); c.fillStyle = '#f6f0e4'; c.fillRect(0, 0, Wd, H);
+  const g = c.createLinearGradient(0, 0, 0, hh); g.addColorStop(0, p.c[0]); g.addColorStop(.6, p.c[1]); g.addColorStop(1, p.c[2]); c.fillStyle = g; c.fillRect(0, 0, Wd, hh);
+  c.fillStyle = 'rgba(255,255,255,.28)'; c.beginPath(); c.arc(Wd * .8, hh * .28, 56, 0, 6.283); c.fill();
+  c.save(); c.beginPath(); c.rect(0, 0, Wd, hh); c.clip(); try { (DRAWS[code] || (() => {}))(c, Wd * .74, hh, hh / 300, 'rgba(14,13,22,.85)', p.c[0]); } catch (e) {} c.restore();
+  c.fillStyle = '#fff'; c.textAlign = 'left'; c.font = '600 22px "JetBrains Mono", monospace'; c.fillText('PACKING LIST · SERAPINCE.COM', 50, 70);
+  let fs = 96; c.font = `800 ${fs}px Syne, sans-serif`; while (c.measureText(p.name).width > Wd * .62 && fs > 50) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
+  c.shadowColor = 'rgba(0,0,0,.25)'; c.shadowBlur = 12; c.fillText(p.name, 46, 70 + fs * 1.05); c.shadowBlur = 0;
+  c.font = '700 46px Caveat, cursive'; c.fillText(`in ${S[1].toLowerCase()} (${S[2]})`, 50, 70 + fs * 1.05 + 54);
+  let y = hh + 60; c.fillStyle = '#c42435'; c.font = '600 22px "JetBrains Mono", monospace'; c.fillText(`WEATHER · ${L.weather.toUpperCase()}`.slice(0, 60), 50, y);
+  y += 30; const colW = (Wd - 120) / 2, rows = Math.ceil(L.items.length / 2), rh = Math.min(84, (H - y - 90) / rows);
+  L.items.forEach(([e, t], i) => {
+    const x = 50 + (i % 2) * (colW + 20), yy = y + Math.floor(i / 2) * rh;
+    c.strokeStyle = 'rgba(42,36,51,.5)'; c.lineWidth = 3; c.strokeRect(x, yy + 18, 26, 26);
+    c.font = '34px serif'; c.textBaseline = 'middle'; c.fillText(e, x + 40, yy + 32); c.textBaseline = 'alphabetic';
+    c.fillStyle = '#2a2433'; c.font = '500 28px "Hanken Grotesk", sans-serif';
+    const lines = wrapTxt(c, t, colW - 100, 2); lines.forEach((l, k) => c.fillText(l, x + 88, yy + 42 + (k - (lines.length - 1) / 2) * 30)); c.fillStyle = '#c42435';
+  });
+  c.fillStyle = '#2a2433'; c.font = '700 40px Caveat, cursive'; c.textAlign = 'right'; c.fillText('Have a lovely trip! Serap ✳', Wd - 50, H - 40); c.textAlign = 'left';
+};
+const listText = () => { const p = PLS.find(x => x.code === pl.code), S = SEASONS.find(s => s[0] === pl.season), L = packList(pl.code, pl.season);
+  return `Packing list for ${p.name} in ${S[1].toLowerCase()} (${S[2]})\nWeather: ${L.weather}\n\n${L.items.map(([e, t]) => `☐ ${e} ${t}`).join('\n')}\n\nHave a lovely trip!\nSerap · https://serapince.com`; };
+const paintPl = () => {
+  $('#plCountry').innerHTML = PLS.map(p => `<button type="button" data-c="${p.code}" class="${p.code === pl.code ? 'on' : ''}" aria-pressed="${p.code === pl.code}" style="--a:${p.c[1]}">${p.name}</button>`).join('');
+  $('#plSeason').innerHTML = SEASONS.map(([k, n, m]) => `<button type="button" data-s="${k}" class="${k === pl.season ? 'on' : ''}" aria-pressed="${k === pl.season}">${n} <small>${m}</small></button>`).join('');
+  drawList($('#plCanvas'), pl.code, pl.season); $('#plCanvas').setAttribute('aria-label', listText());
+  $('#pkTag').textContent = destTag();
+};
+$('#plCountry').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pl.code = b.dataset.c; paintPl(); const p = PLS.find(x => x.code === pl.code); say(`${p.name}! Here's what I'd pack.`); });
+$('#plSeason').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pl.season = b.dataset.s; paintPl(); });
+$('#plDl').addEventListener('click', () => download($('#plCanvas'), `packing-${pl.code}-${pl.season}`));
+$('#plMail').addEventListener('click', () => { const p = PLS.find(x => x.code === pl.code); location.href = `mailto:?subject=${encodeURIComponent(`My packing list for ${p.name}`)}&body=${encodeURIComponent(listText())}`; });
+$('#plCopy').addEventListener('click', async () => { try { await navigator.clipboard.writeText(listText()); $('#plCopy').textContent = '✓ Copied'; } catch (e) { $('#plCopy').textContent = 'Copy failed'; } setTimeout(() => { $('#plCopy').textContent = '⧉ Copy list'; }, 1800); });
+// "What to pack" button inside each country's drawer
+document.addEventListener('click', e => { const b = e.target.closest('[data-packfor]'); if (!b) return;
+  const x = document.querySelector('#cdrawer [data-close]'); if (x) x.click();
+  pl.code = b.dataset.packfor; st.dest = 'mine'; paintDest(); paintPl();
+  setTimeout(() => $('#pack').scrollIntoView({behavior:'smooth'}), 380); setTimeout(() => say(`Packing for ${PLS.find(p => p.code === pl.code).name}!`), 1200); });
+
+/* ---- zip it and send ---- */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const closeLid = async () => {
+  const bag = $('#pkBag'), lid = bag.querySelector('.lid'); bag.classList.add('closing');
+  if (reduce || !lid.animate) { bag.classList.add('closed'); return; }
+  await lid.animate([{transform:'scaleY(1)'}, {transform:'scaleY(0)'}], {duration:280, easing:'ease-in', fill:'forwards'}).finished;
+  bag.classList.add('closed');
+  await lid.animate([{transform:'scaleY(0)'}, {transform:'scaleY(-.98)'}], {duration:320, easing:'cubic-bezier(.3,1.6,.5,1)', fill:'forwards'}).finished;
+};
+const reset = () => {
+  sent = false; st.items = []; const bag = $('#pkBag'), lid = bag.querySelector('.lid');
+  bag.classList.remove('closed', 'closing', 'gone'); lid.getAnimations && lid.getAnimations().forEach(a => a.cancel());
+  $('#pkPass').classList.remove('on'); $('#pkIdea').value = ''; $('#pkStatus').textContent = ''; $('#pkEmpty').textContent = '↺ Unpack'; $('#pkSend').textContent = 'Zip it & send ✈'; paintBag();
+};
+const pass = (name, from) => {
+  const code = st.dest === 'mine' ? pl.code : ({'Sharm El Sheikh':'SSH', 'Türkiye':'TÜR'})[destTag()] || (destTag().replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]/g, '').slice(0, 3) || 'NEW').toUpperCase();
+  $('#pkPass').innerHTML = `<div class="main"><div class="top"><span>BOARDING PASS</span><span>SERAP AIR ✳</span></div>
+    <h4>HOME → ${esc(code)}<br><span style="font-size:.5em">${esc(destTag())}</span></h4>
+    <dl><div><dt>Passenger</dt><dd>Serap</dd></div><div><dt>Packed by</dt><dd>${esc(name)}</dd></div><div><dt>From</dt><dd>${esc(from || 'the Internet')}</dd></div>
+    <div><dt>Items</dt><dd>${st.items.length}</dd></div><div><dt>Weight</dt><dd>${fmt(kg())} kg</dd></div><div><dt>Seat</dt><dd>Window</dd></div></dl>
+    <span class="bar"></span></div>
+    <div class="stub"><span>THANK YOU</span>${st.items.slice(0, 3).map(i => i.e).join('')}<span>CHECKED IN</span></div>`;
+  $('#pkPass').classList.add('on');
+};
+$('#pkForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = $('#pkStatus'), btn = $('#pkSend'), name = $('#pkName').value.trim(), from = $('#pkFrom').value.trim(), idea = $('#pkIdea').value.trim();
+  if (sent) { reset(); return; }
+  if ($('#pkBot').checked) { status.textContent = 'Sent. Thank you!'; return; }
+  if (st.dest === 'own' && !$('#tcPlace').value.trim()) { status.textContent = 'Write the place on your travel card first.'; $('#tcPlace').focus(); say('Where are you sending me?'); return; }
+  if (!st.items.length) { status.textContent = 'Pack at least one thing first.'; say('My bag is empty!'); return; }
+  if (kg() > LIMIT) { status.textContent = 'Too heavy to check in. Take something out.'; say('It\'s over 23 kg! 😱'); return; }
+  if (!name) { status.textContent = 'Sign the tag with your name first.'; $('#pkName').focus(); return; }
+  const lines = st.items.map(i => `${i.e} ${i.n}${i.note.trim() ? ': ' + i.note.trim() : ''}`);
+  const subject = `${name} packed your bag for ${destTag()}`;
+  const d = tcData(), card = st.dest === 'own' ? `\n\nTravel card: ${d.p}${d.c ? ', ' + d.c : ''}${d.w ? '\nBest time: ' + d.w : ''}${d.s ? '\nDon\'t miss: ' + d.s : ''}${d.e ? '\nEat: ' + d.e : ''}${d.t ? '\nLocal tip: ' + d.t : ''}\nSee the card: https://serapince.com/#travelcard=${tcPack(d)}` : '';
+  const body = `Destination: ${destTag()}${st.dest === 'mine' ? ' (' + pl.season + ')' : ''}${card}\n\nIn the bag (${fmt(kg())} kg):\n${lines.join('\n')}\n\nThe one experience to try: ${idea || '(not written)'}\n\n${name}${from ? ', ' + from : ''}`;
+  btn.disabled = true; status.textContent = 'Zipping…';
+  try {
+    const email = $('#pkEmail').value.trim();
+    const r = await fetch('https://api.web3forms.com/submit', {method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'},
+      body: JSON.stringify({access_key: WEB3FORMS_KEY, subject, from_name: 'serapince.com · Pack my bag', name, ...(email ? {email} : {}), message: body, botcheck: false})});
+    const j = await r.json(); if (!j.success) throw 0;
+    sent = true; await closeLid(); say(`Teşekkürler ${name}! I'll send you a postcard from there ✳`, 4000);
+    await wait(500); $('#pkBag').classList.add('gone'); await wait(reduce ? 0 : 700); pass(name, from);
+    status.textContent = st.dest === 'own' ? 'Checked in! Your travel card and ideas just landed in my inbox. Download the card above to keep it.' : 'Checked in! Your ideas just landed in my inbox.'; btn.textContent = 'Pack another bag ↺'; $('#pkEmpty').textContent = '↺ Pack again';
+    try { localStorage.setItem('serap-bags', (+localStorage.getItem('serap-bags') || 0) + 1); } catch (err) {}
+  } catch (err) { status.textContent = 'Something went wrong. Try again, or email hello@serapince.com.'; }
+  btn.disabled = false;
+});
+
+paintDest(); paintPicks(); paintTc(); paintPl(); paintBag(); tcOpen();
+if (document.fonts) document.fonts.ready.then(() => { paintTc(); paintPl(); });
+// say hello once when the game scrolls into view
+if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { say(`Help me pack for ${nextTrip}?`, 3200); io.disconnect(); } }, {threshold:.5}); io.observe(stage); }
 })();
 </script>
 </body>
