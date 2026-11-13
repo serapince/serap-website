@@ -528,6 +528,107 @@ section.block{padding-block:clamp(80px,12vw,160px)}
 .cd-pack{margin:0 10px 10px 0}
 .tc[hidden]{display:none}
 .tc.pl{grid-template-columns:minmax(0,1fr) minmax(160px,340px)}@media (max-width:520px){.tc.pl{grid-template-columns:1fr}.pl .tc-prev{max-width:300px}}
+.pl-mail{display:flex;gap:6px}.pl-mail[hidden]{display:none}.pl-mail a{flex:1;text-align:center;border:1px solid var(--ember);color:var(--ember);border-radius:999px;padding:7px 4px;font-size:12px;text-decoration:none}.pl-mail a:hover{background:var(--ember);color:var(--ink)}
+
+/* ---------- where next? this-or-that trip finder ---------- */
+.wn{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;max-width:1000px}
+.wn-stage{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#2a2350 0%,#17151f 70%);box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 1px var(--line);padding:clamp(18px,3vw,32px);min-height:420px;display:flex;flex-direction:column;gap:18px}
+.wn-top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--mute)}
+.wn-prog{flex:1;height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.wn-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--dusk),var(--ember));transition:width .5s cubic-bezier(.3,1.4,.5,1)}
+.wn-back{background:transparent;border:1px solid var(--line);color:var(--paper);border-radius:999px;padding:6px 12px;font-size:11px;cursor:pointer}.wn-back:hover{border-color:var(--ember);color:var(--ember)}.wn-back[disabled]{opacity:.3;cursor:default}
+.wn-q{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,3vw,34px);margin:0;text-align:center}
+.wn-pair{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,2vw,22px);flex:1}
+.wn-opt{position:relative;border:0;border-radius:18px;cursor:pointer;color:#fff;padding:clamp(18px,3vw,30px) 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:clamp(180px,26vw,260px);background:linear-gradient(160deg,var(--a),var(--b));box-shadow:0 18px 40px -16px rgba(0,0,0,.6);transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .3s,opacity .3s;overflow:hidden;font-family:var(--f-body)}
+.wn-opt::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 30% 10%,rgba(255,255,255,.28),transparent 60%);pointer-events:none}
+.wn-opt:hover{transform:translateY(-6px) rotate(var(--t,-1.5deg));box-shadow:0 26px 50px -16px rgba(0,0,0,.7)}
+.wn-opt:nth-child(2){--t:1.5deg}
+.wn-opt .e{font-size:clamp(46px,7vw,76px);line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+.wn-opt b{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,2.8vw,32px);line-height:1.05;text-align:center;letter-spacing:-.01em}
+.wn-opt small{opacity:.85;font-size:13px;text-align:center;max-width:26ch}
+.wn-opt kbd{position:absolute;top:10px;left:12px;font-family:var(--f-mono);font-size:10px;opacity:.6}
+.wn-opt:nth-child(2) kbd{left:auto;right:12px}
+.wn-or{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:46px;height:46px;border-radius:50%;background:var(--ink);border:1px solid var(--line);display:grid;place-items:center;font-family:"Caveat",cursive;font-size:24px;color:var(--ember);pointer-events:none}
+.wn-pair.out-l .wn-opt:nth-child(1),.wn-pair.out-r .wn-opt:nth-child(2){transform:scale(1.06);box-shadow:0 0 0 3px var(--ember),0 26px 50px -16px rgba(0,0,0,.7)}
+.wn-pair.out-l .wn-opt:nth-child(2),.wn-pair.out-r .wn-opt:nth-child(1){opacity:.25;transform:scale(.94)}
+.wn-pair.in .wn-opt{animation:wnIn .5s cubic-bezier(.3,1.4,.5,1) both}.wn-pair.in .wn-opt:nth-child(2){animation-delay:.06s}
+@keyframes wnIn{from{opacity:0;transform:translateY(24px) scale(.96)}}
+.wn-hint{text-align:center;color:var(--mute);font-size:11px;margin:0}
+.wn-res{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(18px,3vw,36px);align-items:center;animation:wnIn .6s cubic-bezier(.3,1.4,.5,1) both}
+.wn-res canvas{width:100%;height:auto;border-radius:14px;box-shadow:0 30px 60px -18px rgba(0,0,0,.75);transform:rotate(-2deg)}
+.wn-res h3{font-size:clamp(40px,6vw,80px);font-weight:800;margin:4px 0 10px}
+.wn-res .why{color:var(--mute);margin:0 0 14px;max-width:46ch}
+.wn-res .say{font-family:"Caveat",cursive;font-size:clamp(22px,2.4vw,28px);color:var(--ember);line-height:1.15;margin:0 0 16px}
+.wn-alt{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.wn-alt li{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--mute)}
+.wn-alt li b{color:var(--paper);font-weight:600}
+.wn-btns{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:700px){.wn-res{grid-template-columns:minmax(0,1fr)}.wn-res h3{font-size:clamp(28px,8.5vw,56px);overflow-wrap:break-word}.wn-res>div{min-width:0}.wn-res canvas{max-width:260px;margin:0 auto}.wn-opt small{display:none}.wn-opt kbd{display:none}}
+@media (prefers-reduced-motion:reduce){.wn-pair.in .wn-opt,.wn-res{animation:none}}
+.wn-new{display:inline-block;color:var(--dusk);border:1px dashed var(--dusk);border-radius:999px;padding:4px 10px;margin:-4px 0 12px;font-size:11px}
+.wn-shot{margin:0 0 14px;font-size:15px;color:var(--paper)}.wn-shot b{color:var(--ember);font-weight:600}
+.cd-shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cd-shot{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--ink-2);display:flex;flex-direction:column;gap:6px;position:relative}
+.cd-shot .n{font-family:var(--f-mono);font-size:11px;color:var(--ember)}
+.cd-shot b{font-weight:600;line-height:1.3}
+.cd-shot span:last-child{color:var(--mute);font-size:14px;line-height:1.35}
+@media (max-width:700px){.cd-shots{grid-template-columns:1fr}}
+
+/* ---------- the little culture book ---------- */
+.bk{container-type:inline-size;perspective:2200px;outline:none;margin-top:4px}
+.bk-spread{position:relative;display:grid;grid-template-columns:1fr 1fr;aspect-ratio:3/2;filter:drop-shadow(0 26px 30px rgba(0,0,0,.45))}
+.bk.one .bk-spread{grid-template-columns:1fr;aspect-ratio:3/4;max-width:440px;margin:0 auto}
+.bk.one .bk-page.r{display:none}
+.bk-page{position:relative;overflow:hidden;color:#2a2433;font:clamp(12px,2.1cqw,18px)/1.45 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:#f6efe2;cursor:pointer}
+.bk.one .bk-page{font-size:clamp(13px,4.2cqw,18px)}
+.bk-page.l{border-radius:8px 2px 2px 8px;background:linear-gradient(90deg,#efe6d4 0%,#f6efe2 8%,#f6efe2 88%,#e3d6bd 100%)}
+.bk-page.r{border-radius:2px 8px 8px 2px;background:linear-gradient(90deg,#e3d6bd 0%,#f6efe2 12%,#f6efe2 92%,#efe6d4 100%)}
+.bk.one .bk-page.l{border-radius:3px 8px 8px 3px;background:linear-gradient(90deg,#e3d6bd 0%,#f6efe2 7%,#f6efe2 94%,#efe6d4 100%)}
+.bk-page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.07'/></svg>")}
+.bk-in{position:absolute;inset:9% 11% 11%;display:flex;flex-direction:column;gap:.7em;overflow:hidden}
+.bk-pn{position:absolute;bottom:4.5%;left:0;right:0;text-align:center;font-style:italic;font-size:.85em;opacity:.55}
+.bk-ch{font-family:var(--f-mono);font-size:.7em;letter-spacing:.14em;text-transform:uppercase;color:#c42435}
+.bk-in h4{margin:-.3em 0 .2em;font:italic 400 2em/1.05 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;letter-spacing:-.01em}
+.bk-in ol,.bk-in ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75em}
+.bk-tl li{display:grid;grid-template-columns:4.6em 1fr;gap:.6em;border-left:1.5px solid rgba(196,36,53,.35);padding-left:.8em;position:relative}
+.bk-tl li::before{content:"";position:absolute;left:-.32em;top:.45em;width:.5em;height:.5em;border-radius:50%;background:#c42435}
+.bk-tl b{font-family:var(--f-mono);font-size:.8em;font-weight:500;padding-top:.15em}
+.bk-tips li{display:grid;grid-template-columns:1.6em 1fr;gap:.5em}
+.bk-tips b{font:italic 700 1.3em/1 "Iowan Old Style",Georgia,serif;color:#c42435}
+.bk-art li{display:flex;flex-direction:column;gap:.1em;padding-bottom:.6em;border-bottom:1px dashed rgba(42,36,51,.2)}
+.bk-art li:last-child{border:0}
+.bk-art b{font-size:1.15em}.bk-art i{font-family:var(--f-mono);font-style:normal;font-size:.7em;letter-spacing:.1em;text-transform:uppercase;color:#c42435}
+.bk-say{font:700 1.7em/1.1 Caveat,cursive;color:#c42435;margin:0}
+.bk-in p{margin:0}
+.bk-page.cover{background:linear-gradient(150deg,var(--b,#5b2a86),#1d1838)}
+.bk-cover{position:absolute;inset:-12% -14% -14%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.6em;color:#f6efe2;background:radial-gradient(90% 70% at 30% 15%,var(--c) -40%,transparent 60%),linear-gradient(150deg,var(--a),var(--b));padding:18%}
+.bk-cover::before{content:"";position:absolute;inset:9%;border:1.5px solid rgba(246,239,226,.55);border-radius:4px;outline:1px solid rgba(246,239,226,.3);outline-offset:6px}
+.bk-cover .bk-ch{color:#f6efe2;opacity:.85}
+.bk-cover h4{font-size:2.8em;margin:0;overflow-wrap:anywhere}
+.bk-cover p{font-style:italic;opacity:.85}
+.bk-orn{font-size:2em;color:#ffb38a}
+.bk-by{font:700 1.5em Caveat,cursive}
+.bk-end{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.8em}
+.bk-end .bk-orn{color:#c42435}
+.bk-hand{font:700 1.7em/1.15 Caveat,cursive}
+.bk-end .pill{font-size:.85em;padding:.6em 1.1em;margin-top:.6em;background:#2a2433;color:#f6efe2;border-color:#2a2433}
+.bk-leaf{position:absolute;top:0;bottom:0;width:50%;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.45,.05,.3,1);z-index:3;pointer-events:none}
+.bk-leaf.fwd{left:50%;transform-origin:left center}
+.bk-leaf.back{left:0;transform-origin:right center}
+.bk-leaf.fwd.go{transform:rotateY(-180deg)}
+.bk-leaf.back.go{transform:rotateY(180deg)}
+.bk.one .bk-leaf{left:0;right:0;width:auto;max-width:440px;margin:0 auto;transform-origin:left center}
+.bk.one .bk-leaf.go{transform:rotateY(-110deg);opacity:0;transition:transform .75s cubic-bezier(.45,.05,.3,1),opacity .75s ease-in}
+.bk-leaf .bk-page{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.bk-leaf .bk-page.f{border-radius:2px 8px 8px 2px;background:linear-gradient(90deg,#e3d6bd 0%,#f6efe2 12%,#f6efe2 92%,#efe6d4 100%)}
+.bk-leaf.back .bk-page.f{border-radius:8px 2px 2px 8px;background:linear-gradient(90deg,#efe6d4 0%,#f6efe2 8%,#f6efe2 88%,#e3d6bd 100%)}
+.bk-leaf .bk-page.b{transform:rotateY(180deg);border-radius:8px 2px 2px 8px;background:linear-gradient(90deg,#efe6d4 0%,#f6efe2 8%,#f6efe2 88%,#e3d6bd 100%)}
+.bk-leaf.back .bk-page.b{border-radius:2px 8px 8px 2px;background:linear-gradient(90deg,#e3d6bd 0%,#f6efe2 12%,#f6efe2 92%,#efe6d4 100%)}
+.bk-leaf .bk-page.cover{background:linear-gradient(150deg,#5b2a86,#1d1838)}
+.bk-nav{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:14px;color:var(--mute);font-size:12px}
+.bk-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--paper);cursor:pointer;font-size:15px}
+.bk-nav button:hover:not(:disabled){border-color:var(--ember);color:var(--ember)}
+.bk-nav button:disabled{opacity:.3;cursor:default}
 </style>
 
 <div class="cur" aria-hidden="true"></div><div class="cur-ring" aria-hidden="true"></div>
@@ -541,13 +642,14 @@ section.block{padding-block:clamp(80px,12vw,160px)}
     <li><a href="#journal">Journal</a></li>
     <li><a href="#home">At home</a></li>
     <li><a href="#pack">Play</a></li>
+    <li><a href="#match">Where next?</a></li>
     <li><a href="#postcard">Postcards</a></li>
   </ul>
   <a class="cta" href="#contact">Say hello ↗</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span><span></span></button>
 </header>
 <nav class="overlay" id="overlay" aria-label="Menu">
-  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#home">At home</a><a href="#pack">Play</a><a href="#postcard">Postcards</a><a href="#contact">Say hello</a>
+  <a href="#travels">Travels</a><a href="#hobbies">Hobbies</a><a href="#about">About</a><a href="#journal">Journal</a><a href="#home">At home</a><a href="#pack">Play</a><a href="#match">Where next?</a><a href="#postcard">Postcards</a><a href="#contact">Say hello</a>
 </nav>
 
 <main id="top">
@@ -842,6 +944,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
               <input id="tcWhen" maxlength="50" placeholder="Best time to go">
               <input id="tcSee" maxlength="70" placeholder="Don't miss…">
               <input id="tcEat" maxlength="70" placeholder="You have to eat…">
+              <input id="tcShot" maxlength="70" placeholder="📸 Best photo spot, and when to go">
               <input id="tcTip" maxlength="80" placeholder="A local tip">
               <div class="tc-pick"><span class="mono">Colours</span><div id="tcPal"></div></div>
               <div class="tc-pick"><span class="mono">Icon</span><div id="tcIco"></div></div>
@@ -855,7 +958,7 @@ section.block{padding-block:clamp(80px,12vw,160px)}
               <p class="pl-note">Your list is ready on the right. Download it, send it to your own email or copy it, then pack my bag below too.</p>
             </div>
             <div class="tc-prev"><canvas id="plCanvas" width="900" height="1200" role="img"></canvas>
-              <div class="pl-btns"><button type="button" class="pk-empty mono" id="plDl">↓ Download</button><button type="button" class="pk-empty mono" id="plMail">✉ Email it to me</button><button type="button" class="pk-empty mono" id="plCopy">⧉ Copy list</button></div></div>
+              <div class="pl-btns"><button type="button" class="pk-empty mono" id="plDl">↓ Download</button><button type="button" class="pk-empty mono" id="plMail">✉ Email it to me</button><div class="pl-mail" id="plMailMenu" hidden></div><button type="button" class="pk-empty mono" id="plCopy">⧉ Copy list</button></div></div>
           </div>
         </fieldset>
     </div>
@@ -923,6 +1026,17 @@ section.block{padding-block:clamp(80px,12vw,160px)}
   </section>
 
   <div class="tc-view" id="tcView" role="dialog" aria-modal="true" aria-label="A travel card" hidden><div class="tc-view-in"><canvas id="tcViewCv" width="900" height="1200"></canvas><div class="row"><button type="button" class="pill show" id="tcViewDl">↓ Download</button><button type="button" class="pill ghost show" id="tcViewX">Close</button></div></div></div>
+  <!-- WHERE NEXT? this-or-that trip finder -->
+  <section class="block wrap" id="match">
+    <div class="head rv">
+      <div><span class="eyebrow mono">Can't decide where to go?</span><h2>Where <span class="o">next?</span></h2></div>
+      <p>Ten quick "this or that" questions, and I'll pick your next trip: maybe one of my places, maybe somewhere I haven't been yet. My guide and a packing list come with it.</p>
+    </div>
+    <div class="wn">
+      <div class="wn-stage" id="wnStage" tabindex="0" aria-live="polite"></div>
+    </div>
+  </section>
+
   <!-- SEND ME A POSTCARD -->
   <section class="block wrap" id="postcard">
     <div class="head rv">
@@ -1515,11 +1629,14 @@ const openCountry = code => {
   cdBody.innerHTML = (tours.length ? `<h3 class="cd-h">One perfect day</h3><div class="tours">${tours.map(tourHTML).join('')}</div>` : '')
     + (g ? `<h3 class="cd-h">My guide</h3><div class="cd-guide">${sec('See', g.go)}${sec('Do', g.do)}${sec('Eat', g.eat)}${sec('Bring home', g.bring)}</div>`
          : `<p class="cd-soon">My favourite places, restaurants and souvenirs for ${p.name} are still in the notebook. Coming soon.</p>`)
+    + ((window.CULTURE || {})[code] ? `<h3 class="cd-h">The little culture book</h3><div class="bk" data-book="${code}"></div>` : '')
     + ((CITIES[code] || []).length ? `<h3 class="cd-h">More of ${p.name}</h3><div class="cd-cities" role="tablist">${CITIES[code].map((c, k) => `<button type="button" role="tab" data-city="${k}">${c.name}</button>`).join('')}</div><div class="cd-city" id="cdCity"></div>` : '')
+    + (((window.PHOTO || {})[code] || []).length ? `<h3 class="cd-h">Favourite shots</h3><div class="cd-shots">${window.PHOTO[code].map(([s, t], k) => `<div class="cd-shot"><span class="n">📸 0${k + 1}</span><b>${s}</b><span>${t}</span></div>`).join('')}</div>` : '')
     + ((i => i ? `<h3 class="cd-h">Good to know</h3><div class="cd-info">${[['💶','Money',i.money],['💬','Hello · Thanks',i.say],['🔌','Plugs',i.plug],['🪙','Tipping',i.tip],['🚆','Getting around',i.move],['🚰','Water',i.water],['🗓','Best time',i.best],['🆘','Emergency',i.sos],['✨','Local tip',i.note]].filter(r => r[2]).map(([e, h, t]) => `<div class="cd-fact"><span class="e" aria-hidden="true">${e}</span><div><span class="mono">${h}</span><p>${t}</p></div></div>`).join('')}</div>` : '')(INFO[code]))
     + `<button type="button" class="pill show cd-pc cd-pack" data-packfor="${code}">🧳 What to pack for ${p.name}</button>`
     + `<a class="pill ghost show cd-pc" href="#postcard" data-pc="${code}">Send me a postcard from ${p.name} ✉</a>`;
   cdBody.querySelectorAll('.tour').forEach(el => { el.classList.add('in'); wireTour(el); });
+  if (window.initBook) requestAnimationFrame(() => window.initBook(cdBody));
   const showCity = k => { const c = CITIES[code][k]; cdBody.querySelectorAll('[data-city]').forEach(b => { const on = +b.dataset.city === k; b.classList.toggle('sel', on); b.setAttribute('aria-selected', on); });
     $('#cdCity').innerHTML = `<p class="cd-line"><b>${c.name}</b> · ${c.line}</p><div class="cd-guide">${sec('See', c.go)}${sec('Do', c.do)}${sec('Eat', c.eat)}${sec('Bring home', c.bring)}</div>`; };
   cdBody.querySelectorAll('[data-city]').forEach(b => b.addEventListener('click', () => showCity(+b.dataset.city)));
@@ -2488,7 +2605,7 @@ let sayT;
 const say = (t, ms = 2600) => { const b = $('#pkSay'); b.textContent = t; b.classList.add('on'); clearTimeout(sayT); sayT = setTimeout(() => b.classList.remove('on'), ms); };
 
 /* ---- destination ---- */
-const destTag = () => st.dest === 'own' ? ($('#tcPlace').value.trim() || 'Your pick?') : st.dest === 'mine' ? ((window.PLACES || []).find(p => p.code === pl.code) || {name:'?'}).name : DEST.find(d => d.k === st.dest).tag;
+const destTag = () => st.dest === 'own' ? ($('#tcPlace').value.trim() || 'Your pick?') : st.dest === 'mine' ? (findPl(pl.code) || {name:'?'}).name : DEST.find(d => d.k === st.dest).tag;
 const paintDest = () => {
   $('#pkDest').innerHTML = DEST.map(d => `<button type="button" data-k="${d.k}" class="${d.k === st.dest ? 'on' : ''}" aria-pressed="${d.k === st.dest}">${d.label}</button>`).join('');
   $('#tcBox').hidden = st.dest !== 'own'; $('#plBox').hidden = st.dest !== 'mine';
@@ -2500,12 +2617,12 @@ $('#pkDest').addEventListener('click', e => { const b = e.target.closest('button
 const TC_PAL = [['#ffd27a','#ff8a6b','#5b2a86'],['#a5f3fc','#2bb3c9','#0b3a5c'],['#ffe0b0','#e8945a','#7a3b1e'],['#d9f2c4','#6fae7c','#1f4d3a'],['#c3b2ff','#3b2f6b','#0e0d16'],['#ffe1ec','#ff8fb1','#7a2a5a']];
 const TC_ICO = ['🏝️','🏔️','🏙️','🏜️','🏛️','⛩️','🌊','🌲','🕌','🌋','🍜','🎭'];
 const tc = {pal:0, ico:0};
-const tcData = () => ({p:$('#tcPlace').value.trim(), c:$('#tcCountry').value.trim(), w:$('#tcWhen').value.trim(), s:$('#tcSee').value.trim(), e:$('#tcEat').value.trim(), t:$('#tcTip').value.trim(), pl:tc.pal, i:tc.ico, by:$('#pkName').value.trim()});
+const tcData = () => ({p:$('#tcPlace').value.trim(), c:$('#tcCountry').value.trim(), w:$('#tcWhen').value.trim(), s:$('#tcSee').value.trim(), e:$('#tcEat').value.trim(), t:$('#tcTip').value.trim(), ph:$('#tcShot').value.trim(), pl:tc.pal, i:tc.ico, by:$('#pkName').value.trim()});
 const wrapTxt = (c, t, maxW, maxL) => { const words = t.split(/\s+/), L = []; let line = '';
   for (const w of words) { const test = line ? line + ' ' + w : w; if (c.measureText(test).width > maxW && line) { L.push(line); line = w; } else line = test; }
   if (line) L.push(line); if (L.length > maxL) { L.length = maxL; L[maxL - 1] = L[maxL - 1].replace(/\s*\S*$/, '…'); } return L; };
 const drawCard = (cv, d) => {
-  const c = cv.getContext('2d'), W = cv.width, H = cv.height, P = TC_PAL[d.pl] || TC_PAL[0], artH = H * .5;
+  const c = cv.getContext('2d'), W = cv.width, H = cv.height, P = TC_PAL[d.pl] || TC_PAL[0], artH = H * .44;
   c.clearRect(0, 0, W, H); c.fillStyle = '#f6f0e4'; c.fillRect(0, 0, W, H);
   const g = c.createLinearGradient(0, 0, 0, artH); g.addColorStop(0, P[0]); g.addColorStop(.6, P[1]); g.addColorStop(1, P[2]); c.fillStyle = g; c.fillRect(0, 0, W, artH);
   c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.arc(W * .74, artH * .3, artH * .16, 0, 6.283); c.fill();
@@ -2519,14 +2636,14 @@ const drawCard = (cv, d) => {
   // text
   let y = artH + 80; c.fillStyle = '#2a2433'; c.textAlign = 'left';
   c.font = '600 22px "JetBrains Mono", monospace'; c.fillStyle = '#c42435'; c.fillText((d.c || 'Somewhere lovely').toUpperCase().slice(0, 30), 60, y);
-  let fs = 104; c.font = `800 ${fs}px Syne, sans-serif`; const name = d.p || 'Your pick?'; while (c.measureText(name).width > W - 120 && fs > 44) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
+  let fs = 92; c.font = `800 ${fs}px Syne, sans-serif`; const name = d.p || 'Your pick?'; while (c.measureText(name).width > W - 120 && fs > 44) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
   y += fs * .95; c.fillStyle = '#2a2433'; c.fillText(name, 56, y); y += 36;
-  const rows = [['Best time', d.w], ['Don\'t miss', d.s], ['Eat', d.e], ['Local tip', d.t]].filter(r => r[1]);
+  const rows = [['Best time', d.w], ['Don\'t miss', d.s], ['Eat', d.e], ['Best shot', d.ph], ['Local tip', d.t]].filter(r => r[1]);
   if (!rows.length) rows.push(['Tip', 'Fill in the card and it draws itself here.']);
   for (const [k, v] of rows) { if (y > H - 70) break;
     c.font = '600 20px "JetBrains Mono", monospace'; c.fillStyle = 'rgba(42,36,51,.55)'; c.fillText(k.toUpperCase(), 60, y + 30);
-    c.font = '500 34px "Hanken Grotesk", sans-serif'; c.fillStyle = '#2a2433';
-    const L = wrapTxt(c, v, W - 340, 2); L.forEach((l, i) => c.fillText(l, 260, y + 30 + i * 42)); y += 30 + L.length * 42 + 22;
+    c.font = '500 31px "Hanken Grotesk", sans-serif'; c.fillStyle = '#2a2433';
+    const L = wrapTxt(c, v, W - 340, 2); L.forEach((l, i) => c.fillText(l, 260, y + 30 + i * 40)); y += 26 + L.length * 40 + 16;
     c.strokeStyle = 'rgba(42,36,51,.12)'; c.lineWidth = 2; c.beginPath(); c.moveTo(60, y - 8); c.lineTo(W - 60, y - 8); c.stroke(); }
 };
 const paintTc = () => { drawCard($('#tcCanvas'), tcData()); $('#pkTag').textContent = destTag(); };
@@ -2537,14 +2654,23 @@ $('#tcPal').addEventListener('click', e => { const b = e.target.closest('button'
 $('#tcIco').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tc.ico = +b.dataset.i; paintPicks(); paintTc(); } });
 $('#tcBox').addEventListener('input', paintTc); $('#pkName').addEventListener('input', paintTc);
 let saidPlace = false; $('#tcPlace').addEventListener('change', () => { const p = $('#tcPlace').value.trim(); if (p && !saidPlace) { saidPlace = true; say(`${p}? I've never been! Now pack for me 🧳`); } });
-const download = (cv, name) => { const a = document.createElement('a'); a.download = `travel-card-${(name || 'serap').toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
+// Save a canvas as a PNG. Phones get the share sheet (Save image, Mail, WhatsApp...); desktops get a normal download.
+const slug = s => String(s || 'serap').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'serap';
+window.saveCanvas = (cv, name) => new Promise(done => cv.toBlob(async blob => {
+  const fname = `${slug(name)}.png`;
+  try { const file = new File([blob], fname, {type:'image/png'});
+    if (matchMedia('(pointer:coarse)').matches && navigator.canShare && navigator.canShare({files:[file]})) { await navigator.share({files:[file], title:name}); return done(); } } catch (e) { if (e && e.name === 'AbortError') return done(); }
+  const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = fname; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000); done();
+}, 'image/png'));
+const download = (cv, name) => window.saveCanvas(cv, `travel-card-${name || 'serap'}`);
 $('#tcDl').addEventListener('click', () => download($('#tcCanvas'), $('#tcPlace').value.trim()));
 // pack the card into a link, so Serap can open it on the site
 const tcPack = d => btoa(unescape(encodeURIComponent(JSON.stringify(d)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const tcOpen = () => {
   const m = location.hash.match(/^#travelcard=([\w-]+)/); if (!m) return;
   try { const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, '+').replace(/_/g, '/')))));
-    const d = {}; ['p','c','w','s','e','t','by'].forEach(k => d[k] = String(o[k] || '').slice(0, 80)); d.pl = Math.min(TC_PAL.length - 1, Math.max(0, +o.pl || 0)); d.i = Math.min(TC_ICO.length - 1, Math.max(0, +o.i || 0));
+    const d = {}; ['p','c','w','s','e','t','ph','by'].forEach(k => d[k] = String(o[k] || '').slice(0, 80)); d.pl = Math.min(TC_PAL.length - 1, Math.max(0, +o.pl || 0)); d.i = Math.min(TC_ICO.length - 1, Math.max(0, +o.i || 0));
     drawCard($('#tcViewCv'), d); $('#tcView').hidden = false; $('#tcViewDl').onclick = () => download($('#tcViewCv'), d.p);
   } catch (e) {}
 };
@@ -2634,6 +2760,8 @@ $('#pkItems').addEventListener('click', e => { if (dragged) { dragged = false; r
 
 /* ---- packing list: one of Serap's places + a season -> what to pack ---- */
 const PLS = window.PLACES || [], DRAWS = window.DRAW || {}, INFOS = window.INFO || {};
+// window.NEW_PLACES (places Serap hasn't been yet) is added by the Where next? game
+const findPl = c => [...PLS, ...(window.NEW_PLACES || [])].find(x => x.code === c);
 const SEASONS = [['spring', 'Spring', 'Mar–May'], ['summer', 'Summer', 'Jun–Aug'], ['autumn', 'Autumn', 'Sep–Nov'], ['winter', 'Winter', 'Dec–Feb']];
 // weather type per country for spring, summer, autumn, winter
 const CLIMATE = {PT:'mild hot warm wet', ES:'warm hot warm mild', UK:'mild warm wet cold', BE:'mild warm wet cold', NL:'mild warm wet cold', SE:'cool warm wet snow', DE:'mild warm wet cold', PL:'cool warm wet snow', CZ:'mild warm wet snow', AT:'mild warm wet snow', CH:'cool warm wet snow', IT:'warm hot warm mild', HU:'mild hot warm cold', RS:'mild hot warm cold', MK:'mild hot warm cold', GR:'warm hot warm mild', TR:'warm hot warm cold', TH:'hot monsoon monsoon dry', JP:'mild humid warm cold'};
@@ -2669,19 +2797,19 @@ const EXTRA = {
 const nowSeason = () => ['winter','winter','spring','spring','spring','summer','summer','summer','autumn','autumn','autumn','winter'][new Date().getMonth()];
 const pl = {code:(PLS[0] || {}).code, season:nowSeason()};
 const packList = (code, season) => {
-  const si = SEASONS.findIndex(s => s[0] === season), type = (CLIMATE[code] || 'mild mild mild mild').split(' ')[si], W = WEATHER[type] || WEATHER.mild, info = INFOS[code] || {};
+  const si = SEASONS.findIndex(s => s[0] === season), type = (CLIMATE[code] || (findPl(code) || {}).climate || 'mild mild mild mild').split(' ')[si], W = WEATHER[type] || WEATHER.mild, info = INFOS[code] || (findPl(code) || {}).info || {};
   const safe = !/bottled/i.test(info.water || '') || /safe/i.test(info.water || '');
   const base = [['🛂','Passport or ID'], ['🔌', `Plug adapter: ${(info.plug || 'check the plug type').split(',')[0]}`], ['🔋','Power bank'], ['👟','Comfy walking shoes'], safe ? ['🚰','Refillable water bottle'] : ['💧','Bottled water, not the tap'], ['📷','A camera, for my sake']];
   const extra = (EXTRA[code] || []).filter(e => !e[2] || e[2].split(' ').includes(season) || e[2] === type);
   return {weather:W[0], items:[...W[1], ...extra, ...base]};
 };
 const drawList = (cv, code, season) => {
-  const p = PLS.find(x => x.code === code); if (!p) return;
+  const p = findPl(code); if (!p) return;
   const c = cv.getContext('2d'), Wd = cv.width, H = cv.height, hh = 380, L = packList(code, season), S = SEASONS.find(s => s[0] === season);
   c.clearRect(0, 0, Wd, H); c.fillStyle = '#f6f0e4'; c.fillRect(0, 0, Wd, H);
   const g = c.createLinearGradient(0, 0, 0, hh); g.addColorStop(0, p.c[0]); g.addColorStop(.6, p.c[1]); g.addColorStop(1, p.c[2]); c.fillStyle = g; c.fillRect(0, 0, Wd, hh);
   c.fillStyle = 'rgba(255,255,255,.28)'; c.beginPath(); c.arc(Wd * .8, hh * .28, 56, 0, 6.283); c.fill();
-  c.save(); c.beginPath(); c.rect(0, 0, Wd, hh); c.clip(); try { (DRAWS[code] || (() => {}))(c, Wd * .74, hh, hh / 300, 'rgba(14,13,22,.85)', p.c[0]); } catch (e) {} c.restore();
+  c.save(); c.beginPath(); c.rect(0, 0, Wd, hh); c.clip(); try { if (DRAWS[code]) DRAWS[code](c, Wd * .74, hh, hh / 300, 'rgba(14,13,22,.85)', p.c[0]); else { c.font = '170px serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(p.e || '✳', Wd * .78, hh * .62); c.textAlign = 'left'; c.textBaseline = 'alphabetic'; } } catch (e) {} c.restore();
   c.fillStyle = '#fff'; c.textAlign = 'left'; c.font = '600 22px "JetBrains Mono", monospace'; c.fillText('PACKING LIST · SERAPINCE.COM', 50, 70);
   let fs = 96; c.font = `800 ${fs}px Syne, sans-serif`; while (c.measureText(p.name).width > Wd * .62 && fs > 50) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
   c.shadowColor = 'rgba(0,0,0,.25)'; c.shadowBlur = 12; c.fillText(p.name, 46, 70 + fs * 1.05); c.shadowBlur = 0;
@@ -2697,25 +2825,33 @@ const drawList = (cv, code, season) => {
   });
   c.fillStyle = '#2a2433'; c.font = '700 40px Caveat, cursive'; c.textAlign = 'right'; c.fillText('Have a lovely trip! Serap ✳', Wd - 50, H - 40); c.textAlign = 'left';
 };
-const listText = () => { const p = PLS.find(x => x.code === pl.code), S = SEASONS.find(s => s[0] === pl.season), L = packList(pl.code, pl.season);
+const listText = () => { const p = findPl(pl.code), S = SEASONS.find(s => s[0] === pl.season), L = packList(pl.code, pl.season);
   return `Packing list for ${p.name} in ${S[1].toLowerCase()} (${S[2]})\nWeather: ${L.weather}\n\n${L.items.map(([e, t]) => `☐ ${e} ${t}`).join('\n')}\n\nHave a lovely trip!\nSerap · https://serapince.com`; };
 const paintPl = () => {
-  $('#plCountry').innerHTML = PLS.map(p => `<button type="button" data-c="${p.code}" class="${p.code === pl.code ? 'on' : ''}" aria-pressed="${p.code === pl.code}" style="--a:${p.c[1]}">${p.name}</button>`).join('');
+  $('#plCountry').innerHTML = [...PLS, ...(PLS.some(p => p.code === pl.code) ? [] : [findPl(pl.code)].filter(Boolean))].map(p => `<button type="button" data-c="${p.code}" class="${p.code === pl.code ? 'on' : ''}" aria-pressed="${p.code === pl.code}" style="--a:${p.c[1]}">${p.name}</button>`).join('');
   $('#plSeason').innerHTML = SEASONS.map(([k, n, m]) => `<button type="button" data-s="${k}" class="${k === pl.season ? 'on' : ''}" aria-pressed="${k === pl.season}">${n} <small>${m}</small></button>`).join('');
   drawList($('#plCanvas'), pl.code, pl.season); $('#plCanvas').setAttribute('aria-label', listText());
   $('#pkTag').textContent = destTag();
 };
-$('#plCountry').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pl.code = b.dataset.c; paintPl(); const p = PLS.find(x => x.code === pl.code); say(`${p.name}! Here's what I'd pack.`); });
+$('#plCountry').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pl.code = b.dataset.c; paintPl(); const p = findPl(pl.code); say(`${p.name}! Here's what I'd pack.`); });
 $('#plSeason').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; pl.season = b.dataset.s; paintPl(); });
-$('#plDl').addEventListener('click', () => download($('#plCanvas'), `packing-${pl.code}-${pl.season}`));
-$('#plMail').addEventListener('click', () => { const p = PLS.find(x => x.code === pl.code); location.href = `mailto:?subject=${encodeURIComponent(`My packing list for ${p.name}`)}&body=${encodeURIComponent(listText())}`; });
+$('#plDl').addEventListener('click', () => window.saveCanvas($('#plCanvas'), `packing-list-${(findPl(pl.code) || {}).name}-${pl.season}`));
+// Email: not everyone has a mail app set up, so offer Gmail and Outlook too
+$('#plMail').addEventListener('click', () => {
+  const p = findPl(pl.code), su = encodeURIComponent(`My packing list for ${p.name}`), body = encodeURIComponent(listText()), m = $('#plMailMenu');
+  m.innerHTML = `<a href="https://mail.google.com/mail/?view=cm&fs=1&su=${su}&body=${body}" target="_blank" rel="noopener">Gmail</a><a href="https://outlook.live.com/mail/0/deeplink/compose?subject=${su}&body=${body}" target="_blank" rel="noopener">Outlook</a><a href="mailto:?subject=${su}&body=${body}">Mail app</a>`;
+  m.hidden = !m.hidden;
+});
 $('#plCopy').addEventListener('click', async () => { try { await navigator.clipboard.writeText(listText()); $('#plCopy').textContent = '✓ Copied'; } catch (e) { $('#plCopy').textContent = 'Copy failed'; } setTimeout(() => { $('#plCopy').textContent = '⧉ Copy list'; }, 1800); });
 // "What to pack" button inside each country's drawer
 document.addEventListener('click', e => { const b = e.target.closest('[data-packfor]'); if (!b) return;
   const x = document.querySelector('#cdrawer [data-close]'); if (x) x.click();
   pl.code = b.dataset.packfor; st.dest = 'mine'; paintDest(); paintPl();
-  setTimeout(() => $('#pack').scrollIntoView({behavior:'smooth'}), 380); setTimeout(() => say(`Packing for ${PLS.find(p => p.code === pl.code).name}!`), 1200); });
+  setTimeout(() => $('#pack').scrollIntoView({behavior:'smooth'}), 380); setTimeout(() => say(`Packing for ${findPl(pl.code).name}!`), 1200); });
 
+// the Where next? game can start a travel card for a place Serap hasn't been to
+window.packSuggest = (place, country) => { $('#tcPlace').value = place || ''; $('#tcCountry').value = country || ''; st.dest = 'own'; paintDest(); paintTc();
+  setTimeout(() => $('#pack').scrollIntoView({behavior:'smooth'}), 50); setTimeout(() => say(`${place}? I haven't been yet! Tell me everything.`, 3600), 900); };
 /* ---- zip it and send ---- */
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const closeLid = async () => {
@@ -2751,7 +2887,7 @@ $('#pkForm').addEventListener('submit', async e => {
   if (!name) { status.textContent = 'Sign the tag with your name first.'; $('#pkName').focus(); return; }
   const lines = st.items.map(i => `${i.e} ${i.n}${i.note.trim() ? ': ' + i.note.trim() : ''}`);
   const subject = `${name} packed your bag for ${destTag()}`;
-  const d = tcData(), card = st.dest === 'own' ? `\n\nTravel card: ${d.p}${d.c ? ', ' + d.c : ''}${d.w ? '\nBest time: ' + d.w : ''}${d.s ? '\nDon\'t miss: ' + d.s : ''}${d.e ? '\nEat: ' + d.e : ''}${d.t ? '\nLocal tip: ' + d.t : ''}\nSee the card: https://serapince.com/#travelcard=${tcPack(d)}` : '';
+  const d = tcData(), card = st.dest === 'own' ? `\n\nTravel card: ${d.p}${d.c ? ', ' + d.c : ''}${d.w ? '\nBest time: ' + d.w : ''}${d.s ? '\nDon\'t miss: ' + d.s : ''}${d.e ? '\nEat: ' + d.e : ''}${d.ph ? '\nBest photo spot: ' + d.ph : ''}${d.t ? '\nLocal tip: ' + d.t : ''}\nSee the card: https://serapince.com/#travelcard=${tcPack(d)}` : '';
   const body = `Destination: ${destTag()}${st.dest === 'mine' ? ' (' + pl.season + ')' : ''}${card}\n\nIn the bag (${fmt(kg())} kg):\n${lines.join('\n')}\n\nThe one experience to try: ${idea || '(not written)'}\n\n${name}${from ? ', ' + from : ''}`;
   btn.disabled = true; status.textContent = 'Zipping…';
   try {
@@ -2771,6 +2907,260 @@ paintDest(); paintPicks(); paintTc(); paintPl(); paintBag(); tcOpen();
 if (document.fonts) document.fonts.ready.then(() => { paintTc(); paintPl(); });
 // say hello once when the game scrolls into view
 if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { say(`Help me pack for ${nextTrip}?`, 3200); io.disconnect(); } }, {threshold:.5}); io.observe(stage); }
+})();
+</script>
+<script>
+/* ---------- WHERE NEXT? ----------
+   Nine this-or-that questions; each answer adds points to some of Serap's countries.
+   The winner gets a card, a link to the country guide and a packing list. */
+(() => {
+// Favourite shots: the best photo spots per place [spot, when / tip]. Shown in the country drawer and on Where next? results.
+window.PHOTO = {
+  PT:[['Miradouro da Senhora do Monte, Lisbon','Sunset over the castle and the river'],['Top deck of the Dom Luís I Bridge, Porto','Golden hour over Ribeira'],['A yellow tram on Rua da Bica, Lisbon','Early morning, before the crowds']],
+  ES:[['Plaza de España, Sevilla','Early morning, the bridges are empty'],['Bunkers del Carmel, Barcelona','Sunset over the whole city'],['Sagrada Família, Barcelona','From across the pond in Plaça de Gaudí, morning light']],
+  UK:[['Sky Garden, Fenchurch Street','Free, book ahead, go at golden hour'],['Big Ben from Westminster Bridge','Blue hour, with the London Eye behind you'],['Tower Bridge from the Thames Path','Blue hour, when the lights come on']],
+  BE:[['Grand-Place, Brussels','At night, when it\'s all lit up'],['Mont des Arts','City view toward the town hall spire'],['The Atomium','From the park in front, go wide']],
+  NL:[['Magere Brug, Amsterdam','After dark, with the bridge lights on'],['Reguliersgracht and Herengracht corner','Seven bridges in a row'],['Canal houses from a boat','Late afternoon light']],
+  SE:[['Monteliusvägen, Södermalm','Sunset over Gamla stan'],['Mårten Trotzigs gränd','Stockholm\'s narrowest alley'],['Fjällgatan','The view over the harbour']],
+  DE:[['Brandenburg Gate, Berlin','Blue hour'],['East Side Gallery, Berlin','Morning, softer light on the murals'],['Speicherstadt, Hamburg','After dark, reflections in the canals']],
+  PL:[['Main Market Square, Kraków','Early morning, the Cloth Hall all to yourself'],['Wawel Castle from the Vistula','Sunset from the riverbank'],['Old Town Market Place, Warsaw','Blue hour']],
+  CZ:[['Charles Bridge, Prague','Sunrise, before the crowds'],['Letná Park','The view over the bridges'],['Old Town Square','Evening, when the towers glow']],
+  AT:[['The Gloriette, Schönbrunn','Looking down over the palace'],['Belvedere gardens','Symmetry, best in the morning'],['Hundertwasserhaus','That colourful facade, any time']],
+  CH:[['Lauterbrunnen valley','The waterfall and the village from the road'],['Lake Brienz shore','Turquoise water on a sunny day'],['Gornergrat, Zermatt','The Matterhorn at sunrise']],
+  IT:[['The Colosseum, Rome','Sunrise from Via dei Fori Imperiali'],['Trevi Fountain, Rome','Very early morning'],['Piazzale Michelangelo, Florence','Sunset over the Duomo']],
+  HU:[['Fisherman\'s Bastion, Budapest','Sunrise over Parliament'],['Parliament from Batthyány tér','Lit up at night'],['Széchenyi Baths','Steam on a cold morning']],
+  RS:[['Kalemegdan Fortress, Belgrade','Sunset where the Sava meets the Danube'],['Skadarlija','Cobbles and café lights'],['Branko\'s Bridge','City lights at night']],
+  MK:[['Church of St. John at Kaneo, Ohrid','Above the lake at sunset'],['Ohrid old town lanes','Soft morning light'],['Stone Bridge, Skopje','Evening lights']],
+  GR:[['Areopagus Hill, Athens','The Acropolis at sunset, the most-posted view in Athens'],['Philopappos Hill','The Acropolis with the sea behind'],['Anafiotika','White lanes under the Acropolis']],
+  TR:[['Göreme viewpoints, Cappadocia','Dawn, when the balloons go up'],['Babadağ, Ölüdeniz','Paragliders over the lagoon'],['Göcek bays from a boat','Golden hour on the water']],
+  TH:[['Wat Arun from across the river, Bangkok','Sunset'],['Yaowarat Road, Chinatown','Neon at night'],['Promthep Cape, Phuket','Sunset over the sea']],
+  JP:[['Fushimi Inari, Kyoto','Sunrise, for empty torii gates'],['Shibuya Crossing from above, Tokyo','Evening rush'],['Lake Ashi and the red torii, Hakone','A clear morning, Mt Fuji if you\'re lucky']],
+  IS:[['Kirkjufell, Snæfellsnes','Sunset, or northern lights in winter']], MA:[['Jardin Majorelle, Marrakech','Go right at opening']], HR:[['Mount Srđ above Dubrovnik','Sunset over the old town walls']],
+  NO:[['Preikestolen (Pulpit Rock)','Early start, before the hikers']], SC:[['Edinburgh Castle from the Grassmarket','Late afternoon light']], FR:[['Trocadéro, Paris','The Eiffel Tower, the most-tagged landmark on Instagram, at sunrise']],
+  MX:[['Torre Latinoamericana, Mexico City','The city at dusk']], VN:[['Hội An old town','Lantern-lit at night']], BL:[['Tegallalang rice terraces, Bali','Early morning mist']],
+  NY:[['Brooklyn Bridge, New York','Sunrise, almost empty']], PE:[['The Guardhouse, Machu Picchu','The classic view, first entry of the day']], GE:[['Narikala Fortress, Tbilisi','Old town rooftops at sunset']],
+  JO:[['The Treasury, Petra','Early morning, before the tour groups']], KR:[['Bukchon Hanok Village, Seoul','Quiet weekday morning']], ZA:[['Lion\'s Head, Cape Town','Sunset hike over the city']],
+  AL:[['Ksamil beach','Turquoise water, morning']],
+};
+const stage = document.getElementById('wnStage'); if (!stage) return;
+// Places Serap hasn't been to yet: [code, name, country, emoji, colours, climate (spring summer autumn winter), plug, water ok?, best time]
+const NEW = [
+  ['IS','Iceland','Iceland','🌋','#bfe3ff,#4f7cac,#14213d','cool warm wet snow','Type F','Tap water is excellent','June to August for midnight sun, winter for northern lights'],
+  ['MA','Marrakech','Morocco','🕌','#ffcf5c,#d9603b,#4a1c1c','warm hot warm mild','Types C and E','Drink bottled water','March to May, or October and November'],
+  ['HR','Dubrovnik & Split','Croatia','⛵','#a5f3fc,#2b8fc9,#0b2f5c','warm hot warm mild','Type F','Tap water is safe','May, June or September, before and after the crowds'],
+  ['NO','The fjords','Norway','🏔️','#c3e6ff,#3f7f9c,#10263a','cool warm wet snow','Type F','Tap water is excellent','June to August for the fjords'],
+  ['SC','Edinburgh','Scotland','🏰','#c9c3e6,#6a5a8c,#1d1838','mild warm wet cold','Type G','Tap water is safe','May to September; August for the festivals'],
+  ['FR','Paris','France','🥐','#ffd6e0,#b56576,#2a1f3d','mild warm mild cold','Type E','Tap water is safe','April to June, or September and October'],
+  ['MX','Mexico City & Oaxaca','Mexico','🌮','#ffb38a,#e0303f,#3a0f2a','warm humid humid mild','Types A and B','Drink bottled water','October to April, the dry season'],
+  ['VN','Hanoi to Hội An','Vietnam','🍜','#d9f2c4,#2e9d6f,#0f3a2c','warm humid monsoon mild','Types A and C','Drink bottled water','February to April'],
+  ['BL','Bali','Indonesia','🌺','#ffe1a8,#2bb3c9,#0b3a3c','hot dry hot monsoon','Types C and F','Drink bottled water','April to October, the dry season'],
+  ['NY','New York','USA','🗽','#ffd27a,#6c8cff,#141a33','mild hot warm cold','Types A and B','Tap water is safe','May, June, September and October'],
+  ['PE','Cusco & Machu Picchu','Peru','🦙','#ffe0b0,#c46a3a,#3b1f2b','mild cool mild wet','Types A and C','Drink bottled water','May to September, the dry season'],
+  ['GE','Tbilisi','Georgia','🍷','#ffc3a0,#a83a4a,#2a1424','mild hot warm cold','Types C and F','Tap water in Tbilisi is generally safe','May, June, September and October'],
+  ['JO','Petra & Wadi Rum','Jordan','🏜️','#ffd7a8,#d9844a,#4a2416','warm hot warm mild','Types C, D, F and G','Drink bottled water','March to May, or October and November'],
+  ['KR','Seoul','South Korea','🏮','#ffd1dc,#d6456a,#1d1838','mild humid warm cold','Types C and F','Tap water is safe, most people drink filtered','April to June, or September to November'],
+  ['ZA','Cape Town','South Africa','🐧','#ffe08a,#3aa6a0,#12324a','warm wet mild hot','Types M and N','Tap water is safe','November to March, their summer'],
+  ['AL','The Albanian Riviera','Albania','🏖️','#c4f1ff,#3fa7d6,#103b5c','warm hot warm mild','Type F','Drink bottled water','June and September'],
+].map(([code, name, country, e, c, climate, plug, water, best]) => ({code, name, country, e, c:c.split(','), climate, cities:[], isNew:true, info:{plug, water, best}}));
+window.NEW_PLACES = NEW;
+const PL = [...(window.PLACES || []), ...NEW], DRAW = window.DRAW || {}, INFO = window.INFO || {};
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// [question, [emoji, label, sub, colours, "CODE:points ...", why-word] x2]
+const Q = [
+  ['Your perfect afternoon?', ['🏖️','Beach','Toes in the sand','#ffd27a,#ff8a6b','GR:3 TH:3 TR:2 ES:2 PT:2 IT:1 MK:1 HR:3 AL:3 BL:3 MX:1 ZA:1 MA:1','beaches'], ['🏙️','City','Streets to get lost in','#9ab6d6,#3b4fa8','UK:3 JP:3 NL:2 DE:2 CZ:2 HU:2 AT:2 BE:2 RS:1 PL:1 SE:1 FR:3 NY:3 KR:3 SC:2 GE:1 MX:1 VN:1','cities']],
+  ['Dinner tonight?', ['🌶️','Street food','Eat standing up','#ff9f43,#c0392b','TH:3 TR:3 JP:2 RS:1 MK:1 PL:1 HU:1 BE:1 MX:3 VN:3 KR:3 MA:2 NY:1 PE:1','street food'], ['🍷','A long dinner','Three hours, no rush','#7a2a5a,#2a1430','IT:3 ES:3 PT:2 GR:2 CH:1 AT:1 HU:1 FR:3 GE:3 HR:1 SC:1 ZA:1 AL:1','long dinners']],
+  ['Pick a view', ['⛰️','Mountains','Thin air, big views','#6fae7c,#1f4d3a','CH:3 AT:3 MK:2 JP:1 TR:1 CZ:1 PL:1 SE:1 NO:3 PE:3 IS:2 GE:2 ZA:1 SC:1 MA:1','mountains'], ['🌊','Sea','Salt in your hair','#2bb3c9,#0b3a5c','GR:3 PT:2 TH:2 TR:2 ES:2 IT:2 SE:1 MK:1 HR:3 BL:3 AL:2 ZA:2 NO:1 VN:1','the sea']],
+  ['After sunset?', ['🏛️','History','Museums and ruins','#e8c39e,#7a3b1e','IT:3 GR:3 TR:2 UK:2 AT:2 CZ:1 PL:1 DE:1 HU:1 NL:1 PE:3 JO:3 FR:2 SC:2 MA:2 MX:2 GE:1','history'], ['🎉','Party','Festivals and late nights','#ff5d8f,#5b2a86','BE:3 HU:3 ES:3 DE:2 RS:2 NL:2 TH:1 UK:1 NY:2 KR:2 MX:2 BL:1 HR:1 GE:1','festivals']],
+  ['How far?', ['✈️','Far away','A long flight, a new world','#c3b2ff,#3b2f6b','TH:3 JP:3 TR:1 PE:3 BL:3 VN:3 KR:3 MX:3 ZA:3 NY:2 JO:1','far-away places'], ['🚆','Close by','A short hop','#ffd84d,#e0603f','GR:2 MK:2 RS:2 HU:1 IT:1 AT:1 CZ:1 DE:1 NL:1 BE:1 PL:1 ES:1 PT:1 HR:2 AL:2 GE:2 MA:1 FR:1 SC:1 IS:1 NO:1 JO:1','short hops']],
+  ['Your budget mood?', ['🪙','Stretch it','More days, less money','#d9f2c4,#4f8a5b','RS:3 MK:3 PL:3 HU:2 TR:2 CZ:2 PT:2 TH:2 GR:1 VN:3 AL:3 GE:3 MA:2 BL:2 MX:2 PE:2 JO:1','a good-value trip'], ['✨','Treat myself','Just this once','#ffe0b0,#b8860b','CH:3 SE:2 UK:2 JP:2 AT:2 NL:1 IT:1 BE:1 DE:1 NO:3 IS:3 NY:3 FR:2 SC:1 KR:1 ZA:1','a little luxury']],
+  ['Weather?', ['☀️','Hot sun','Sunglasses all day','#ffcf5c,#e4572e','TH:2 GR:2 ES:2 TR:2 IT:2 PT:1 MK:1 MA:2 JO:2 BL:2 HR:2 AL:2 MX:1 VN:1','sunshine'], ['❄️','Crisp cold','Scarves and hot drinks','#bfe3ff,#4f7cac','SE:3 CH:2 AT:2 CZ:2 PL:2 JP:1 DE:1 HU:1 NL:1 BE:1 IS:3 NO:3 SC:2 KR:1 NY:1 GE:1','cosy cold days']],
+  ['Travel pace?', ['🐢','Slow','One café, all morning','#a5d6c4,#2c6e63','PT:2 GR:2 MK:2 SE:2 CH:1 AT:1 IT:1 BL:2 AL:2 GE:2 IS:1 NO:1 HR:1 MA:1','slow days'], ['⚡','Packed','See everything','#ff8a6b,#7a1f3d','UK:2 JP:2 NL:1 DE:1 ES:1 CZ:1 TH:1 HU:1 BE:1 NY:3 KR:2 FR:2 VN:1 MX:1 PE:1 JO:1','full days']],
+  ['Your dream photo?', ['🌆','City lights','Rooftops, skylines, neon','#ffb38a,#3b2f6b','NY:3 KR:2 UK:2 HU:2 FR:2 JP:2 CZ:1 TH:1 RS:1 PT:1 DE:1 NL:1','city views'], ['🏞️','Wild views','Peaks, lakes and coastline','#a5f3fc,#1f4d3a','IS:3 NO:3 CH:3 PE:2 ZA:2 TR:2 MK:1 BL:1 HR:1 AT:1 SE:1 GR:1 AL:1','wild landscapes']],
+  ['Famous or hidden?', ['📸','The classics','The postcard spots','#ffd27a,#c0435a','IT:2 UK:2 ES:2 NL:1 GR:1 JP:1 CZ:1 TR:1 FR:3 NY:3 HR:1 PE:1 JO:1 SC:1','the classics'], ['💎','Hidden gems','Nobody\'s heard of it','#6c8cff,#1a1f4a','MK:3 RS:3 PL:2 PT:1 HU:1 BE:1 SE:1 TR:1 AL:3 GE:3 JO:1 IS:1 VN:1 MA:1','hidden gems']],
+];
+const pts = s => Object.fromEntries(s.split(' ').map(x => x.split(':')).map(([k, v]) => [k, +v]));
+const MAX = {}; Q.forEach(([, a, b]) => { const A = pts(a[4]), B = pts(b[4]); PL.forEach(p => MAX[p.code] = (MAX[p.code] || 0) + Math.max(A[p.code] || 0, B[p.code] || 0)); });
+let ans = [], busy = false;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const ask = () => {
+  const i = ans.length; if (i >= Q.length) return result();
+  const [q, ...o] = Q[i];
+  stage.innerHTML = `<div class="wn-top mono"><button type="button" class="wn-back" id="wnBack" ${i ? '' : 'disabled'}>← Back</button><span class="wn-prog"><i style="width:${i / Q.length * 100}%"></i></span><span>${i + 1} / ${Q.length}</span></div>
+    <h3 class="wn-q">${q}</h3>
+    <div class="wn-pair in">${o.map((x, k) => { const [a, b] = x[3].split(','); return `<button type="button" class="wn-opt" data-k="${k}" style="--a:${a};--b:${b}"><kbd>${k ? '→' : '←'}</kbd><span class="e" aria-hidden="true">${x[0]}</span><b>${x[1]}</b><small>${x[2]}</small></button>`; }).join('')}<span class="wn-or">or</span></div>
+    <p class="wn-hint mono">Tap one · or use ← →</p>`;
+  busy = false;
+};
+const pick = k => {
+  if (busy || ans.length >= Q.length) return; busy = true;
+  const pair = stage.querySelector('.wn-pair'); pair.classList.remove('in'); pair.classList.add(k ? 'out-r' : 'out-l');
+  ans.push(k); setTimeout(ask, reduce ? 0 : 380);
+};
+stage.addEventListener('click', e => {
+  const o = e.target.closest('.wn-opt'); if (o) return pick(+o.dataset.k);
+  if (e.target.closest('#wnBack')) { ans.pop(); ask(); }
+  if (e.target.closest('#wnAgain')) { ans = []; ask(); stage.scrollIntoView({behavior:'smooth', block:'center'}); }
+  if (e.target.closest('#wnGuide')) { const c = document.querySelector(`#rail .card[data-code="${e.target.closest('#wnGuide').dataset.code}"]`); if (c) c.click(); }
+  const wc = e.target.closest('#wnCard'); if (wc && window.packSuggest) window.packSuggest(wc.dataset.place, wc.dataset.country);
+  if (e.target.closest('#wnDl') && window.saveCanvas) window.saveCanvas(stage.querySelector('canvas'), `my-next-trip-${score()[0].p.name}`);
+  if (e.target.closest('#wnShare')) share(e.target.closest('#wnShare'));
+});
+stage.addEventListener('keydown', e => { if (ans.length >= Q.length) return; if (e.key === 'ArrowLeft') { e.preventDefault(); pick(0); } if (e.key === 'ArrowRight') { e.preventDefault(); pick(1); } });
+
+const PHOTO_Q = Q.findIndex(q => q[0] === 'Your dream photo?');
+const WILD = /lake|sea|bay|valley|mountain|hill|terrace|beach|cape|fjord|matterhorn|lagoon|river|water|kirkjufell|preikestolen|lion|ksamil|ohrid|göreme|babadağ|göcek|promthep|hakone|gornergrat|lauterbrunnen|brienz|machu|petra|wadi|srđ|tegallalang/i;
+const bestShot = code => { const S = window.PHOTO[code] || []; if (!S.length) return null; const wild = ans[PHOTO_Q] === 1;
+  const hit = S.find(([a, b]) => WILD.test(a + ' ' + b) === wild); return hit ? [...hit, wild ? 'Your wild view' : 'Your city shot'] : [...S[0], 'Best shot']; };
+const score = () => { const S = {}; PL.forEach(p => S[p.code] = 0);
+  ans.forEach((k, i) => { const P = pts(Q[i][k + 1][4]); for (const c in P) if (c in S) S[c] += P[c]; });
+  return PL.map(p => ({p, s:S[p.code], pct:Math.round(100 * S[p.code] / (MAX[p.code] || 1))})).sort((a, b) => b.s / (MAX[b.p.code] || 1) - a.s / (MAX[a.p.code] || 1) || b.s - a.s); };
+const why = code => { const w = ans.map((k, i) => [Q[i][k + 1], pts(Q[i][k + 1][4])[code] || 0]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => x[0][5]);
+  return w.length > 1 ? `${w.slice(0, -1).join(', ')} and ${w[w.length - 1]}` : (w[0] || 'a bit of everything'); };
+const drawRes = (cv, r) => {
+  const c = cv.getContext('2d'), W = cv.width, H = cv.height, p = r.p;
+  const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, p.c[0]); g.addColorStop(.55, p.c[1]); g.addColorStop(1, p.c[2]); c.fillStyle = g; c.fillRect(0, 0, W, H);
+  c.fillStyle = 'rgba(255,255,255,.28)'; c.beginPath(); c.arc(W * .72, H * .3, W * .12, 0, 6.283); c.fill();
+  try { if (DRAW[p.code]) DRAW[p.code](c, W * .5, H * .78, H / 520, 'rgba(14,13,22,.85)', p.c[0]); else { c.font = '230px serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(p.e || '✳', W * .5, H * .5); c.textAlign = 'left'; c.textBaseline = 'alphabetic'; } } catch (e) {}
+  c.fillStyle = 'rgba(14,13,22,.85)'; c.fillRect(0, H * .78, W, H * .22);
+  c.fillStyle = '#fff'; c.font = '600 22px "JetBrains Mono", monospace'; c.fillText('MY NEXT TRIP · SERAPINCE.COM', 40, 60);
+  let fs = 100; c.font = `800 ${fs}px Syne, sans-serif`; while (c.measureText(p.name).width > W - 80 && fs > 40) { fs -= 4; c.font = `800 ${fs}px Syne, sans-serif`; }
+  c.fillText(p.name, 36, H * .78 + fs * .95 + 10);
+  c.font = '700 40px Caveat, cursive'; c.fillStyle = '#ffb38a'; c.fillText(`${r.pct}% match`, 40, H - 34);
+  c.textAlign = 'right'; c.fillStyle = 'rgba(255,255,255,.75)'; c.font = '500 22px "JetBrains Mono", monospace'; c.fillText(p.isNew ? 'NEW' : p.code, W - 40, H - 40); c.textAlign = 'left';
+};
+const result = () => {
+  const R = score(), top = R[0], p = top.p, info = INFO[p.code] || p.info || {};
+  stage.innerHTML = `<div class="wn-top mono"><button type="button" class="wn-back" id="wnBack">← Back</button><span class="wn-prog"><i style="width:100%"></i></span><span>Done!</span></div>
+    <div class="wn-res"><canvas width="700" height="900" aria-hidden="true"></canvas><div>
+      <span class="eyebrow mono">Your next trip is</span><h3>${esc(p.name)}</h3>
+      ${p.isNew ? `<span class="mono wn-new">${esc(p.country)} · not on my map yet</span>` : ''}
+      <p class="why">You picked ${esc(why(p.code))}. ${esc(p.name)} has all of that${p.cities.length ? `, from ${esc(p.cities.slice(0, 2).join(' to '))}` : ''}.${info.best ? ` Best time to go: ${esc(info.best.replace(/\.$/, ''))}.` : ''}</p>
+      ${(sh => sh ? `<p class="wn-shot">📸 <b>${sh[2]}:</b> ${esc(sh[0])} · ${esc(sh[1])}</p>` : '')(bestShot(p.code))}
+      <p class="say">${p.isNew ? '“I haven\'t been yet! Go first, then make me a travel card for it?” · Serap' : '“I\'ve been, and I\'d go back tomorrow. Here\'s my guide for it.” · Serap'}</p>
+      <ul class="wn-alt"><li>Also a match:</li>${R.slice(1, 3).map(r => `<li><b>${esc(r.p.name)}</b> ${r.pct}%</li>`).join('')}</ul>
+      <div class="wn-btns">${p.isNew ? `<button type="button" class="pill play show" id="wnCard" data-place="${esc(p.name)}" data-country="${esc(p.country)}">✳ Make me a travel card</button>` : `<button type="button" class="pill play show" id="wnGuide" data-code="${p.code}">Open my ${esc(p.name)} guide ↗</button>`}<button type="button" class="pill show" data-packfor="${p.code}">🧳 What to pack</button>
+        <button type="button" class="pill ghost show" id="wnShare">Share</button><button type="button" class="pill ghost show" id="wnDl">↓ Card</button><button type="button" class="pill ghost show" id="wnAgain">↺ Play again</button></div>
+    </div></div>`;
+  drawRes(stage.querySelector('canvas'), top);
+  if (document.fonts) document.fonts.ready.then(() => { const cv = stage.querySelector('canvas'); if (cv) drawRes(cv, top); });
+  try { localStorage.setItem('serap-next-trip', p.code); } catch (e) {}
+  busy = false;
+};
+const share = async b => {
+  const p = score()[0].p, text = `My next trip should be ${p.name}! Find yours:`, url = 'https://serapince.com/#match';
+  try { if (navigator.share) { await navigator.share({title:'Where next?', text, url}); return; } await navigator.clipboard.writeText(`${text} ${url}`); b.textContent = '✓ Link copied'; } catch (e) {}
+};
+ask();
+})();
+</script>
+<script>
+// The little culture book: history [year, event], manners [tips], artists [name, what, one line]
+window.CULTURE = {
+  PT:{h:[['1143','Portugal is recognised as a kingdom'],['1498','Vasco da Gama reaches India by sea'],['1755','The Great Lisbon Earthquake; the city is rebuilt on a grid'],['1974','The Carnation Revolution ends the dictatorship, almost without a shot']],
+      m:['Say obrigado (or obrigada, if you\'re a woman)','The bread and olives on the table aren\'t free; send them back if you don\'t want them','Dinner rarely starts before 8pm','Don\'t open in Spanish; try Portuguese or English'],
+      a:[['Fernando Pessoa','Poet','Wrote under dozens of invented names, each with its own life'],['Amália Rodrigues','Fado singer','The Queen of Fado, the voice of Lisbon\'s saudade'],['Paula Rego','Painter','Dark, powerful fairy-tale scenes']]},
+  ES:{h:[['711','Moorish rule begins on the Iberian peninsula'],['1492','Granada falls and Columbus sails west'],['1936','The Civil War begins; it lasts until 1939'],['1978','A new constitution brings democracy']],
+      m:['Two kisses on the cheeks to say hello','Dinner at 9 or 10pm is normal','Tapas are often eaten standing at the bar','In smaller towns, shops close in the afternoon']},
+  UK:{h:[['1066','The Norman Conquest'],['1215','Magna Carta is sealed'],['1760s','The Industrial Revolution begins'],['1948','The NHS is founded']],
+      m:['Queue. Always.','Stand on the right on Tube escalators','"Cheers" also means thank you','In the pub, people take turns buying rounds'],
+      a:[['William Shakespeare','Playwright','Hamlet, Romeo and Juliet and 1,700 new English words'],['J. M. W. Turner','Painter','The painter of light, storms and sunsets'],['The Beatles','Band','Four lads from Liverpool who changed pop']]},
+  BE:{h:[['1432','Van Eyck finishes the Ghent Altarpiece'],['1830','Independence from the Netherlands'],['1958','The World\'s Fair in Brussels; the Atomium is built'],['1958','Brussels becomes home to European institutions']],
+      m:['There are three official languages: Dutch, French and German','One kiss on the cheek to say hello','Fries come with mayonnaise','Every beer is served in its own glass'],
+      a:[['Jan van Eyck','Painter','A master of the Flemish Primitives'],['René Magritte','Surrealist','"This is not a pipe"'],['Hergé','Cartoonist','The creator of Tintin']]},
+  NL:{h:[['1581','The Dutch declare independence from Spain'],['1602','The Dutch East India Company is founded'],['1600s','The Dutch Golden Age of art and trade'],['1953','The North Sea flood leads to the Delta Works']],
+      m:['Never walk in the bike lanes','Directness isn\'t rudeness','Splitting the bill is completely normal','A coffeeshop is not a café'],
+      a:[['Rembrandt','Painter','The Night Watch, and light like no one else'],['Vincent van Gogh','Painter','Sunflowers, starry nights, 900 paintings in ten years'],['Johannes Vermeer','Painter','Girl with a Pearl Earring']]},
+  SE:{h:[['800','The Viking Age begins'],['1523','Gustav Vasa makes Sweden independent'],['1628','The warship Vasa sinks on its first voyage'],['1901','The first Nobel Prizes are awarded']],
+      m:['Fika, the coffee-and-cake break, is sacred','Take your shoes off in people\'s homes','Take a queue ticket in shops and pharmacies','Lagom: not too much, not too little'],
+      a:[['ABBA','Pop band','Won Eurovision with Waterloo in 1974'],['Astrid Lindgren','Writer','The mother of Pippi Longstocking'],['Ingmar Bergman','Film director','The Seventh Seal, and a lot of beautiful silence']]},
+  DE:{h:[['1440s','Gutenberg\'s printing press'],['1517','Luther publishes his 95 Theses'],['1871','Germany is unified'],['1989','The Berlin Wall falls; reunification follows in 1990']],
+      m:['Be on time','Most shops are closed on Sundays','Return bottles for the Pfand deposit','Don\'t cross on a red light'],
+      a:[['Johann Sebastian Bach','Composer','The heart of Baroque music'],['Ludwig van Beethoven','Composer','Born in Bonn; the Ninth Symphony'],['Albrecht Dürer','Artist','Renaissance prints and a famous hare']]},
+  PL:{h:[['966','The baptism of Mieszko I, the start of Poland'],['1543','Copernicus puts the Sun at the centre'],['1795','Poland is partitioned and disappears from the map until 1918'],['1989','Solidarity wins the first partly free elections']],
+      m:['Take your shoes off in homes','Bring flowers in odd numbers','Name days are celebrated like birthdays','Toast with "Na zdrowie!"'],
+      a:[['Frédéric Chopin','Composer','Poetry for the piano'],['Marie Curie','Scientist','Born in Warsaw; two Nobel Prizes'],['Wisława Szymborska','Poet','Nobel Prize in Literature, 1996']]},
+  CZ:{h:[['1348','Charles University is founded'],['1618','The Defenestration of Prague starts the Thirty Years\' War'],['1968','The Prague Spring'],['1989','The Velvet Revolution']],
+      m:['Say "Dobrý den" when you walk into a shop','Beer is a serious subject; never pour one into another','Take your shoes off in homes','Round up or add about 10% in restaurants'],
+      a:[['Alfons Mucha','Artist','Art Nouveau posters with flowing hair'],['Franz Kafka','Writer','Prague\'s most famous strange dreamer'],['Antonín Dvořák','Composer','The New World Symphony']]},
+  AT:{h:[['1273','Rudolf I, the first Habsburg king'],['1683','The Siege of Vienna ends the Ottoman advance'],['1867','The Austro-Hungarian Empire'],['1955','The State Treaty; Austria becomes neutral']],
+      m:['Say "Grüß Gott" to say hello','One coffee buys you hours in a coffee house, with a glass of water','Titles matter: Herr Doktor','Sundays are quiet days'],
+      a:[['Wolfgang Amadeus Mozart','Composer','Born in Salzburg, writing music at five'],['Gustav Klimt','Painter','The Kiss, all in gold'],['Sigmund Freud','Thinker','The father of psychoanalysis, from Vienna']]},
+  CH:{h:[['1291','The Federal Charter, the founding of Switzerland'],['1815','Swiss neutrality is recognised'],['1863','The Red Cross is founded in Geneva'],['1971','Women get the vote in federal elections']],
+      m:['Be punctual, the trains are','Keep it quiet after 10pm and on Sundays','Three kisses on the cheeks to say hello','Four languages: German, French, Italian and Romansh'],
+      a:[['Le Corbusier','Architect','Modern architecture\'s big name'],['Alberto Giacometti','Sculptor','Thin, walking bronze figures'],['Paul Klee','Painter','Colour, lines and childlike magic']]},
+  IT:{h:[['753 BC','The legendary founding of Rome'],['1400s','The Renaissance blooms in Florence'],['1861','Italy is unified'],['1946','Italy becomes a republic']],
+      m:['Cappuccino is a morning drink','Cover shoulders and knees in churches','A coperto (cover charge) on the bill is normal','Aperitivo time is around 6 to 8pm'],
+      a:[['Leonardo da Vinci','Artist and inventor','The Mona Lisa and the Last Supper'],['Michelangelo','Artist','The Sistine Chapel ceiling and David'],['Giuseppe Verdi','Composer','La Traviata and Aida']]},
+  HU:{h:[['896','The Magyars settle in the Carpathian Basin'],['1000','Stephen I is crowned the first king'],['1873','Buda, Pest and Óbuda become Budapest'],['1956','The Hungarian Uprising']],
+      m:['Many Hungarians don\'t clink beer glasses, an old tradition','The family name comes first','Shower before you get into a thermal bath','Toast with "Egészségedre!"'],
+      a:[['Franz Liszt','Composer','The first piano superstar'],['Béla Bartók','Composer','Folk songs turned into modern music'],['Ernő Rubik','Inventor','The Rubik\'s Cube']]},
+  RS:{h:[['1217','Stefan the First-Crowned becomes king'],['1389','The Battle of Kosovo'],['1804','The First Serbian Uprising'],['2006','Serbia becomes an independent republic again']],
+      m:['Three kisses on the cheeks to say hello','You\'ll be offered rakija; a small sip is fine','Kafana nights are long, with live music','Bring a small gift when you visit a home'],
+      a:[['Nikola Tesla','Inventor','Alternating current; Belgrade\'s airport and museum carry his name'],['Marina Abramović','Performance artist','Born in Belgrade; "The Artist Is Present"'],['Ivo Andrić','Writer','The Bridge on the Drina; Nobel Prize, 1961']]},
+  MK:{h:[['886','Clement of Ohrid starts the Ohrid Literary School'],['1390s','Ottoman rule begins'],['1991','Independence from Yugoslavia'],['2019','The country is renamed North Macedonia']],
+      m:['Take your shoes off in homes','Greet the oldest person first','Bring sweets or flowers when invited','Coffee is slow and long, never rushed'],
+      a:[['Mother Teresa','Humanitarian','Born in Skopje in 1910'],['Toše Proeski','Singer','The country\'s much-loved pop voice'],['Milcho Manchevski','Film director','Before the Rain, Golden Lion in Venice 1994']]},
+  GR:{h:[['776 BC','The first Olympic Games'],['447 BC','Building of the Parthenon begins'],['1830','Modern Greece becomes independent'],['1896','The first modern Olympics, in Athens']],
+      m:['"Ne" means yes!','An open palm pushed toward someone is rude','Dinner starts late, often after 9pm','Cover shoulders and knees in monasteries and churches'],
+      a:[['El Greco','Painter','Born in Crete, famous in Toledo'],['Maria Callas','Soprano','La Divina of opera'],['Nikos Kazantzakis','Writer','Zorba the Greek']]},
+  TR:{h:[['1453','Mehmed II conquers Constantinople'],['1520','Suleiman the Magnificent\'s reign begins'],['1923','The Republic of Türkiye is founded'],['1934','Women get the right to vote']],
+      m:['Take your shoes off in homes and mosques','Accept the tea, it\'s hospitality','Women cover their hair in mosques','Say "Afiyet olsun" before a meal'],
+      a:[['Mimar Sinan','Architect','The Süleymaniye Mosque and hundreds more'],['Orhan Pamuk','Writer','Istanbul in words; Nobel Prize, 2006'],['Nazım Hikmet','Poet','The great modern Turkish poet']]},
+  TH:{h:[['1238','The Sukhothai Kingdom is founded'],['1782','Bangkok becomes the capital'],['1932','Thailand becomes a constitutional monarchy'],['Never','Thailand was never colonised']],
+      m:['Never criticise the royal family; it\'s against the law','Don\'t touch anyone\'s head or point your feet','Take your shoes off at temples','Greet with a wai, palms together'],
+      a:[['Chalermchai Kositpipat','Artist','Designed the White Temple in Chiang Rai'],['Apichatpong Weerasethakul','Film director','Palme d\'Or at Cannes, 2010'],['Sunthorn Phu','Poet','Thailand\'s best-loved classical poet']]},
+  JP:{h:[['794','Kyoto becomes the capital'],['1603','The Edo period begins'],['1868','The Meiji Restoration opens Japan'],['1964','The Tokyo Olympics and the first Shinkansen']],
+      m:['No tipping, ever','Don\'t eat while walking','Never stand chopsticks up in rice','A small bow goes a long way'],
+      a:[['Katsushika Hokusai','Artist','The Great Wave off Kanagawa'],['Yayoi Kusama','Artist','Polka dots and infinity rooms'],['Hayao Miyazaki','Animator','Studio Ghibli: Spirited Away, Totoro']]},
+};
+window.CULTURE.ES.a = [['Pablo Picasso','Painter','Cubism, and Guernica'],['Salvador Dalí','Surrealist','Melting clocks'],['Antoni Gaudí','Architect','The Sagrada Família, still being built']];
+/* ---- the little culture book inside each country drawer ---- */
+(() => {
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const roman = ['I','II','III','IV','V'];
+const pages = code => {
+  const p = (window.PLACES || []).find(x => x.code === code), C = window.CULTURE[code], I = (window.INFO || {})[code] || {};
+  const head = (n, t) => `<span class="bk-ch">Chapter ${roman[n]}</span><h4>${t}</h4>`;
+  return [
+    `<div class="bk-cover" style="--a:${p.c[1]};--b:${p.c[2]};--c:${p.c[0]}"><span class="bk-orn">✳</span><span class="bk-ch">A little culture book</span><h4>${esc(p.name)}</h4><p>History, good manners<br>and famous names</p><span class="bk-by">by Serap</span></div>`,
+    `${head(0, 'A short history')}<ol class="bk-tl">${C.h.map(([y, t]) => `<li><b>${esc(y)}</b><span>${esc(t)}</span></li>`).join('')}</ol>`,
+    `${head(1, 'Good manners')}<ul class="bk-tips">${C.m.map((t, i) => `<li><b>${i + 1}</b><span>${esc(t)}</span></li>`).join('')}</ul>`,
+    `${head(2, 'Famous names')}<ul class="bk-art">${C.a.map(([n, w, t]) => `<li><b>${esc(n)}</b><i>${esc(w)}</i><span>${esc(t)}</span></li>`).join('')}</ul>`,
+    `${head(3, 'Say it like a local')}${I.say ? `<p class="bk-say">${esc(I.say)}</p>` : ''}${I.tip ? `<p><i>Tipping.</i> ${esc(I.tip)}</p>` : ''}${I.note ? `<p><i>A local tip.</i> ${esc(I.note)}</p>` : ''}`,
+    `<div class="bk-end"><span class="bk-orn">✳</span><p class="bk-hand">Go slowly, ask questions,<br>and bring me back a story.</p><span class="bk-by">Serap</span><button type="button" class="pill show" data-packfor="${code}">🧳 Pack for ${esc(p.name)}</button></div>`,
+  ];
+};
+const make = el => {
+  const code = el.dataset.book, P = pages(code); let at = 0, busy = false;
+  el.innerHTML = `<div class="bk-spread"><div class="bk-page l"></div><div class="bk-page r"></div></div><div class="bk-nav mono"><button type="button" data-d="-1" aria-label="Previous page">←</button><span class="bk-num"></span><button type="button" data-d="1" aria-label="Next page">→</button></div>`;
+  el.tabIndex = 0;
+  const L = el.querySelector('.l'), R = el.querySelector('.r'), num = el.querySelector('.bk-num');
+  const one = () => el.clientWidth < 560;
+  const fill = (node, i) => { node.innerHTML = P[i] !== undefined ? `<div class="bk-in">${P[i]}</div>${i ? `<span class="bk-pn">${i}</span>` : ''}` : ''; node.classList.toggle('cover', i === 0); };
+  const step = () => one() ? 1 : 2;
+  const paint = () => { el.classList.toggle('one', one()); if (one()) { fill(L, at); R.innerHTML = ''; } else { if (at % 2) at--; fill(L, at); fill(R, at + 1); }
+    num.textContent = one() ? `${at + 1} / ${P.length}` : `${at + 1}–${Math.min(at + 2, P.length)} / ${P.length}`;
+    el.querySelector('[data-d="-1"]').disabled = at === 0; el.querySelector('[data-d="1"]').disabled = at + step() >= P.length; };
+  const flip = d => {
+    const s = step(), to = at + d * s; if (busy || to < 0 || to >= P.length) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { at = to; return paint(); }
+    busy = true; const leaf = document.createElement('div'); leaf.className = 'bk-leaf ' + (d > 0 ? 'fwd' : 'back');
+    const front = document.createElement('div'), back = document.createElement('div'); front.className = 'bk-page f'; back.className = 'bk-page b'; leaf.append(front, back);
+    if (one()) { fill(front, at); fill(back, -1); at = to; fill(L, at); if (d < 0) { fill(front, at + 1); } }
+    else if (d > 0) { fill(front, at + 1); fill(back, to); fill(R, to + 1); }
+    else { fill(front, at); fill(back, to + 1); fill(L, to); }
+    el.querySelector('.bk-spread').appendChild(leaf);
+    requestAnimationFrame(() => requestAnimationFrame(() => leaf.classList.add('go')));
+    setTimeout(() => { leaf.remove(); at = to; paint(); busy = false; }, 760);
+  };
+  el.addEventListener('click', e => { const b = e.target.closest('[data-d]'); if (b) return flip(+b.dataset.d);
+    if (e.target.closest('button,a')) return; const pg = e.target.closest('.bk-page'); if (!pg) return;
+    const r = el.querySelector('.bk-spread').getBoundingClientRect(); flip(e.clientX > r.left + r.width / 2 ? 1 : -1); });
+  el.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); flip(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); flip(-1); } });
+  paint(); requestAnimationFrame(paint);
+};
+window.initBook = root => root.querySelectorAll('.bk[data-book]').forEach(el => { if (window.CULTURE && window.CULTURE[el.dataset.book]) make(el); });
 })();
 </script>
 </body>
